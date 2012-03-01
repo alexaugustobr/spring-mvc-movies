@@ -13,17 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package com.github.carlomicieli.controllers;
+package com.github.carlomicieli.config;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
-@Controller
-public class HomeController {
+public class ContextProfileInitializer 
+	implements ApplicationContextInitializer<ConfigurableWebApplicationContext> {
 
-	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String index() {
-		return "home/index";
-    }
+	@Override
+	public void initialize(ConfigurableWebApplicationContext context) {
+		ConfigurableEnvironment environment = context.getEnvironment();
+		environment.setActiveProfiles("production");
+	}
 }

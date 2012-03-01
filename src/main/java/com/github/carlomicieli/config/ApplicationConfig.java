@@ -15,18 +15,21 @@ limitations under the License.
 */
 package com.github.carlomicieli.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.github.carlomicieli.services.MongoMovieService;
 import com.github.carlomicieli.services.MovieService;
 
 @Configuration
-@Import(MongoConfiguration.class)
+@Import({MongoConfiguration.class, TestMongoConfiguration.class})
 @ComponentScan(basePackages = "com.github.carlomicieli")
 public class ApplicationConfig {
 	@Bean
@@ -38,5 +41,10 @@ public class ApplicationConfig {
 	
 	public @Bean MovieService movieService() {
 		return new MongoMovieService();
+	}
+	
+	private @Autowired MongoDbFactory mongoDbFactory;
+	public @Bean MongoTemplate mongoTemplate() throws Exception {
+		return new MongoTemplate(mongoDbFactory);
 	}
 }

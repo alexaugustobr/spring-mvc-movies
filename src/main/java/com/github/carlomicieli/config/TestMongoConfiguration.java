@@ -26,19 +26,19 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.mongodb.Mongo;
 
 /**
- * Mongo database configuration for the production environment.
+ * Configuration class to inject the mongo instance for testing.
  * 
  * @author Carlo P. Micieli
  * @since 1.0.0
  */
 @Configuration
-@Profile("production")
+@Profile("test")
 @ImportResource("classpath:/META-INF/spring/properties-config.xml")
-public class MongoConfiguration {
-	private @Value("${mongo.databaseName}") String databaseName;
-	private @Value("${mongo.hostName}") String hostName;
-	private @Value("${mongo.portNumber}") int portNumber;
-	
+public class TestMongoConfiguration {
+	private @Value("${test.mongo.databaseName}") String databaseName;
+	private @Value("${test.mongo.hostName}") String hostName;
+	private @Value("${test.mongo.portNumber}") int portNumber;
+
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new Mongo(hostName, portNumber), databaseName);
 	}
