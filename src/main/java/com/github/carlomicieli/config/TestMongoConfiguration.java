@@ -22,6 +22,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.mock.web.MockServletContext;
 
 import com.mongodb.Mongo;
 
@@ -41,5 +42,10 @@ public class TestMongoConfiguration {
 
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new Mongo(hostName, portNumber), databaseName);
+	}
+	
+	public @Bean MockServletContext mockServletContext() {
+		//need for the spring junit runner.
+		return new MockServletContext();
 	}
 }
