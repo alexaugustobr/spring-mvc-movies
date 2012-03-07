@@ -35,7 +35,7 @@
           			<form:input path="rating" />
           			<form:errors cssClass="error" path="rating" />
         		</p>        		
-        		<button type="submit">Add</button>
+        		<button type="submit">Create</button>
       		</fieldset>
       	</form:form>
 	</body>

@@ -23,18 +23,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 
+import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MongoMovieService;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieServiceTests {
 	
-	@SuppressWarnings("unused")
 	@Mock private MongoTemplate mongoTemplate;
 	
-	@SuppressWarnings("unused")
 	@InjectMocks private MongoMovieService movieService;
 	
 	@Before
@@ -44,7 +44,8 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void getAllMovies_PerformTheCorrectCall() {
-		assertTrue(1==2);
+	public void getAllMoviesCallsTheAppropriateMethod() {
+		verify(mongoTemplate, times(1)).find(new Query(), Movie.class);
+		movieService.getAllMovies(0, 100);
 	}
 }

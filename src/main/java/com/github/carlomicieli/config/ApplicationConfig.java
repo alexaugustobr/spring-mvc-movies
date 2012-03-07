@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -31,6 +32,7 @@ import com.github.carlomicieli.services.MovieService;
 @Configuration
 @Import({MongoConfiguration.class, TestMongoConfiguration.class})
 @ComponentScan(basePackages = "com.github.carlomicieli")
+@ImportResource("classpath:META-INF/spring/security.xml")
 public class ApplicationConfig {
 	@Bean
 	public MessageSource messageSource() {

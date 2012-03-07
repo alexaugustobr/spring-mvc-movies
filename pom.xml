@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+		http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.carlomicieli</groupId>
 	<artifactId>SpringMovies</artifactId>
@@ -59,6 +60,11 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>3.1.0.RELEASE</version>
 		</dependency>
 
 		<!-- Logging -->
@@ -120,26 +126,26 @@
 			<version>1.2</version>
 		</dependency>
 
-   		<!-- JSR 303 with Hibernate Validator  -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.1.0.Final</version>
-        </dependency>
-        
-        <!-- Sitemesh -->
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>sitemesh</artifactId>
-            <version>2.4.2</version>
-        </dependency>
+		<!-- JSR 303 with Hibernate Validator -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
 
-		<!--  Joda Time -->
+		<!-- Sitemesh -->
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+
+		<!-- Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
@@ -150,7 +156,7 @@
 			<artifactId>joda-time-jsptags</artifactId>
 			<version>1.0.2</version>
 			<scope>runtime</scope>
-		</dependency>	
+		</dependency>
 
 		<!-- Test -->
 		<dependency>
@@ -158,7 +164,7 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.0</version>
 			<scope>test</scope>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -174,11 +180,13 @@
 	</dependencies>
 
 	<repositories>
-	   <repository>
-	      <id>com.springsource.repository.maven.release</id>
-	      <url>http://maven.springframework.org/release/</url>
-	      <snapshots><enabled>false</enabled></snapshots>
-	   </repository>
+		<repository>
+			<id>com.springsource.repository.maven.release</id>
+			<url>http://maven.springframework.org/release/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<build>
@@ -216,5 +224,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
