@@ -1,3 +1,6 @@
-Sample application with Spring MVC 3.1, Sitemesh and MongoDb 2.0.
+Sample application powered by:
 
-
+* Spring MVC 3.1.1
+* MongoDb 2.0.3
+* Spring Security 3.1.0
+* Thymeleaf 2.0.4
