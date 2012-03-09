@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Movies List</title>
+</head>
+<body>
+	<h1 th:text="#{movie.list.title}">Movie list</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th th:text="#{movie.director.label}">Director</th>
+				<th th:text="#{movie.title.label}">Title</th>
+				<th th:text="#{movie.genre.label}">Genre</th>
+				<th th:text="#{movie.rating.label}">Rating</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+			<tr th:each="movie : ${movies}">
+				<td th:text="${movie.director}">director</td>
+				<td th:text="${movie.title}">title</td>
+				<td th:text="${movie.genre}">genre</td>
+				<td th:text="${movie.rating}">rating</td>
+				<td>
+					<form action="#" th:action="@{'/movies/' + ${movie.id} + '/edit'}" th:object="${movie}" method="get">
+						<button type="submit" th:text="#{edit.label}">Edit</button>
+					</form>
+				</td>
+				<td>
+					<form action="#" th:action="@{'/movies/' + ${movie.id}}" th:object="${movie}" method="post">
+						<input type="hidden" name="_method" value="delete"/>
+						<button type="submit" th:text="#{delete.label}">Delete</button>
+					</form>
+				</td>				
+			</tr>
+	</table>
+
+	<hr />
+
+	<div>
+		<p>
+			<a href="#" th:href="@{/movies/new}" th:text="#{add.movie}">Add</a>
+		</p>
+	</div>
+</body>
+</html>

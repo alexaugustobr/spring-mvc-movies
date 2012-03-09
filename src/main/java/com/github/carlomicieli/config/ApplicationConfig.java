@@ -37,7 +37,7 @@ public class ApplicationConfig {
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
-		ms.setBasenames(new String[] { "messages", "errors" });
+		ms.setBasenames(new String[] { "locale/Messages", "locale/Errors" });
 		return ms;
 	}
 	
@@ -49,4 +49,6 @@ public class ApplicationConfig {
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 		return new MongoTemplate(mongoDbFactory);
 	}
+	
+
 }

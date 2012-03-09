@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Movie: create</title>
+	</head>
+	<body>
+		<a href="#" th:href="@{/movies}" th:text="#{back.to.list}">Back</a>
+
+    	<h1 th:text="#{create.title}">New movie</h1>
+   
+      	<form action="#" th:object="${movie}" th:action="@{/movies}" method="post">
+	   		<ul th:if="${#fields.hasErrors('*')}" class="error">
+	        	<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input is incorrect</li>
+	   		</ul>
+      		
+      		<fieldset>
+				<p>
+					<label th:for="${#ids.next('director')}" th:text="#{movie.director.label}">Director:</label>
+     				<input type="text" th:field="*{director}" th:class="${#fields.hasErrors('director')}? 'error'"/>
+				</p>
+				<p>
+					<label th:for="${#ids.next('title')}" th:text="#{movie.title.label}">Title:</label>
+     				<input type="text" th:field="*{title}" th:class="${#fields.hasErrors('title')}? 'error'"/>
+				</p>
+				<p>
+					<label th:for="${#ids.next('genre')}" th:text="#{movie.genre.label}">Genre:</label>
+     				<input type="text" th:field="*{genre}" th:class="${#fields.hasErrors('genre')}? 'error'"/>
+				</p>	
+					<p>
+					<label th:for="${#ids.next('rating')}" th:text="#{movie.rating.label}">Rating:</label>
+     				<input type="text" th:field="*{rating}" th:class="${#fields.hasErrors('rating')}? 'error'"/>
+				</p>  		
+        		<button type="submit" th:text="#{save.label}">Save</button>
+      		</fieldset>
+      	</form>
+	</body>
+</html>

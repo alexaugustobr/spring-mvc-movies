@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,8 +75,11 @@ public class MovieController {
 		return "redirect:../movies";
 	}
 	
-	@RequestMapping(value = "/{movie}/edit", method = RequestMethod.GET)
-	public String edit(@PathVariable Movie movie) {
+	@RequestMapping(value = "/{movieId}/edit", method = RequestMethod.GET)
+	public String edit(@PathVariable String movieId, Model model) {
+		ObjectId id = new ObjectId(movieId);
+		Movie movie = movieService.findById(id);
+		model.addAttribute(movie);
 		return "movie/edit";
 	}
 	

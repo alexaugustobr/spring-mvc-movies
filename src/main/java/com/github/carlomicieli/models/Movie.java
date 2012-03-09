@@ -27,12 +27,12 @@ public class Movie {
 	@Id
 	private ObjectId id;
 	
-	@NotEmpty
-	@Length(min = 1, max = 100)
+	@NotEmpty(message = "director.notEmpty")
+	@Length(min = 0, max = 100, message = "director.length")
 	private String director;
 	
-	@NotEmpty
-	@Length(min = 1, max = 100)
+	@NotEmpty(message = "title.notEmpty")
+	@Length(min = 0, max = 100, message = "title.length")
 	private String title;
 	
 	private String genre;

@@ -219,6 +219,11 @@ input[type="text"]
     border: 1px solid #CCC;
 }
 
+input[type="text"].error
+{
+    border: 1px solid red;
+}
+
 input[type="password"] 
 {
     width: 200px;

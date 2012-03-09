@@ -22,7 +22,9 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring3.SpringTemplateEngine;
+import org.thymeleaf.spring3.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import com.github.carlomicieli.converters.MovieConverter;
 
@@ -39,14 +41,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     	registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 	
-	@Bean
-	public InternalResourceViewResolver viewResolver() {
-		// Resolves views selected for rendering by @Controllers to .jsp 
-		// resources in the /WEB-INF/views directory
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+	/*
+	 THYMELEAF-SPECIFIC ARTIFACTS
+	 TemplateResolver <- TemplateEngine <- ViewResolver
+	*/
+	public @Bean ServletContextTemplateResolver templateResolver() {
+		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
 		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".jsp");
+		resolver.setSuffix(".html");
+		resolver.setTemplateMode("HTML5");
 		return resolver;
+	}
+	
+	public @Bean SpringTemplateEngine templateEngine() {
+		SpringTemplateEngine engine = new SpringTemplateEngine();
+		engine.setTemplateResolver(templateResolver());
+		return engine;
+	}
+	
+	public @Bean ThymeleafViewResolver viewResolver() {
+		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setOrder(1);
+		return viewResolver;
 	}
 	
 	@Override

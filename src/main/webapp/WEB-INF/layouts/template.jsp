@@ -3,10 +3,11 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title><decorator:title default="Spring Movies" /></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="<c:url value="/resources/css/site.css" />" type="text/css" media="screen" />
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.7.1.js" />"></script>	
     <decorator:head />
@@ -19,7 +20,7 @@
             <div id="title">
                 <h1>Spring Movies</h1>
             </div>
-              
+            
             <div id="logindisplay">
             	<sec:authorize access="fullyAuthenticated">
             		<sec:authentication property="principal.username" />
@@ -52,6 +53,7 @@
         <div id="main">
 			<decorator:body />
             <div id="footer">
+            	Coded by <a href="http://carlomicieli.github.com">carlo micieli</a> -- released under Apache 2.0 licence
             </div>
         </div>
     </div>

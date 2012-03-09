@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Login</title>
+</head>
+<body>
+	<span th:if="${param?.login_error}" class="error">
+		<span th:text="#{error.login.not.valid}"></span>
+	</span>
+
+	<h1 th:text="#{login.title}">Login</h1>
+	<hr/>
+	<form action="#" th:action="@{/spring-mvc-movies/j_spring_security_check}" method="post">
+		<table>
+			<tr>
+				<td><label for="j_username" th:text="#{login.username}">Username:</label></td>
+     			<td><input type='text' name='j_username' value='' /></td>
+			</tr>
+			<tr>
+				<td><label for="j_password" th:text="#{login.password}">Password:</label></td>
+     			<td><input type='password' name='j_password' /></td>
+			</tr>
+			<tr><td colspan="2">
+				<input type="checkbox" name="_spring_security_remember_me" />
+				<label for="_spring_security_remember_me" th:text="#{login.remember.me}">Remember me</label>
+			</td></tr>
+			<tr><td colspan='2'><button type="submit" name="submit" th:text="#{login.button.label}">Login</button></td></tr>
+		</table>
+	</form>
+</body>
+</html>
