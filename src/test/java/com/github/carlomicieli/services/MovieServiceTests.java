@@ -15,9 +15,13 @@ limitations under the License.
 */
 package com.github.carlomicieli.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -28,12 +32,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MongoMovieService;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieServiceTests {
 	
-	@Mock private MongoTemplate mongoTemplate;
+	@Mock private MongoTemplate mockMongo;
 	
 	@InjectMocks private MongoMovieService movieService;
 	
@@ -45,7 +50,15 @@ public class MovieServiceTests {
 	
 	@Test
 	public void getAllMoviesCallsTheAppropriateMethod() {
-		verify(mongoTemplate, times(1)).find(new Query(), Movie.class);
-		movieService.getAllMovies(0, 100);
+		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
+		when(mockMongo.find(isA(Query.class), eq(Movie.class))).thenReturn(new ArrayList<Movie>());
+
+		List<Movie> movies = movieService.getAllMovies(1, 2);
+
+		verify(mockMongo).find(argument.capture(), eq(Movie.class));
+		
+		assertNotNull("The movies list is empty", movies);
+		assertEquals(1, argument.getValue().getLimit());
+		assertEquals(2, argument.getValue().getSkip());
 	}
 }
