@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,13 +35,18 @@ public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 	
 	@Before
 	public void setup() {
-		Movie m1 = new Movie();
-		m1.setDirector("AAAA");
-		m1.setTitle("BBBB");
-		
 		Collection<Movie> movies = new ArrayList<Movie>();
-		movies.add(m1);
 		
+		Movie m1 = new Movie();
+		m1.setDirector("John Landis");
+		m1.setTitle("National Lampoon's Animal House");
+		movies.add(m1);
+
+		Movie m2 = new Movie();
+		m2.setDirector("John Landis");
+		m2.setTitle("The blues brothers");
+		movies.add(m2);
+				
 		testHelper.initMovies(movies);
 	}
 	
@@ -50,9 +56,45 @@ public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 	}
 	
 	@Test
-	public void getAllMoviesReturnsAllTheItems() {
-		Collection<Movie> movies = movieService.getAllMovies(1, 0);
+	public void getAllMoviesReturnsMovies() {
+		int max = 1;
+		int offset = 0;
+		Collection<Movie> movies = movieService.getAllMovies(offset, max);
 		assertNotNull(movies);
 		assertEquals(1, movies.size());
+	}
+	
+	@Test
+	public void findByIdReturnNullWhenMovieNotFound() {
+		Movie m = movieService.findById(new ObjectId());
+		assertNull("A movie was found", m);
+	}
+	
+	@Test
+	public void findByIdReturnsMovie() {
+		Movie newMovie = testHelper.insertMovie("John Landis", "Trading Places");
+		Movie m = movieService.findById(newMovie.getId());
+		assertNotNull("Movie not found", m);
+	}
+	
+	@Test
+	public void deletingMovie() {
+		Movie newMovie = testHelper.insertMovie("John Landis", "Trading Places");
+		
+		movieService.delete(newMovie);
+		
+		Movie m = movieService.findById(newMovie.getId());
+		assertNull("A movie was found", m);
+	}
+	
+	@Test
+	public void savingAMovie() {
+		Movie newMovie = testHelper.insertMovie("John Landis", "Trading Place");
+		newMovie.setTitle("Trading Places");
+		movieService.save(newMovie);
+		
+		Movie m = movieService.findById(newMovie.getId());
+		assertNotNull("Movie not found", m);
+		assertEquals("Trading Places", m.getTitle());
 	}
 }

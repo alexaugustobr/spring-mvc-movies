@@ -39,4 +39,12 @@ public class TestHelper {
 	public void cleanupMovies() {
 		mongoTemplate.dropCollection(Movie.class);
 	}
+	
+	public Movie insertMovie(String director, String title) {
+		Movie m = new Movie();
+		m.setTitle(title);
+		m.setDirector(director);
+		mongoTemplate.insert(m);
+		return m;
+	}
 }

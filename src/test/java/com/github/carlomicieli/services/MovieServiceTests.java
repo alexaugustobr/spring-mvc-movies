@@ -18,6 +18,7 @@ package com.github.carlomicieli.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,16 +50,41 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void getAllMoviesCallsTheAppropriateMethod() {
+	public void getAllMoviesPaginated() {
 		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
 		when(mockMongo.find(isA(Query.class), eq(Movie.class))).thenReturn(new ArrayList<Movie>());
 
-		List<Movie> movies = movieService.getAllMovies(1, 2);
+		List<Movie> movies = movieService.getAllMovies(2, 1);
 
 		verify(mockMongo).find(argument.capture(), eq(Movie.class));
 		
 		assertNotNull("The movies list is empty", movies);
 		assertEquals(1, argument.getValue().getLimit());
 		assertEquals(2, argument.getValue().getSkip());
+	}
+	
+	@Test
+	public void savingMovies() {
+		Movie movie = new Movie();
+		movieService.save(movie);
+		verify(mockMongo).save(eq(movie));
+	}
+	
+	@Test
+	public void findingMoviesById() {
+		when(mockMongo.findById(isA(ObjectId.class), eq(Movie.class))).thenReturn(new Movie());
+		final ObjectId id = new ObjectId();
+
+		Movie movie = movieService.findById(id);
+
+		verify(mockMongo).findById(eq(id), eq(Movie.class));
+		assertNotNull("Movie was not found", movie);
+	}
+	
+	@Test
+	public void deletingAMovie() {
+		Movie movie = new Movie();
+		movieService.delete(movie);
+		verify(mockMongo).remove(eq(movie));
 	}
 }

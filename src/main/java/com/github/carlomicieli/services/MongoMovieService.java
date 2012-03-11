@@ -31,7 +31,7 @@ public class MongoMovieService implements MovieService {
 	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public List<Movie> getAllMovies(int max, int offset) {
+	public List<Movie> getAllMovies(int offset, int max) {
 		return mongoTemplate.find(new Query().skip(offset).limit(max), Movie.class);
 	}
 

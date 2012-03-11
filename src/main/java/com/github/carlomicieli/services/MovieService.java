@@ -20,7 +20,7 @@ import org.bson.types.ObjectId;
 import com.github.carlomicieli.models.Movie;
 
 public interface MovieService {
-	List<Movie> getAllMovies(int max, int offset);
+	List<Movie> getAllMovies(int offset, int max);
 	Movie findById(ObjectId id);
 	void save(Movie movie);
 	void delete(Movie movie);
