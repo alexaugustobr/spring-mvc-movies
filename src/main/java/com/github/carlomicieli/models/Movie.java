@@ -21,6 +21,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * It represents a movie.
+ */
 @Document(collection = "movies")
 public class Movie {
 	
@@ -42,18 +45,23 @@ public class Movie {
 	public String getDirector() {
 		return director;
 	}
+	
 	public void setDirector(String director) {
 		this.director = director;
 	}
+	
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public String getGenre() {
 		return genre;
 	}
+	
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
@@ -63,8 +71,13 @@ public class Movie {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
+	
 	public ObjectId getId() {
 		return id;
+	}
+	
+	protected void setId(ObjectId id) {
+		this.id = id;
 	}
 	
 	@Override
