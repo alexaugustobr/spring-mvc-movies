@@ -47,7 +47,7 @@ public class MovieController {
 	public String list(@RequestParam(defaultValue = "0") int offset,
 			@RequestParam(defaultValue = "100") int max,
 			Model model) {
-		List<Movie> movies = movieService.getAllMovies(0, 100);
+		List<Movie> movies = movieService.getAllMovies(offset, max);
 		model.addAttribute("movies", movies);
 		return "movie/list";
 	}
