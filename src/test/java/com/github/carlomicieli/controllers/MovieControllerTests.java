@@ -54,6 +54,14 @@ public class MovieControllerTests {
 		MockitoAnnotations.initMocks(this);
 	}
 	
+	// GET /movies/{slug}
+	
+	@Test
+	public void actionViewProduceTheCorrectViewName() {
+		String viewName = movieController.view("movie-slug", mockModel);
+		assertEquals("movie/view", viewName);
+	}
+	
 	// GET /movies
 	
 	@Test

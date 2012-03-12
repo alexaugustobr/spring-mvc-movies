@@ -92,4 +92,11 @@ public class MovieController {
 		movieService.save(movie);
 		return "redirect:../movies";
 	}
+
+	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.GET)
+	public String view(@PathVariable String movieSlug, Model model) {
+		Movie movie = movieService.findBySlug(movieSlug);
+		model.addAttribute(movie);		
+		return "movie/view";
+	}
 }

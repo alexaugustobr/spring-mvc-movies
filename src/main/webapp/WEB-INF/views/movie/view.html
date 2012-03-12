@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Movie: view</title>
+</head>
+<body>
+	<a href="#" th:href="@{/movies}" th:text="#{back.to.list}">Back</a>
+
+	<h1 th:text="#{view.title}">View movie</h1>
+
+	<fieldset th:object="${movie}">
+		<p>
+			<div th:text="#{movie.director.label}">Director:</div>
+			<div th:text="*{director}">ddd</div>
+		</p>
+		<p>
+			<div th:text="#{movie.title.label}">Title:</div>
+			<div th:text="*{title}">ddd</div>
+		</p>
+		<p>
+			<div th:text="#{movie.genre.label}">Genre:</div>
+			<div th:text="*{genre}">ddd</div>
+		</p>
+		<p>
+			<div th:text="#{movie.rating.label}">Rating:</div>
+			<div th:text="*{rating}">ddd</div>
+		</p>
+	</fieldset>
+</body>
+</html>
