@@ -95,6 +95,8 @@ public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 		
 		Movie m = movieService.findById(newMovie.getId());
 		assertNotNull("Movie not found", m);
+		assertEquals("John Landis", m.getDirector());
 		assertEquals("Trading Places", m.getTitle());
+		assertEquals("trading-places", m.getSlug());
 	}
 }

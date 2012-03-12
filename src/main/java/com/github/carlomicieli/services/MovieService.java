@@ -24,4 +24,5 @@ public interface MovieService {
 	Movie findById(ObjectId id);
 	void save(Movie movie);
 	void delete(Movie movie);
+	Movie findBySlug(String slug);
 }

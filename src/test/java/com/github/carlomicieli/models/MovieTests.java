@@ -84,4 +84,20 @@ public class MovieTests {
 		String expected = String.format("[%s] %s - %s", "47cc67093475061e3d95369d", "AAAA", "BBBB");
 		assertEquals(expected, movie.toString());		
 	}
+	
+	@Test 
+	public void calculatingTheSlug() {
+		Movie movie = new Movie();
+		movie.setDirector("John Landis");
+		movie.setTitle("The Blues brothers");
+		
+		movie.makeSlug();
+		assertEquals("the-blues-brothers", movie.getSlug());		
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void calculatingDefaultSlug() {
+		Movie movie = new Movie();
+		movie.makeSlug();
+	}
 }

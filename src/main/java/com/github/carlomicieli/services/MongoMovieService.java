@@ -24,30 +24,33 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import com.github.carlomicieli.models.Movie;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 @Service("movieService")
 public class MongoMovieService implements MovieService {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-	@Override
 	public List<Movie> getAllMovies(int offset, int max) {
 		return mongoTemplate.find(new Query().skip(offset).limit(max), Movie.class);
 	}
 
-	@Override
 	public Movie findById(ObjectId id) {
 		return mongoTemplate.findById(id, Movie.class);
 	}
 
-	@Override
 	public void save(Movie movie) {
+		movie.makeSlug();
+		
 		mongoTemplate.save(movie);
 	}
 
-	@Override
 	public void delete(Movie movie) {
 		mongoTemplate.remove(movie);
 	}
 
+	public Movie findBySlug(String slug) {
+		return mongoTemplate.findOne(new Query(where("slug").is(slug)), Movie.class);
+	}
 }

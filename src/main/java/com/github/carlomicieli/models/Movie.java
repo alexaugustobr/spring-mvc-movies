@@ -19,7 +19,10 @@ import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.github.carlomicieli.utility.Slug;
 
 /**
  * It represents a movie.
@@ -29,6 +32,9 @@ public class Movie {
 	
 	@Id
 	private ObjectId id;
+	
+	@Indexed
+	private String slug;
 	
 	@NotEmpty(message = "director.notEmpty")
 	@Length(min = 0, max = 100, message = "director.length")
@@ -65,9 +71,11 @@ public class Movie {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
+	
 	public String getRating() {
 		return rating;
 	}
+	
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
@@ -80,8 +88,20 @@ public class Movie {
 		this.id = id;
 	}
 	
+	public String getSlug() {
+		return slug;
+	}
+	
+	protected void setSlug(String slug) {
+		this.slug = slug;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("[%s] %s - %s", getId(), getDirector(), getTitle());
+	}
+
+	public void makeSlug() {
+		setSlug(Slug.makeSlug(getTitle()));
 	}
 }

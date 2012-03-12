@@ -31,7 +31,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.github.carlomicieli.models.Movie;
-import com.github.carlomicieli.services.MongoMovieService;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -66,6 +65,7 @@ public class MovieServiceTests {
 	@Test
 	public void savingMovies() {
 		Movie movie = new Movie();
+		movie.setTitle("BBBB");
 		movieService.save(movie);
 		verify(mockMongo).save(eq(movie));
 	}
@@ -78,6 +78,14 @@ public class MovieServiceTests {
 		Movie movie = movieService.findById(id);
 
 		verify(mockMongo).findById(eq(id), eq(Movie.class));
+		assertNotNull("Movie was not found", movie);
+	}
+	
+	@Test
+	public void findingMovieBySlug() {
+		when(mockMongo.findOne(isA(Query.class), eq(Movie.class))).thenReturn(new Movie());
+		
+		Movie movie = movieService.findBySlug("the-blues-broters");
 		assertNotNull("Movie was not found", movie);
 	}
 	
