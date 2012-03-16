@@ -25,8 +25,8 @@ import java.util.List;
  *
  */
 public class PaginatedResult<T> {
-	static int	DEFAULT_MAX_LINKED_PAGES = 10;
-	static int	DEFAULT_PAGE_SIZE = 25;
+	public static int DEFAULT_MAX_LINKED_PAGES = 10;
+	public static int DEFAULT_PAGE_SIZE = 25;
 	
 	public PaginatedResult(List<T> data, long nrOfElements, int page) {
 		this(data, nrOfElements, page, DEFAULT_PAGE_SIZE);
@@ -43,6 +43,9 @@ public class PaginatedResult<T> {
 		
 		this.pageCount = calculateNumberOfPages(nrOfElements, pageSize);
 		this.links = initLinks();
+	
+		this.firstPageLink = Math.max(1, getPage() - (DEFAULT_MAX_LINKED_PAGES / 2) - 1);
+		this.lastPageLink = Math.min(getFirstPageLink() + DEFAULT_MAX_LINKED_PAGES - 1, getPageCount());
 	}
 	
 	private List<Integer> links;
@@ -51,6 +54,8 @@ public class PaginatedResult<T> {
 	private int pageSize;
 	private int pageCount;
 	private long nrOfElements;
+	private int firstPageLink;
+	private int lastPageLink;
 
 	private int calculateNumberOfPages(long nrOfElements, int pageSize) {
 		double d = Math.ceil((double)nrOfElements / pageSize);
@@ -95,14 +100,22 @@ public class PaginatedResult<T> {
 	}
 	
 	public int getFirstPageLink() {		
-		return Math.max(1, getPage() - (DEFAULT_MAX_LINKED_PAGES / 2) - 1);
+		return firstPageLink;
 	}
 	
 	public int getLastPageLink() {
-		return Math.min(getFirstPageLink() + DEFAULT_MAX_LINKED_PAGES - 1, getPageCount());
+		return lastPageLink;
 	}
 	
-	public List<Integer> getLinkedPage() {
+	public List<Integer> getPageLinks() {
 		return links.subList(getFirstPageLink() - 1, getLastPageLink());
+	}
+	
+	public boolean showPreviousLink() {
+		return getPage() > 1;
+	}
+	
+	public boolean showNextLink() {
+		return getPage() < getPageCount();
 	}
 }

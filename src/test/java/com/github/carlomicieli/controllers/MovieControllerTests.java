@@ -34,6 +34,7 @@ import org.springframework.validation.BindingResult;
 
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
@@ -63,25 +64,22 @@ public class MovieControllerTests {
 	}
 	
 	// GET /movies
-	
-	@Test
-	public void actionListProduceTheCorrectViewName() {
-		String viewName = movieController.list(0, 0, mockModel);
-		assertEquals("movie/list", viewName);
-	}
-	
+
 	@Test
 	public void listPaginateTheResults() {
 		List<Movie> movies = new ArrayList<Movie>();
+		PaginatedResult<Movie> results = 
+				new PaginatedResult<Movie>(movies, 100, 10);
 		ExtendedModelMap model = new ExtendedModelMap();
-		when(mockService.getAllMovies(eq(0), eq(10))).thenReturn(movies);
+		when(mockService.getAllMovies(eq(1), eq(10))).thenReturn(results);
 		
-		movieController.list(0, 10, model);
+		String viewName = movieController.list(1, 10, model);
 		
-		verify(mockService).getAllMovies(0, 10);
+		assertEquals("movie/list", viewName);
+		verify(mockService).getAllMovies(1, 10);
 		assertTrue("Model doesn't contain the movies",
-				model.containsAttribute("movies"));
-		assertSame(movies, model.get("movies"));
+				model.containsAttribute("results"));
+		assertSame(results, model.get("results"));
 	}
 		
 	// GET /movies/new

@@ -15,7 +15,7 @@ limitations under the License.
 */
 package com.github.carlomicieli.services;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -31,6 +31,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -50,16 +51,26 @@ public class MovieServiceTests {
 	
 	@Test
 	public void getAllMoviesPaginated() {
-		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
-		when(mockMongo.find(isA(Query.class), eq(Movie.class))).thenReturn(new ArrayList<Movie>());
-
-		List<Movie> movies = movieService.getAllMovies(2, 1);
-
-		verify(mockMongo).find(argument.capture(), eq(Movie.class));
+		List<Movie> movies = Arrays.asList(new Movie(), new Movie());
 		
-		assertNotNull("The movies list is empty", movies);
-		assertEquals(1, argument.getValue().getLimit());
-		assertEquals(2, argument.getValue().getSkip());
+		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
+		when(mockMongo.find(isA(Query.class), eq(Movie.class))).thenReturn(movies);
+		when(mockMongo.count(isA(Query.class), eq(Movie.class))).thenReturn((long) movies.size());
+		PaginatedResult<Movie> results = movieService.getAllMovies(1, 10);
+		
+		List<Movie> data = results.getData();
+		
+		verify(mockMongo).find(argument.capture(), eq(Movie.class));
+		assertEquals(10, argument.getValue().getLimit());
+		assertEquals(0, argument.getValue().getSkip());
+		
+		assertNotNull("The movies list is empty", data);
+		assertEquals(2, data.size());
+		assertEquals(2, results.getNrOfElements());
+		assertEquals(1, results.getPage());
+		assertEquals(10, results.getPageSize());
+		assertEquals("The first link is wrong", 1, results.getFirstPageLink());
+		assertEquals("The last link is wrong", 1, results.getLastPageLink());
 	}
 	
 	@Test

@@ -17,7 +17,7 @@
 				<th></th>
 			</tr>
 		</thead>
-			<tr th:each="movie : ${movies}">
+			<tr th:each="movie : ${results.getData()}">
 				<td th:text="${movie.director}">director</td>
 				<td th:text="${movie.title}">title</td>
 				<td th:text="${movie.genre}">genre</td>
@@ -35,6 +35,26 @@
 				</td>				
 			</tr>
 	</table>
+
+	<hr />
+	
+	<div class="pagination">
+		<a href="#" 
+			th:if="${results.showPreviousLink()}" 
+			th:href="@{/movies(page = ${results.getPage() - 1})}"
+			th:text="#{page.previous.label}">Previous</a>
+
+		<a href="#"
+			th:each="link : ${results.getPageLinks()}"
+			th:href="@{/movies(page = ${link})}"
+			th:class="${results.getPage() == link} ? 'current'"
+			th:text="'[' + ${link} + ']'">11</a>
+
+		<a href="#" 
+			th:if="${results.showNextLink()}" 
+			th:href="@{/movies(page = ${results.getPage() + 1})}"
+			th:text="#{page.next.label}">Next</a>
+	</div>
 
 	<hr />
 

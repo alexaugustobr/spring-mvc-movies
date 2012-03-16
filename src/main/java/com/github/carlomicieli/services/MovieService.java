@@ -15,12 +15,12 @@ limitations under the License.
 */
 package com.github.carlomicieli.services;
 
-import java.util.List;
 import org.bson.types.ObjectId;
 import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 public interface MovieService {
-	List<Movie> getAllMovies(int offset, int max);
+	PaginatedResult<Movie> getAllMovies(int page, int pageSize);
 	Movie findById(ObjectId id);
 	void save(Movie movie);
 	void delete(Movie movie);

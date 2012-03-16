@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 @Controller
 @RequestMapping("/movies")
@@ -44,11 +45,12 @@ public class MovieController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(@RequestParam(defaultValue = "0") int offset,
-			@RequestParam(defaultValue = "100") int max,
+	public String list(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "25") int pageSize,
 			Model model) {
-		List<Movie> movies = movieService.getAllMovies(offset, max);
-		model.addAttribute("movies", movies);
+		PaginatedResult<Movie> results = movieService.getAllMovies(page, pageSize);
+		model.addAttribute("results", results);
 		return "movie/list";
 	}
 	

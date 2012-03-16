@@ -31,6 +31,41 @@ import com.github.carlomicieli.models.Movie;
 public class PaginatedResultTests {
 
 	@Test
+	public void previousAndNextLinksAreNotShownForOnePageResult() {
+		int page = 1;
+		long nrOfElements = 2;
+		
+		List<Movie> movies = Arrays.asList(new Movie(), new Movie());
+		PaginatedResult<Movie> pr = new PaginatedResult<Movie>(movies, 
+				nrOfElements, 
+				page);
+		assertFalse(pr.showNextLink());
+		assertFalse(pr.showPreviousLink());
+	}
+	
+	@Test
+	public void showNextLink() {
+		
+		PaginatedResult<Movie> pr = new PaginatedResult<Movie>(new ArrayList<Movie>(), 
+				16, 
+				1,
+				2);
+		assertFalse(pr.showPreviousLink());
+		assertTrue(pr.showNextLink());
+	}
+	
+	@Test
+	public void showPreviousLink() {
+		
+		PaginatedResult<Movie> pr = new PaginatedResult<Movie>(new ArrayList<Movie>(), 
+				20, 
+				2,
+				10);
+		assertTrue(pr.showPreviousLink());
+		assertFalse(pr.showNextLink());
+	}
+	
+	@Test
 	public void calculatingTheNumberOfPages() {
 		PaginatedResult<Movie> pr = new PaginatedResult<Movie>(null, 100, 0, 25);
 		assertEquals(4, pr.getPageCount());
@@ -43,6 +78,30 @@ public class PaginatedResultTests {
 	public void invalidPageSizeThrowsAnException() {
 		int pageSize = 0;
 		new PaginatedResult<Movie>(null, 100, 0, pageSize);
+	}
+	
+	@Test
+	public void pageLinksForOnePage() {
+		int page = 1;
+		long nrOfElements = 2;
+		int pageSize = 25;
+		
+		List<Movie> movies = Arrays.asList(new Movie(), new Movie());
+		
+		PaginatedResult<Movie> pr = new PaginatedResult<Movie>(movies, 
+				nrOfElements, 
+				page, 
+				pageSize);
+		
+		assertEquals(1, pr.getFirstPageLink());
+		assertEquals(1, pr.getLastPageLink());
+		
+		List<Integer> links = pr.getPageLinks();
+		assertNotNull(links);
+		assertEquals(1, links.size());
+		
+		List<Integer> expected = Arrays.asList(1);
+		assertArrayEquals(expected.toArray(), links.toArray());
 	}
 	
 	@Test
@@ -117,7 +176,7 @@ public class PaginatedResultTests {
 		assertEquals(1, pr.getFirstPageLink());
 		assertEquals(10, pr.getLastPageLink());
 		List<Integer> pageLinks = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-		assertEquals(pageLinks, pr.getLinkedPage());
+		assertEquals(pageLinks, pr.getPageLinks());
 	}
 	
 	@Test
@@ -135,7 +194,7 @@ public class PaginatedResultTests {
 		assertEquals(4, pr.getFirstPageLink());
 		assertEquals(13, pr.getLastPageLink());
 		List<Integer> pageLinks = Arrays.asList(4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
-		assertEquals(pageLinks, pr.getLinkedPage());
+		assertEquals(pageLinks, pr.getPageLinks());
 	}
 	
 	@Test
@@ -153,6 +212,6 @@ public class PaginatedResultTests {
 		assertEquals(11, pr.getFirstPageLink());
 		assertEquals(20, pr.getLastPageLink());
 		List<Integer> pageLinks = Arrays.asList(11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-		assertEquals(pageLinks, pr.getLinkedPage());
+		assertEquals(pageLinks, pr.getPageLinks());
 	}
 }

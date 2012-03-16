@@ -15,14 +15,18 @@ limitations under the License.
 */
 package com.github.carlomicieli.services;
 
+
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
@@ -32,8 +36,18 @@ public class MongoMovieService implements MovieService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-	public List<Movie> getAllMovies(int offset, int max) {
-		return mongoTemplate.find(new Query().skip(offset).limit(max), Movie.class);
+	public PaginatedResult<Movie> getAllMovies(int page, int pageSize) {
+		Pageable p = new PageRequest(page - 1, pageSize);
+		final Query query = new Query().skip(p.getOffset()).limit(p.getPageSize());
+		
+		//counting the total number of documents in the collection
+		long count = mongoTemplate.count(new Query(), Movie.class);
+		
+		List<Movie> movies = mongoTemplate.find(query, Movie.class);
+		PaginatedResult<Movie> results = new PaginatedResult<Movie>(movies,
+				count, page, pageSize);
+		
+		return results;
 	}
 
 	public Movie findById(ObjectId id) {

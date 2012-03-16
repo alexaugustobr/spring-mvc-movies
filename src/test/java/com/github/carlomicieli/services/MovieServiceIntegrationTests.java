@@ -18,7 +18,7 @@ package com.github.carlomicieli.services;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.junit.After;
@@ -29,13 +29,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.carlomicieli.AbstractIntegrationTests;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
+import com.github.carlomicieli.utility.PaginatedResult;
 
 public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 	private @Autowired MovieService movieService;		
 	
 	@Before
 	public void setup() {
-		Collection<Movie> movies = new ArrayList<Movie>();
+		List<Movie> movies = new ArrayList<Movie>();
 		
 		Movie m1 = new Movie();
 		m1.setDirector("John Landis");
@@ -57,9 +58,11 @@ public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 	
 	@Test
 	public void getAllMoviesReturnsMovies() {
-		int max = 1;
-		int offset = 0;
-		Collection<Movie> movies = movieService.getAllMovies(offset, max);
+		int pageNum = 1;
+		int pageSize = 1;
+		PaginatedResult<Movie> results = movieService.getAllMovies(pageNum, pageSize);
+		
+		List<Movie> movies = results.getData();
 		assertNotNull(movies);
 		assertEquals(1, movies.size());
 	}
