@@ -15,8 +15,6 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
