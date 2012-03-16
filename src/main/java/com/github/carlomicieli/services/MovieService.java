@@ -22,7 +22,7 @@ import com.github.carlomicieli.utility.PaginatedResult;
 public interface MovieService {
 	PaginatedResult<Movie> getAllMovies(int page, int pageSize);
 	Movie findById(ObjectId id);
+	Movie findBySlug(String slug);
 	void save(Movie movie);
 	void delete(Movie movie);
-	Movie findBySlug(String slug);
 }

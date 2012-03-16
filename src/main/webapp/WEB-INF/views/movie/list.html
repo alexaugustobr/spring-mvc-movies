@@ -23,12 +23,12 @@
 				<td th:text="${movie.genre}">genre</td>
 				<td th:text="${movie.rating}">rating</td>
 				<td>
-					<form action="#" th:action="@{'/movies/' + ${movie.id} + '/edit'}" th:object="${movie}" method="get">
+					<form action="#" th:action="@{'/movies/' + ${movie.slug} + '/edit'}" th:object="${movie}" method="get">
 						<button type="submit" th:text="#{edit.label}">Edit</button>
 					</form>
 				</td>
 				<td>
-					<form action="#" th:action="@{'/movies/' + ${movie.id}}" th:object="${movie}" method="post">
+					<form action="#" th:action="@{'/movies/' + ${movie.slug}}" th:object="${movie}" method="post">
 						<input type="hidden" name="_method" value="delete"/>
 						<button type="submit" th:text="#{delete.label}">Delete</button>
 					</form>

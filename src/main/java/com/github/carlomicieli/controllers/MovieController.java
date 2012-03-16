@@ -17,7 +17,6 @@ package com.github.carlomicieli.controllers;
 
 import javax.validation.Valid;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,16 +68,16 @@ public class MovieController {
 		return "redirect:movies";
 	}
 	
-	@RequestMapping(value = "/{movie}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable Movie movie) {
+	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.DELETE)
+	public String delete(@PathVariable String movieSlug) {
+		Movie movie = movieService.findBySlug(movieSlug);
 		movieService.delete(movie);
 		return "redirect:../movies";
 	}
 	
-	@RequestMapping(value = "/{movieId}/edit", method = RequestMethod.GET)
-	public String edit(@PathVariable String movieId, Model model) {
-		ObjectId id = new ObjectId(movieId);
-		Movie movie = movieService.findById(id);
+	@RequestMapping(value = "/{movieSlug}/edit", method = RequestMethod.GET)
+	public String edit(@PathVariable String movieSlug, Model model) {
+		Movie movie = movieService.findBySlug(movieSlug);
 		model.addAttribute(movie);
 		return "movie/edit";
 	}

@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -134,14 +133,16 @@ public class MovieControllerTests {
 	
 	@Test
 	public void actionDeleteRedirectCorrectly() {
-		String viewName = movieController.delete(new Movie());
+		String viewName = movieController.delete("movie-slug");
 		assertEquals("redirect:../movies", viewName);
 	}
 	
 	@Test
 	public void actionDeleteRemoveTheMovie() {
-		Movie movie = new Movie();		
-		movieController.delete(movie);
+		Movie movie = new Movie();
+		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(movie);
+		String movieSlug = "movie-slug";	
+		movieController.delete(movieSlug);
 		verify(mockService, times(1)).delete(eq(movie));
 	}
 	
@@ -149,24 +150,24 @@ public class MovieControllerTests {
 	
 	@Test
 	public void actionEditProduceTheCorrectViewName() {
-		String viewName = movieController.edit("47cc67093475061e3d95369d", mockModel);
+		String viewName = movieController.edit("movie-slug", mockModel);
 		assertEquals("movie/edit", viewName);
 	}
 	
 	@Test
 	public void actionEditFillTheModel() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		ObjectId id = new ObjectId("47cc67093475061e3d95369d");
+		String slug = "movie-slug";
 		Movie movie = new Movie();
-		when(mockService.findById(id)).thenReturn(movie);
+		when(mockService.findBySlug(slug)).thenReturn(movie);
 		
-		movieController.edit(id.toString(), model);
+		movieController.edit(slug, model);
 		
 		assertTrue("The model doesn't contain the movie that failed the validation",
 				model.containsAttribute("movie"));
 		assertTrue("The model doesn't contain a movie", 
 				model.get("movie") instanceof Movie);
-		verify(mockService, times(1)).findById(eq(id));
+		verify(mockService, times(1)).findBySlug(eq(slug));
 	}
 	
 	// PUT /movies/{movieId}/edit
