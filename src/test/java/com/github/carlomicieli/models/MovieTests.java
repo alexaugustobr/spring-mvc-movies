@@ -15,6 +15,8 @@ limitations under the License.
 */
 package com.github.carlomicieli.models;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -99,5 +101,38 @@ public class MovieTests {
 	public void calculatingDefaultSlug() {
 		Movie movie = new Movie();
 		movie.makeSlug();
+	}
+	
+	@Test
+	public void addingTagToMovies() {
+		Movie m = new Movie();
+		m.addTag("AAAA");
+		m.addTag("BBBB");
+		
+		List<String> tags = m.getTags();
+		assertNotNull(tags);
+		assertEquals(2, tags.size());
+		assertEquals("[AAAA, BBBB]", tags.toString());
+	}
+	
+	@Test
+	public void addingCommentsToMovies() {
+		Comment c1 = new Comment();
+		c1.setAuthor("A");
+		c1.setContent("BBBB");
+		c1.setPostedAt(new Date());
+		
+		Comment c2 = new Comment();
+		c2.setAuthor("A");
+		c2.setContent("BBBB");
+		c2.setPostedAt(new Date());
+		
+		Movie m = new Movie();
+		m.addComment(c1);
+		m.addComment(c2);
+		
+		List<Comment> cmms = m.getComments();
+		assertNotNull(cmms);
+		assertEquals(2, cmms.size());
 	}
 }

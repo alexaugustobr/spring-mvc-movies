@@ -15,6 +15,9 @@ limitations under the License.
 */
 package com.github.carlomicieli.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -47,6 +50,27 @@ public class Movie {
 	private String genre;
 	
 	private String rating;
+	
+	private List<String> tags;
+	private List<Comment> comments;
+	
+	public List<String> getTags() {
+		return tags;
+	}
+	
+	public void addTag(String tag) {
+		if (tags==null) tags = new ArrayList<String>();
+		tags.add(tag);
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	
+	public void addComment(Comment comment) {
+		if (comments==null) comments = new ArrayList<Comment>();
+		comments.add(comment);
+	}
 	
 	public String getDirector() {
 		return director;
