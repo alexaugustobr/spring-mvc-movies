@@ -26,5 +26,36 @@
 			<div th:text="*{rating}">ddd</div>
 		</p>
 	</fieldset>
+	
+	<form action="#" th:object="${newComment}" 
+		th:action="@{'/movies/' + ${movie.slug} + '/addcomment'}" 
+		method="post">
+          	
+         <ul th:if="${#fields.hasErrors('*')}" class="error">
+        	<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input is incorrect</li>
+   		</ul>
+   
+		<fieldset>
+			<p>
+				<label th:for="${#ids.next('author')}" th:text="#{movie.comment.author}">Director:</label>
+    				<input type="text" th:field="*{author}" th:class="${#fields.hasErrors('author')}? 'error'"/>
+			</p>
+			<p>
+				<label th:for="${#ids.next('content')}" th:text="#{movie.comment.content}">Title:</label>
+    			<textarea rows="2" th:field="*{content}" th:class="${#fields.hasErrors('content')}? 'error'"></textarea>
+			</p>	
+       		<button type="submit" th:text="#{post.label}">Post comment</button>
+     		</fieldset>
+	</form>
+	
+	<hr />
+	
+	<table>
+		<tr th:each="comm : ${movie.getComments()}">
+			<td th:text="${comm?.author}">author</td>
+			<td th:text="${comm?.content}">content</td>
+			<td th:text="${comm?.postedAt}">posted At</td>
+		</tr>
+	</table>
 </body>
 </html>

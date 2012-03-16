@@ -31,6 +31,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.BindingResult;
 
+import com.github.carlomicieli.models.Comment;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
 import com.github.carlomicieli.utility.PaginatedResult;
@@ -60,6 +61,38 @@ public class MovieControllerTests {
 	public void actionViewProduceTheCorrectViewName() {
 		String viewName = movieController.view("movie-slug", mockModel);
 		assertEquals("movie/view", viewName);
+	}
+	
+	@Test
+	public void actionViewFillTheModel() {
+		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(new Movie());
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		movieController.view("movie-slug", model);
+		
+		assertNotNull(model.get("movie"));
+		assertNotNull(model.get("newComment"));
+	}
+	
+	// GET /movies/{movieId}/addcomment
+	
+	@Test
+	public void actionAddCommentFillTheModel() {
+		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(new Movie());
+		
+		Comment comment = new Comment();
+		comment.setContent("AAAA");
+		ExtendedModelMap model = new ExtendedModelMap();
+		
+		String viewName = movieController.addComment("movie-slug", comment, mockResult, model);
+		assertEquals("redirect:../movie-slug", viewName);
+		
+		Movie movie = (Movie)model.get("movie");
+		
+		assertNotNull(movie);
+		assertNotNull(movie.getComments());
+		assertEquals(1, movie.getComments().size());
+		assertNotNull(model.get("newComment"));
 	}
 	
 	// GET /movies

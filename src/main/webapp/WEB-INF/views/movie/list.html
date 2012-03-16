@@ -19,7 +19,9 @@
 		</thead>
 			<tr th:each="movie : ${results.getData()}">
 				<td th:text="${movie.director}">director</td>
-				<td th:text="${movie.title}">title</td>
+				<td>
+					<a href="#" th:href="@{'/movies/' + ${movie.slug}}" th:text="${movie.title}"></a>
+				</td>
 				<td th:text="${movie.genre}">genre</td>
 				<td th:text="${movie.rating}">rating</td>
 				<td>

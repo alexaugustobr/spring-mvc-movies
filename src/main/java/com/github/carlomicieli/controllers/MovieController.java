@@ -15,6 +15,8 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.carlomicieli.models.Comment;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
 import com.github.carlomicieli.utility.PaginatedResult;
@@ -95,7 +98,31 @@ public class MovieController {
 	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.GET)
 	public String view(@PathVariable String movieSlug, Model model) {
 		Movie movie = movieService.findBySlug(movieSlug);
-		model.addAttribute(movie);		
+		model.addAttribute(movie);	
+		model.addAttribute("newComment", new Comment());
 		return "movie/view";
+	}
+
+	@RequestMapping(value = "/{movieSlug}/addcomment", method = RequestMethod.POST)
+	public String addComment(@PathVariable String movieSlug, 
+			@Valid @ModelAttribute Comment comment, 
+			BindingResult result, 
+			Model model) {
+		
+		Movie movie = movieService.findBySlug(movieSlug);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("newComment", comment);
+			model.addAttribute(movie);
+		}
+		else {
+			comment.setPostedAt(new Date());
+			movie.addComment(comment);
+			movieService.save(movie);
+			
+			model.addAttribute(movie);	
+			model.addAttribute("newComment", new Comment());
+		}
+		return String.format("redirect:../%s", movieSlug);
 	}
 }
