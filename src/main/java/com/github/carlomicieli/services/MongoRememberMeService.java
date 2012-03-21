@@ -18,10 +18,12 @@ package com.github.carlomicieli.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 
 import com.github.carlomicieli.models.MongoRememberMeToken;
 import static  org.springframework.data.mongodb.core.query.Criteria.where;
 
+@Service("rememberMeService")
 public class MongoRememberMeService {
 	
 	private MongoTemplate mongoTemplate;

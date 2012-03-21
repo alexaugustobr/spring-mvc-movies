@@ -20,24 +20,26 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.stereotype.Component;
 
 import com.github.carlomicieli.models.MongoRememberMeToken;
 import com.github.carlomicieli.services.MongoRememberMeService;
 
+@Component("persistentTokenRepository")
 public class MongoPersistentTokenRepository implements
 		PersistentTokenRepository {
 	
-	private MongoRememberMeService remembermeService;
+	private MongoRememberMeService rememberMeService;
 	
 	@Autowired
-	public MongoPersistentTokenRepository(MongoRememberMeService service) {
-		this.remembermeService = service;
+	public MongoPersistentTokenRepository(MongoRememberMeService rememberMeService) {
+		this.rememberMeService = rememberMeService;
 	}
 	
 	public void createNewToken(PersistentRememberMeToken token) {
 		final MongoRememberMeToken t = 
 				new MongoRememberMeToken(token);
-		remembermeService.createNew(t);
+		rememberMeService.createNew(t);
 	}
 
 	@Override
@@ -48,13 +50,13 @@ public class MongoPersistentTokenRepository implements
 		token.setDate(lastUsed);
 		token.setTokenValue(tokenValue);
 		token.setSeries(series);
-		remembermeService.saveToken(token);
+		rememberMeService.saveToken(token);
 	}
 
 	@Override
 	public PersistentRememberMeToken getTokenForSeries(String seriesId) {
 		final MongoRememberMeToken token = 
-				remembermeService.findBySeries(seriesId);
+				rememberMeService.findBySeries(seriesId);
 		
 		return new PersistentRememberMeToken(token.getUsername(),
 				token.getSeries(),
@@ -64,7 +66,7 @@ public class MongoPersistentTokenRepository implements
 
 	@Override
 	public void removeUserTokens(String username) {
-		remembermeService.removeToken(username);
+		rememberMeService.removeToken(username);
 	}
 
 }
