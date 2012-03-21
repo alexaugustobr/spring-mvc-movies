@@ -22,14 +22,17 @@
             </div>
             
             <div id="logindisplay">
-            	<sec:authorize access="fullyAuthenticated">
-            		<sec:authentication property="principal.username" />
-                	[<a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />">Logout</a>]
-                </sec:authorize>
-                <sec:authorize access="not fullyAuthenticated">
-					<c:url var="loginUrl" value="/auth/login" />
-					[<a href="${loginUrl}">Login</a>]
-                </sec:authorize>
+            	<sec:authorize access="authenticated" var="authenticated"/>
+				<c:choose>
+					<c:when test="${authenticated}">
+						Welcome <sec:authentication property="principal.username" />
+						[<a href="<spring:url value="/logout" htmlEscape="true" />">Logout</a>]
+					</c:when>
+					<c:otherwise>
+						<c:url var="loginUrl" value="/auth/login" />
+						[<a href="${loginUrl}">Login</a>]
+					</c:otherwise>
+				</c:choose>
             </div> 
             
             <div id="menucontainer">

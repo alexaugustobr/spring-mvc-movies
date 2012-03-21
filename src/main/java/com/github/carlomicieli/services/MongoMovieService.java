@@ -15,7 +15,6 @@ limitations under the License.
 */
 package com.github.carlomicieli.services;
 
-
 import java.util.List;
 
 import org.bson.types.ObjectId;

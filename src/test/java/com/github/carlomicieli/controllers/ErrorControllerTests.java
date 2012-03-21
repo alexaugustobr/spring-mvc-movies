@@ -15,26 +15,22 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-@Controller
-public class HomeController {
+public class ErrorControllerTests {
 
-	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String index() {
-		return "home/index";
-    }
-	
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about() {
-		return "home/about";
+	@Test
+	public void notFoundViewIsReturned() {
+		ErrorController controller = new ErrorController();
+		String viewName = controller.notFound();
+		assertEquals("errors/notfound", viewName);
 	}
 	
-	@RequestMapping(value = "/default", method = RequestMethod.GET)
-	public String defaultPage() {
-		return "home/index";
+	@Test
+	public void accessDeniedViewIsReturned() {
+		ErrorController controller = new ErrorController();
+		String viewName = controller.accessDenied();
+		assertEquals("errors/denied", viewName);
 	}
-	 
 }

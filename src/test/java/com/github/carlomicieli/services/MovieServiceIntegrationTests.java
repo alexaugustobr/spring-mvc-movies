@@ -48,7 +48,7 @@ public class MovieServiceIntegrationTests extends AbstractIntegrationTests {
 		m2.setTitle("The blues brothers");
 		movies.add(m2);
 				
-		testHelper.initMovies(movies);
+		testHelper.fillMovies(movies);
 	}
 	
 	@After

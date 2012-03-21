@@ -16,7 +16,11 @@
 	<!-- error pages -->
 	<error-page>
 		<error-code>404</error-code>
-		<location>/views/notfound.html</location>
+		<location>/error/notfound</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/denied</location>
 	</error-page>
 	
 	<!-- Spring Security -->

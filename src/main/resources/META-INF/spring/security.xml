@@ -1,27 +1,23 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-           
+
 	<authentication-manager>
-    	<authentication-provider>
-      		<user-service>
-       	 		<user name="johnny" password="ramones" authorities="ROLE_USER, ROLE_ADMIN" />
-				<user name="joey" password="ramones" authorities="ROLE_USER" />
-				<user name="deedee" password="ramones" authorities="ROLE_USER" />
-				<user name="tommy" password="ramones" authorities="ROLE_USER" />        		
-			</user-service>
-    	</authentication-provider>
-  	</authentication-manager>
-  
-  	<http pattern="/resources/**" security="none"/>
-    <http auto-config="true" use-expressions="true">
- 		<intercept-url pattern="/auth/login*" access="permitAll"/>
-    	<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-    	<form-login login-page='/auth/login'  authentication-failure-url="/auth/login?login_error" />
-  	</http>
-           
+		<authentication-provider user-service-ref="mailUserDetailsService" />
+	</authentication-manager>
+
+	<http pattern="/resources/**" security="none" />
+	<http auto-config="true" use-expressions="true"
+		access-denied-page="/error/denied">
+		<intercept-url pattern="/auth/login*" access="permitAll" />
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<form-login login-page='/auth/login'
+			authentication-failure-url="/auth/login?login_error"
+			default-target-url="/default" />
+		<logout logout-url="/logout" />
+	</http>
+
 </beans:beans>

@@ -22,6 +22,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.models.MailUser;
+import com.mongodb.DBCollection;
 
 @Component("testHelper")
 public class TestHelper {
@@ -32,8 +34,12 @@ public class TestHelper {
 		this.mongoTemplate = mongoTemplate;
 	}
 	
-	public void initMovies(Collection<Movie> movies) {
+	public void fillMovies(Collection<Movie> movies) {
 		mongoTemplate.insert(movies, Movie.class);
+	}
+	
+	public void initMovies() {
+		mongoTemplate.createCollection(Movie.class);
 	}
 	
 	public void cleanupMovies() {
@@ -46,5 +52,31 @@ public class TestHelper {
 		m.setDirector(director);
 		mongoTemplate.insert(m);
 		return m;
+	}
+	
+	public void initUsers() {
+		DBCollection userColl = mongoTemplate.getCollection("users");
+		
+		
+		mongoTemplate.dropCollection(MailUser.class);
+		@SuppressWarnings("unused")
+		DBCollection coll = mongoTemplate.createCollection(MailUser.class);
+	}
+	
+	public void fillUsers(Collection<MailUser> users) {
+		mongoTemplate.insert(users, MailUser.class);
+	}
+	
+	public void cleanupUsers() {
+		mongoTemplate.dropCollection(MailUser.class);
+	}
+	
+	public MailUser insertUser(String email, String password, String role) {
+		MailUser u = new MailUser();
+		u.setEmailAddress(email);
+		u.setPassword(password);
+		u.addRole(role);
+		mongoTemplate.insert(u);
+		return u;
 	}
 }

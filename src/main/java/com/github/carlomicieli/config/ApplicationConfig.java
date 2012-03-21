@@ -28,6 +28,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.github.carlomicieli.services.MongoMovieService;
 import com.github.carlomicieli.services.MovieService;
+import com.mongodb.WriteConcern;
 
 @Configuration
 @Import({MongoConfiguration.class, TestMongoConfiguration.class})
@@ -47,8 +48,8 @@ public class ApplicationConfig {
 	
 	private @Autowired MongoDbFactory mongoDbFactory;
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
-		return new MongoTemplate(mongoDbFactory);
+		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
+		mongoTemplate.setWriteConcern(WriteConcern.SAFE);
+		return mongoTemplate;
 	}
-	
-
 }

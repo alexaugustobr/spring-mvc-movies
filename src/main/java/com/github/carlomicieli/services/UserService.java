@@ -13,18 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package com.github.carlomicieli.controllers;
+package com.github.carlomicieli.services;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.bson.types.ObjectId;
 
-@Controller
-@RequestMapping("/auth")
-public class AuthController {
+import com.github.carlomicieli.models.MailUser;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
-		return "auth/login";
-	}
+public interface UserService {
+	MailUser findUserById(ObjectId id);
+	MailUser findUserByEmail(String emailAddress);
+	void createUser(MailUser user);
 }

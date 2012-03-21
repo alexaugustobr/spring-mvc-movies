@@ -95,6 +95,22 @@ public class MovieControllerTests {
 		assertNotNull(model.get("newComment"));
 	}
 	
+//	@Test
+//	public void actionAddCommentFailedValidation() {
+//		when(mockResult.hasErrors()).thenReturn(true);
+//		
+//		Comment comment = new Comment();
+//		comment.setContent("AAAA");
+//		ExtendedModelMap model = new ExtendedModelMap();
+//		
+//		String viewName = movieController.addComment("movie-slug", comment, mockResult, model);
+//		assertEquals("redirect:../movie-slug", viewName);
+		
+//		Comment c = (Comment)model.get("newComment");
+//		assertNotNull(c);
+//		assertEquals("AAAA", c.getContent());
+//	}
+	
 	// GET /movies
 
 	@Test

@@ -20,21 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController {
+@RequestMapping("/error")
+public class ErrorController {
+	
+	@RequestMapping(value = "/notfound", method = RequestMethod.GET)
+	public String notFound() {
+		return "errors/notfound";
+	}
 
-	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String index() {
-		return "home/index";
-    }
-	
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about() {
-		return "home/about";
+	@RequestMapping(value = "/denied", method = RequestMethod.GET)
+	public String accessDenied() {
+		return "errors/denied";
 	}
 	
-	@RequestMapping(value = "/default", method = RequestMethod.GET)
-	public String defaultPage() {
-		return "home/index";
-	}
-	 
 }
