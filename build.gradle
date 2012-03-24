@@ -1,16 +1,31 @@
-//build.gradle
-sourceCompatibility = JavaVersion.VERSION_1_6
-
 // ====================== plugins ====================== //
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'eclipse-wtp'
+apply plugin: 'groovy'
 apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
 
-// ====================== tasks ======================= //
-task "create-dirs" << {
-   sourceSets.all*.java.srcDirs*.each { it.mkdirs() }
-   sourceSets.all*.resources.srcDirs*.each { it.mkdirs() }
+group = 'com.github.carlomicieli'
+description = 'A sample application'
+
+version = "1.0.0-SNAPSHOT"
+
+// jetty
+httpPort = 9090
+
+// ====================== sets ======================= //
+
+sourceSets {
+    componentTest {
+		java.srcDir file('src/componentTest/java')
+        resources.srcDir file('src/componentTest/resources')
+    }
+
+    integrationTest {
+		groovy.srcDir file('src/integrationTest/groovy')
+        java.srcDir file('src/integrationTest/java')
+        resources.srcDir file('src/integrationTest/resources')
+    }
 }
 
 // ====================== repositories ================= //
@@ -20,48 +35,100 @@ repositories {
 }
 
 // ====================== dependencies ================= //
-springVersion = "3.1.1.RELEASE"
-slf4jVersion = "1.5.10"
-log4jVersion = "1.2.15"
-servletVersion = "2.5"
-jspVersion = "2.1"
+def springVersion = "3.1.1.RELEASE"
+def securityVersion = "3.1.0.RELEASE"
+def slf4jVersion = "1.5.10"
+def log4jVersion = "1.2.15"
+def servletVersion = "2.5"
+def jspVersion = "2.1"
 dependencies {
-	runtime("org.springframework:spring-context:${springVersion}") {
+	// spring framework
+	compile("org.springframework:spring-context:${springVersion}") {
 		exclude group: "commons-logging", module: "commons-logging"
 	}
 	
-	runtime "org.springframework:spring-webmvc:${springVersion}"
+	// spring mvc
+	compile "org.springframework:spring-webmvc:${springVersion}"
+	
+	// spring security
+	compile("org.springframework.security:spring-security-config:${securityVersion}") {
+		exclude group: "commons-logging", module: "commons-logging"
+	}
+	compile("org.springframework.security:spring-security-web:${securityVersion}") {
+		exclude group: "commons-logging", module: "commons-logging"
+	}
+	compile "org.springframework.security:spring-security-taglibs:${securityVersion}"
 
-	//Logging
+	// logging
 	runtime "org.slf4j:slf4j-api:${slf4jVersion}"
 	runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
 	runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-		
-	runtime("log4j:log4j:${log4jVersion}") {
-		exclude group: "javax.mail", module: "mail"
-		exclude group: "javax.jms", module: "jms"
-		exclude group: "com.sun.jdmk", module: "jmxtools"
-		exclude group: "com.sun.jmx", module: "jmxri"
-	}
-	
-	//Servlet Api
+
+	// Servlet Api
 	runtime "javax.servlet:servlet-api:${servletVersion}"
 	runtime "javax.servlet:jstl:1.2"
 	runtime "javax.servlet.jsp:jsp-api:${jspVersion}"
 
-	//Sitemesh
+	// Sitemesh
 	runtime "opensymphony:sitemesh:2.4.2"
 	
-	//JSR 303 with Hibernate Validator
+	// Thymeleaf
+	runtime "org.thymeleaf:thymeleaf:2.0.4"
+	runtime "org.thymeleaf:thymeleaf-spring3:2.0.4"
+	
+	// JSR 303 with Hibernate Validator
 	runtime "javax.validation:validation-api:1.0.0.GA"
 	runtime "org.hibernate:hibernate-validator:4.0.2.GA"
 
-	//Mongodb
-	runtime "org.springframework.data:spring-data-mongodb:1.0.1.RELEASE"
+	// mongodb
+	runtime "org.springframework.data:spring-data-mongodb-dist:1.0.1.RELEASE"
 	runtime "org.mongodb:mongo-java-driver:2.7.3"
 
-	//Testing
-	testRuntime "junit:junit:4.10"
-	testRuntime "org.mockito:mockito-all:1.9.0"
-	testRuntime "org.springframework:spring-test:${springVersion}"
+	// unit testing
+	testCompile "junit:junit:4.10",
+		"org.mockito:mockito-all:1.9.0",
+		"org.springframework:spring-test:${springVersion}"
+
+	// component tests
+	componentTestCompile sourceSets.main.output
+    componentTestCompile configurations.testCompile
+    componentTestCompile sourceSets.test.output
+    componentTestRuntime configurations.testRuntime
+
+	// integration tests
+	groovy "org.codehaus.groovy:groovy-all:1.8.6"
+	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
+		"org.seleniumhq.selenium:selenium-api:2.20.0",
+		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
+	integrationTestCompile sourceSets.main.output
+    integrationTestCompile configurations.testCompile
+    integrationTestCompile sourceSets.test.output
+    integrationTestRuntime configurations.testRuntime
 }
+
+// ====================== tasks ======================== //
+
+// directory creation
+task createDirs(description: 'Creates the directory for the project.', group: 'Project') << {
+	sourceSets*.java.srcDirs*.each { it.mkdirs() }
+	sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+	sourceSets.integrationTest*.groovy.srcDirs*.each { it.mkdirs() }
+	
+	[webAppDirName, webAppDirName + '/META-INF', webAppDirName + '/WEB-INF'].each { file(it).mkdirs() }
+}
+
+// component testing:	the same as unit testing except that all stubs
+//						and simulators are replaced with the real thing.
+task componentTest(description: 'Runs the component tests.', group: 'Verification', type: Test) {
+	testClassesDir = sourceSets.componentTest.output.classesDir
+	classpath = sourceSets.componentTest.runtimeClasspath
+}
+check.dependsOn componentTest
+
+// integration testing: the application is deployed to the web container
+task integrationTest(description: 'Runs the integration tests.', group: 'Verification', type: Test, dependsOn: jettyRun) {
+	testClassesDir = sourceSets.integrationTest.output.classesDir
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	systemProperties['jar.path'] = jar.archivePath
+}
+check.dependsOn integrationTest
