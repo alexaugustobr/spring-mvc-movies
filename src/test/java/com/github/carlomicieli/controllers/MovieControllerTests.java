@@ -74,7 +74,6 @@ public class MovieControllerTests {
 	public void viewRenderNotFoundViewWhenMovieNotFound() {
 		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(null);
 		
-		
 		String viewName = movieController.view("movie-slug", mockModel);
 		assertEquals("errors/notfound", viewName);
 	}
