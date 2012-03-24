@@ -30,12 +30,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.security.SecurityService;
 import com.github.carlomicieli.services.UserService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuthControllerTests {
 	@Mock private Model mockModel;
 	@Mock private UserService mockService;
+	@Mock private SecurityService mockSecService;
 	@Mock private BindingResult mockResult;
 	
 	@InjectMocks private AuthController authController;
@@ -74,6 +76,8 @@ public class AuthControllerTests {
 		assertEquals("home/index", viewName);
 		assertEquals(true, user.isEnabled());
 		assertEquals("[ROLE_USER]", user.getRoles().toString());
+		
+		verify(mockSecService, times(1)).autenticate(eq(user));
 	}
 	
 	@Test
