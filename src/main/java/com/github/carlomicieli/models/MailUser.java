@@ -15,6 +15,7 @@ limitations under the License.
 */
 package com.github.carlomicieli.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class MailUser {
-	
+public class MailUser implements Serializable {
+	private static final long serialVersionUID = 3346614940089556537L;
+
 	@Id
 	private ObjectId id;
 	
