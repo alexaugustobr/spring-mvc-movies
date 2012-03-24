@@ -64,7 +64,7 @@ public class AuthController {
 		userService.createUser(user);
 		
 		// automatically sign in the new user
-		securityService.autenticate(user);
+		securityService.authenticate(user);
 		
 		return "home/index";		
 	}

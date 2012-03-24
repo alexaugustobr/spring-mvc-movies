@@ -77,7 +77,7 @@ public class AuthControllerTests {
 		assertEquals(true, user.isEnabled());
 		assertEquals("[ROLE_USER]", user.getRoles().toString());
 		
-		verify(mockSecService, times(1)).autenticate(eq(user));
+		verify(mockSecService, times(1)).authenticate(eq(user));
 	}
 	
 	@Test

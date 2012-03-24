@@ -18,6 +18,6 @@ package com.github.carlomicieli.security;
 import com.github.carlomicieli.models.MailUser;
 
 public interface SecurityService {
-	void autenticate(MailUser user);
-	MailUser getCurrentUser();
+	void authenticate(MailUser user);
+	MailUserDetails getCurrentUser();
 }

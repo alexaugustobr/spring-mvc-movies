@@ -26,7 +26,7 @@ import com.github.carlomicieli.models.MailUser;
 public class SpringSecurityService implements SecurityService {
 
 	@Override
-	public void autenticate(MailUser user) {
+	public void authenticate(MailUser user) {
 		MailUserDetails det = new MailUserDetails(user);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(det,
 				det.getPassword(),
@@ -35,9 +35,8 @@ public class SpringSecurityService implements SecurityService {
 	}
 
 	@Override
-	public MailUser getCurrentUser() {
-		// TODO Auto-generated method stub
-		return null;
+	public MailUserDetails getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication == null ? null : (MailUserDetails) authentication.getPrincipal();
 	}
-
 }
