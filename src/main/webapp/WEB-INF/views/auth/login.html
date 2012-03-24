@@ -8,10 +8,14 @@
 			<div class="ym-g50 ym-gl">
 				<div class="ym-gbox-left">
 					<h3 th:text="#{login.title}">Login</h3>
+					<p>	
+						New user? <a href="#" th:href="@{/auth/signup}">Sign up here</a> (FREE)
+					</p>
+					
 					<div th:if="${param?.login_error}" class="box error">
 						<span th:text="#{error.login.not.valid}"></span>
 					</div>
-							
+					
 					<form class="ym-form" action="#" th:action="@{/spring-mvc-movies/j_spring_security_check}" method="post">
 						<div class="ym-fbox-text">
 							<label for="j_username" th:text="#{login.username}">Username:</label>

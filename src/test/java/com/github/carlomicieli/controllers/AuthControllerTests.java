@@ -62,7 +62,7 @@ public class AuthControllerTests {
 	public void signupFillTheModel() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		authController.signUp(model);
-		assertNotNull("The model is not filled", model.get("user"));
+		assertNotNull("The model is not filled", model.get("mailUser"));
 	}
 	
 	@Test
@@ -70,7 +70,7 @@ public class AuthControllerTests {
 		when(mockResult.hasErrors()).thenReturn(false);
 		MailUser user = new MailUser();
 		
-		String viewName = authController.createUser(user, mockResult, mockModel);
+		String viewName = authController.createUser(user, mockResult);
 		assertEquals("home/index", viewName);
 		assertEquals(true, user.isEnabled());
 		assertEquals("[ROLE_USER]", user.getRoles().toString());
@@ -78,19 +78,16 @@ public class AuthControllerTests {
 	
 	@Test
 	public void createRendersTheCorrectViewWhenTheUserHasErrors() {
-		when(mockResult.hasErrors()).thenReturn(true);
-		ExtendedModelMap model = new ExtendedModelMap();
-		
-		String viewName = authController.createUser(new MailUser(), mockResult, model);
+		when(mockResult.hasErrors()).thenReturn(true);		
+		String viewName = authController.createUser(new MailUser(), mockResult);
 		assertEquals("auth/signup", viewName);
-		assertNotNull("The model is not filled", model.get("user"));
 	}
 	
 	@Test
 	public void createCallsTheServiceToSave() {
 		when(mockResult.hasErrors()).thenReturn(false);
 		MailUser user = new MailUser();
-		authController.createUser(user, mockResult, mockModel);
+		authController.createUser(user, mockResult);
 		verify(mockService, times(1)).createUser(eq(user));
 	}
 }

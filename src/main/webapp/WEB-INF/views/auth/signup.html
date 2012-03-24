@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Signup</title>
+</head>
+<body>
+		<div class="ym-grid linearize-level-1">
+			<div class="ym-g50 ym-gl">
+				<div class="ym-gbox-left">
+					<h3 th:text="#{signup.title.label}">New user? Sign up</h3>
+					<form class="ym-form" th:object="${mailUser}" action="#" th:action="@{/auth/signup}" method="post">
+						<div  th:if="${#fields.hasErrors('*')}" class="box error">
+							<ul>
+								<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input
+									is incorrect</li>
+							</ul>
+						</div>
+						
+						<div th:class="${#fields.hasErrors('emailAddress')}? 'ym-fbox-text ym-error' : 'ym-fbox-text'">
+						  	<label for="emailAddress" th:text="#{signup.email.label}">Email address</label>
+						  	<input type="text" name="emailAddress" id="emailAddress" size="50" />
+						</div>
+						<div th:class="${#fields.hasErrors('displayName')}? 'ym-fbox-text ym-error' : 'ym-fbox-text'">
+						  	<label for="displayName" th:text="#{signup.displayName.label}">displayName</label>
+						  	<input type="text" name="displayName" id="displayName" size="50" />
+						</div>
+						<div th:class="${#fields.hasErrors('password')}? 'ym-fbox-text ym-error' : 'ym-fbox-text'">
+						  	<label for="password" th:text="#{signup.password.label}">password</label>
+						  	<input type="password" name="password" id="password" size="50" />
+						</div>
+						<div class="ym-fbox-button">
+							<input type="submit" class="ym-button" value="submit" id="submit" name="submit" th:value="#{signup.submit.label}" />
+							<input type="reset" class="ym-button" value="reset" id="reset" name="reset" th:value="#{signup.reset.label}" />
+						</div>
+					</form>
+				</div>
+				</div>
+			</div>
+			<div class="ym-g50 ym-gr">
+				<div class="ym-gbox-right">
+					
+			</div>
+		</div>
+</body>
+</html>

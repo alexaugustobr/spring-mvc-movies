@@ -18,6 +18,9 @@ package com.github.carlomicieli.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.security.MailUserDetails;
 import com.github.carlomicieli.services.UserService;
 
 @Controller
@@ -46,14 +50,13 @@ public class AuthController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signUp(Model model) {
-		model.addAttribute("user", new MailUser());
+		model.addAttribute(new MailUser());
 		return "auth/signup";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String createUser(@Valid MailUser user, BindingResult result, Model model) {
+	public String createUser(@Valid MailUser user, BindingResult result) {
 		if (result.hasErrors()) {
-			model.addAttribute("user", user);
 			return "auth/signup";
 		}
 		
@@ -61,6 +64,13 @@ public class AuthController {
 		user.init();
 		
 		userService.createUser(user);
+		
+		// automatically sign in the new user
+		MailUserDetails det = new MailUserDetails(user);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(det,
+				det.getPassword(),
+				det.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 		return "home/index";		
 	}
 }
