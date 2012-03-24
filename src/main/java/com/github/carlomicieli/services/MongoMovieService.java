@@ -54,8 +54,6 @@ public class MongoMovieService implements MovieService {
 	}
 
 	public void save(Movie movie) {
-		movie.makeSlug();
-		
 		mongoTemplate.save(movie);
 	}
 

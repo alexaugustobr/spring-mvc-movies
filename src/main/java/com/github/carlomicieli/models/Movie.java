@@ -16,6 +16,7 @@ limitations under the License.
 package com.github.carlomicieli.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -50,7 +51,11 @@ public class Movie {
 	private String genre;
 	
 	private String rating;
+	private byte[] poster;
+	private byte[] thumb;
 	
+	private Date savedAt;
+
 	private List<String> tags;
 	private List<Comment> comments;
 	
@@ -70,6 +75,14 @@ public class Movie {
 	public void addComment(Comment comment) {
 		if (comments==null) comments = new ArrayList<Comment>();
 		comments.add(comment);
+	}
+	
+	public Date getSavedAt() {
+		return savedAt;
+	}
+
+	public void setSavedAt(Date savedAt) {
+		this.savedAt = savedAt;
 	}
 	
 	public String getDirector() {
@@ -124,8 +137,24 @@ public class Movie {
 	public String toString() {
 		return String.format("[%s] %s - %s", getId(), getDirector(), getTitle());
 	}
+	
+	public String buildSlug() {
+		return Slug.makeSlug(getTitle());
+	}
 
-	public void makeSlug() {
-		setSlug(Slug.makeSlug(getTitle()));
+	public byte[] getPoster() {
+		return poster;
+	}
+	
+	public void setPoster(byte[] poster) {
+		this.poster = poster;
+	}
+	
+	public byte[] getThumb() {
+		return thumb;
+	}
+	
+	public void setThumb(byte[] thumb) {
+		this.thumb = thumb;
 	}
 }

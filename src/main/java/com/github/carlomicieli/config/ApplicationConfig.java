@@ -26,6 +26,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import com.github.carlomicieli.models.MovieBeforeSaveListener;
 import com.github.carlomicieli.services.MongoMovieService;
 import com.github.carlomicieli.services.MovieService;
 import com.mongodb.WriteConcern;
@@ -40,6 +41,11 @@ public class ApplicationConfig {
 		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
 		ms.setBasenames(new String[] { "locale/Messages", "locale/Errors" });
 		return ms;
+	}
+	
+	// hooks an event before movies are persisted
+	public @Bean MovieBeforeSaveListener movieBeforeSaveListener() {
+		return new MovieBeforeSaveListener();
 	}
 	
 	public @Bean MovieService movieService() {

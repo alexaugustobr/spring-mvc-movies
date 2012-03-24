@@ -93,16 +93,10 @@ public class MovieTests {
 		movie.setDirector("John Landis");
 		movie.setTitle("The Blues brothers");
 		
-		movie.makeSlug();
+		movie.setSlug(movie.buildSlug());
 		assertEquals("the-blues-brothers", movie.getSlug());		
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void calculatingDefaultSlug() {
-		Movie movie = new Movie();
-		movie.makeSlug();
-	}
-	
+
 	@Test
 	public void addingTagToMovies() {
 		Movie m = new Movie();
