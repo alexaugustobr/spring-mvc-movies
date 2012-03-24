@@ -56,22 +56,27 @@ public class MovieControllerTests {
 	}
 	
 	// GET /movies/{slug}
-	
+
 	@Test
-	public void actionViewProduceTheCorrectViewName() {
-		String viewName = movieController.view("movie-slug", mockModel);
-		assertEquals("movie/view", viewName);
-	}
-	
-	@Test
-	public void actionViewFillTheModel() {
+	public void viewShowTheMovieIfFound() {
 		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(new Movie());
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		movieController.view("movie-slug", model);
+		String viewName = movieController.view("movie-slug", model);
+		
+		assertEquals("movie/view", viewName);
 		
 		assertNotNull(model.get("movie"));
 		assertNotNull(model.get("newComment"));
+	}
+	
+	@Test
+	public void viewRenderNotFoundViewWhenMovieNotFound() {
+		when(mockService.findBySlug(eq("movie-slug"))).thenReturn(null);
+		
+		
+		String viewName = movieController.view("movie-slug", mockModel);
+		assertEquals("errors/notfound", viewName);
 	}
 	
 	// GET /movies/{movieId}/addcomment

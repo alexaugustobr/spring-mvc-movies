@@ -98,6 +98,9 @@ public class MovieController {
 	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.GET)
 	public String view(@PathVariable String movieSlug, Model model) {
 		Movie movie = movieService.findBySlug(movieSlug);
+		if (movie==null) {
+			return "errors/notfound";
+		}
 		model.addAttribute(movie);	
 		model.addAttribute("newComment", new Comment());
 		return "movie/view";
