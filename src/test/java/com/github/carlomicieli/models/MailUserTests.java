@@ -36,7 +36,7 @@ import com.github.carlomicieli.ValidatorConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
 	ValidatorConfiguration.class})
-public class UserTests {
+public class MailUserTests {
 	private @Autowired LocalValidatorFactoryBean validatorFactory;
 	private Validator validator;
 	
@@ -52,7 +52,8 @@ public class UserTests {
 		MailUser user = new MailUser();
 		user.setEmailAddress("joey@ramones.com");
 		user.setPassword("secret");
-		user.addRole("ROLE_USER");		
+		user.setDisplayName("joey");
+		user.addRole("ROLE_USER");	
 		Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
 		assertEquals(0, violations.size());
 	}
@@ -60,11 +61,12 @@ public class UserTests {
 	@Test
 	public void validatingNotValidUser() {
 		MailUser user = new MailUser();
-		user.setEmailAddress("joey AT ramones");
-		user.setPassword("");
+		user.setEmailAddress("joey AT ramones"); // not valid(1)
+		user.setPassword(""); // not valid(2)
+		user.setDisplayName(""); // not valid(3)
 				
 		Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
-		assertEquals(2, violations.size());
+		assertEquals(3, violations.size());
 	}
 	
 	@Test
@@ -77,5 +79,14 @@ public class UserTests {
 
 		assertEquals(2, user.getRoles().size());
 		assertEquals("[ROLE_USER, ROLE_ADMIN]", user.getRoles().toString());
+	}
+	
+	@Test
+	public void initializeANewUser() {
+		MailUser user = new MailUser();
+		user.init();
+		
+		assertEquals(true, user.isEnabled());
+		assertEquals("[ROLE_USER]", user.getRoles().toString());
 	}
 }

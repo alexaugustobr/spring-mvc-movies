@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -33,12 +34,20 @@ public class MailUser implements Serializable {
 	@Id
 	private ObjectId id;
 	
-	@Email
+	@NotEmpty(message = "emailAddress.required")
+	@Email(message = "emailAddress.notValid")
+	@Length(min = 0, max = 50, message = "emailAddress.length")
 	@Indexed(unique = true)
 	private String emailAddress;
 	
-	@NotEmpty
+	@NotEmpty(message = "password.required")
+	@Length(min = 0, max = 25, message = "password.length")
 	private String password;
+	
+	@NotEmpty(message = "displayName.required")
+	@Length(min = 0, max = 25, message = "displayName.length")
+	private String displayName;
+	
 	private boolean isEnabled;
 	private List<String> roles;
 		
@@ -82,6 +91,14 @@ public class MailUser implements Serializable {
 		this.roles = roles;
 	}
 
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+	
 	public void addRole(String roleName) {
 		if(roles==null) roles = new ArrayList<String>();
 		roles.add(roleName);
@@ -90,5 +107,10 @@ public class MailUser implements Serializable {
 	public void init() {
 		isEnabled = true;
 		addRole("ROLE_USER");		
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s", getEmailAddress());
 	}
 }
