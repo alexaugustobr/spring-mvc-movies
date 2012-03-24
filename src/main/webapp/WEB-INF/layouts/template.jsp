@@ -48,7 +48,7 @@
 						<sec:authorize access="authenticated" var="authenticated" />
 						<c:choose>
 							<c:when test="${authenticated}">
-									Welcome <sec:authentication property="principal.username" />
+									<span class="highlight">Welcome <sec:authentication property="principal.username" /></span>
 									[<a href="<spring:url value="/logout" htmlEscape="true" />">Logout</a>]
 								</c:when>
 							<c:otherwise>
