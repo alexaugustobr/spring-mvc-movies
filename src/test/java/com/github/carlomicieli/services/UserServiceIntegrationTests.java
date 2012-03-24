@@ -31,7 +31,7 @@ public class UserServiceIntegrationTests extends AbstractIntegrationTests {
 	
 	@Before
 	public void setup() {
-		testHelper.initUsers();
+		//testHelper.initUsers();
 	}
 	
 	@After

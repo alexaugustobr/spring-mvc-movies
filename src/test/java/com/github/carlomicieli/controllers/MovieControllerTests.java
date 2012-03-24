@@ -17,6 +17,7 @@ package com.github.carlomicieli.controllers;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.carlomicieli.models.Comment;
 import com.github.carlomicieli.models.Movie;
@@ -43,6 +47,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MovieControllerTests {
 
+	@Mock private MultipartFile mockFile;
 	@Mock private Model mockModel;
 	@Mock private MovieService mockService;
 	@Mock private BindingResult mockResult;
@@ -137,13 +142,13 @@ public class MovieControllerTests {
 	// GET /movies/new
 	
 	@Test
-	public void actionNewMovieProduceTheCorrectViewName() {
+	public void newMovieProduceTheCorrectViewName() {
 		String viewName = movieController.newMovie(mockModel);
 		assertEquals("movie/new", viewName);
 	}
 	
 	@Test
-	public void actionNewInitializeTheModel() {
+	public void newInitializeTheModel() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		
 		movieController.newMovie(model);
@@ -156,23 +161,25 @@ public class MovieControllerTests {
 	// POST /movies
 
 	@Test
-	public void actionSaveCreateANewMovie() {
+	public void saveCreateANewMovie() throws IOException {
 		Movie movie = new Movie();
 		when(mockResult.hasErrors()).thenReturn(false);
+		when(mockFile.isEmpty()).thenReturn(true);
 		
-		String viewName = movieController.save(movie, mockResult, mockModel);
+		String viewName = movieController.save(movie, mockFile, mockResult, mockModel);
 	
 		assertEquals("redirect:movies", viewName);
 		verify(mockService).save(eq(movie));
 	}
 	
 	@Test
-	public void actionSaveRedirectAfterValidationError() {
+	public void saveRedirectAfterValidationError() throws IOException {
 		Movie movie = new Movie();
 		ExtendedModelMap model = new ExtendedModelMap();
 		when(mockResult.hasErrors()).thenReturn(true);
+		when(mockFile.isEmpty()).thenReturn(true);
 		
-		String viewName = movieController.save(movie, mockResult, model);
+		String viewName = movieController.save(movie, mockFile, mockResult, model);
 		assertEquals("movie/new", viewName);
 		assertTrue("The model doesn't contain the movie that failed the validation",
 				model.containsAttribute("movie"));
@@ -180,6 +187,21 @@ public class MovieControllerTests {
 				model.get("movie") instanceof Movie);
 		
 		verify(mockService, times(0)).save(eq(movie));
+	}
+	
+	@Test
+	public void savePersistThePosterImages() throws IOException {
+		Movie movie = new Movie();
+		MockMultipartFile file = new MockMultipartFile("poster.png", 
+			"poster.png",
+			MediaType.IMAGE_PNG.toString(), 
+			new byte[]{1, 2, 3});
+		when(mockResult.hasErrors()).thenReturn(false);
+		
+		movieController.save(movie, file, mockResult, mockModel);
+		
+		assertNotNull("Poster is empty", movie.getPoster());
+		assertNotNull("Thumb is empty", movie.getThumb());
 	}
 	
 	// DELETE /movies/{movieId}
@@ -226,21 +248,23 @@ public class MovieControllerTests {
 	// PUT /movies/{movieId}/edit
 	
 	@Test
-	public void actionUpdateSaveTheMovie() {
+	public void actionUpdateSaveTheMovie() throws IOException {
 		when(mockResult.hasErrors()).thenReturn(false);
+		when(mockFile.isEmpty()).thenReturn(true);
 		Movie movie = new Movie();
 		
-		String viewName = movieController.update(movie, mockResult);
-		assertEquals("redirect:../movies", viewName);
+		String viewName = movieController.update(movie, mockFile, mockResult);
+		assertEquals("redirect:../../movies", viewName);
 		verify(mockService).save(eq(movie));
 	}
 	
 	@Test
-	public void actionUpdateDontSaveTheMovieAfterFailedValidation() {
+	public void actionUpdateDontSaveTheMovieAfterFailedValidation() throws IOException {
 		when(mockResult.hasErrors()).thenReturn(true);
+		when(mockFile.isEmpty()).thenReturn(true);
 		Movie movie = new Movie();
 		
-		String viewName = movieController.update(movie, mockResult);
+		String viewName = movieController.update(movie, mockFile, mockResult);
 		assertEquals("movie/edit", viewName);
 		verify(mockService, times(0)).save(eq(movie));
 	}

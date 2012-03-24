@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -33,6 +34,12 @@ import com.github.carlomicieli.converters.MovieConverter;
 public class WebConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	private ApplicationConfig applicationConfig;
+	
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		MovieConverter movieConverter = new MovieConverter(applicationConfig.movieService());
+		registry.addConverter(movieConverter);
+	}
 	
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -66,9 +73,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 	
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		MovieConverter movieConverter = new MovieConverter(applicationConfig.movieService());
-		registry.addConverter(movieConverter);
+	// bean for files upload. 
+	// commons-fileupload is required in the classpath
+	public @Bean CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(1024 * 512); // 512Kb
+		return multipartResolver;
 	}
 }

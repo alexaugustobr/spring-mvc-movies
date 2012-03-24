@@ -15,6 +15,7 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.validation.Valid;
@@ -28,11 +29,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.carlomicieli.models.Comment;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.services.MovieService;
 import com.github.carlomicieli.utility.PaginatedResult;
+
+import static com.github.carlomicieli.utility.ImageUtils.*;
 
 @Controller
 @RequestMapping("/movies")
@@ -61,16 +65,25 @@ public class MovieController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Movie movie, BindingResult result, Model model) {
+	public String save(@Valid @ModelAttribute Movie movie, 
+			@RequestParam("file") MultipartFile file,
+			BindingResult result, 
+			Model model)  throws IOException {
+		
 		if (result.hasErrors()) {
 			model.addAttribute(movie);
 			return "movie/new";
 		}
 		
+		if (!file.isEmpty()) {
+			movie.setPoster(convert(file));
+			movie.setThumb(createThumbnail(file, 100));
+		}
+		
 		movieService.save(movie);
 		return "redirect:movies";
 	}
-	
+
 	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.DELETE)
 	public String delete(@PathVariable String movieSlug) {
 		Movie movie = movieService.findBySlug(movieSlug);
@@ -85,14 +98,21 @@ public class MovieController {
 		return "movie/edit";
 	}
 	
-	@RequestMapping(value = "/{movie}", method = RequestMethod.PUT)
-	public String update(@Valid @ModelAttribute Movie movie, BindingResult result) {
+	@RequestMapping(value = "/{movie}/update", method = RequestMethod.POST)
+	public String update(@Valid @ModelAttribute Movie movie, 
+			@RequestParam("file") MultipartFile file,
+			BindingResult result) throws IOException {
 		if (result.hasErrors()) {
 			return "movie/edit";
 		}
 		
+		if (!file.isEmpty()) {
+			movie.setPoster(convert(file));
+			movie.setThumb(createThumbnail(file, 100));
+		}
+		
 		movieService.save(movie);
-		return "redirect:../movies";
+		return "redirect:../../movies";
 	}
 
 	@RequestMapping(value = "/{movieSlug}", method = RequestMethod.GET)

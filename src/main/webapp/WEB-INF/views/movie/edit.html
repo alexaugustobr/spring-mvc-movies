@@ -8,14 +8,20 @@
 		<div class="ym-g25 ym-gl">
 			<div class="ym-gbox-left">
 				<a href="#" th:href="@{/movies}" th:text="#{back.to.list}" class="ym-button ym-back">Back</a>
+				
+				<p>
+					<img width="200px" src="#" th:src="@{'/images/posters/' + ${movie.id}}"/>
+				</p>
 			</div>
 		</div>
 		<div class="ym-g75 ym-gl">
 			<div class="ym-gbox-right">
-				<h3 th:text="#{create.title}">Edit movie</h3>
+				<h3 th:text="#{edit.title}">Edit movie</h3>
 
-				<form action="#" th:object="${movie}" th:action="@{'/movies/' + ${movie?.id}}" method="post" class="ym-form">
-					<input type="hidden" name="_method" value="PUT"/>
+				<form action="#" th:object="${movie}" 
+					enctype="multipart/form-data"
+					th:action="@{'/movies/' + ${movie?.id} + '/update'}" method="post" class="ym-form">
+
 					<ul th:if="${#fields.hasErrors('*')}" class="error">
 						<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input
 							is incorrect</li>
@@ -45,6 +51,9 @@
 							type="text" th:field="*{rating}"
 							th:class="${#fields.hasErrors('rating')}? 'error'" />
 					</div>
+					<div class="ym-fbox-text">
+						<input type="file" name="file" /> 
+					</div>					
 					<div class="ym-fbox-button">
 						<input type="submit" class="ym-button" value="submit" id="submit"
 							name="submit" th:value="#{save.label}" /> 

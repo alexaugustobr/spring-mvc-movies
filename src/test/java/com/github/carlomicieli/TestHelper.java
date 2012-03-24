@@ -19,11 +19,11 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.models.MailUser;
-import com.mongodb.DBCollection;
 
 @Component("testHelper")
 public class TestHelper {
@@ -38,12 +38,8 @@ public class TestHelper {
 		mongoTemplate.insert(movies, Movie.class);
 	}
 	
-	public void initMovies() {
-		mongoTemplate.createCollection(Movie.class);
-	}
-	
 	public void cleanupMovies() {
-		mongoTemplate.dropCollection(Movie.class);
+		mongoTemplate.remove(new Query(), Movie.class);
 	}
 	
 	public Movie insertMovie(String director, String title) {
@@ -54,21 +50,12 @@ public class TestHelper {
 		return m;
 	}
 	
-	public void initUsers() {
-		DBCollection userColl = mongoTemplate.getCollection("users");
-		
-		
-		mongoTemplate.dropCollection(MailUser.class);
-		@SuppressWarnings("unused")
-		DBCollection coll = mongoTemplate.createCollection(MailUser.class);
-	}
-	
-	public void fillUsers(Collection<MailUser> users) {
+	public void initUsers(Collection<MailUser> users) {
 		mongoTemplate.insert(users, MailUser.class);
 	}
 	
 	public void cleanupUsers() {
-		mongoTemplate.dropCollection(MailUser.class);
+		mongoTemplate.remove(new Query(), MailUser.class);
 	}
 	
 	public MailUser insertUser(String email, String password, String role) {

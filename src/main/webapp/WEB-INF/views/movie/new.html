@@ -15,6 +15,7 @@
 				<h3 th:text="#{create.title}">New movie</h3>
 
 				<form action="#" th:object="${movie}" th:action="@{/movies}"
+					enctype="multipart/form-data"
 					method="post" class="ym-form">
 					<ul th:if="${#fields.hasErrors('*')}" class="error">
 						<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input
@@ -44,6 +45,9 @@
 							th:text="#{movie.rating.label}">Rating:</label> <input
 							type="text" th:field="*{rating}"
 							th:class="${#fields.hasErrors('rating')}? 'error'" />
+					</div>
+					<div class="ym-fbox-text">
+						<input type="file" name="file" /> 
 					</div>
 					<div class="ym-fbox-button">
 						<input type="submit" class="ym-button" value="submit" id="submit"
