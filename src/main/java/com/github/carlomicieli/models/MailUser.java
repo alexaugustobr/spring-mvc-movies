@@ -36,10 +36,11 @@ public class MailUser implements Serializable {
 	@Email
 	@Indexed(unique = true)
 	private String emailAddress;
+	
 	@NotEmpty
 	private String password;
 	private boolean isEnabled;
-	private List<String> roles;	
+	private List<String> roles;
 		
 	public ObjectId getId() {
 		return id;
@@ -84,5 +85,10 @@ public class MailUser implements Serializable {
 	public void addRole(String roleName) {
 		if(roles==null) roles = new ArrayList<String>();
 		roles.add(roleName);
+	}
+
+	public void init() {
+		isEnabled = true;
+		addRole("ROLE_USER");		
 	}
 }

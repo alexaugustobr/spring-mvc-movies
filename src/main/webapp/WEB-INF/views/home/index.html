@@ -9,19 +9,10 @@
 				<div class="ym-cbox">
 					<section class="box info">
 						<h2 th:text="#{home.welcome}">Welcome to Spring Movies!</h2>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-							sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-							aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
-							duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-							takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-							dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-							eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-							sed diam voluptua. At vero eos et accusam et justo duo dolores et
-							ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							</p>
+						<p th:text="#{home.presentation}"></p>
 					</section>
 					<section class="ym-grid linearize-level-2">
-						<article class="ym-g50 ym-gl">
+						<article class="ym-g40 ym-gl">
 							<div class="ym-gbox">
 								<h3>Browse movies</h3>
 								<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
@@ -32,30 +23,27 @@
 									ipsum dolor sit amet, consetetur sadipscing elitr.</p>
 							</div>
 						</article>
-						<article class="ym-g50 ym-gr">
+						<article class="ym-g60 ym-gr">
 							<div class="ym-gbox">
-								<!-- content -->
-								<h3>Find or host an event</h3>
-								<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-									sed diam nonumy eirmod tempor invidunt ut labore et dolore
-									magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-									et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-									sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-									ipsum dolor sit amet, consetetur sadipscing elitr.</p>
-							</div>
-						</article>
-					</section>
-					<section class="ym-grid linearize-level-2">
-						<article class="ym-g50 ym-gl">
-							<div class="ym-gbox">
-								<!-- content -->
-								<h3>Ready to start? Sign in now</h3>
-								<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-									sed diam nonumy eirmod tempor invidunt ut labore et dolore
-									magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-									et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-									sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-									ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+								<h3 th:text="#{signup.title.label}">New user? Sign up</h3>
+								<form class="ym-form">
+									<div class="ym-fbox-text">
+									  	<label for="emailAddress" th:text="#{email.label}">Email address</label>
+									  	<input type="text" name="emailAddress" id="emailAddress" size="50" />
+									</div>
+									<div class="ym-fbox-text">
+									  	<label for="displayName" th:text="#{displayName.label}">displayName</label>
+									  	<input type="text" name="displayName" id="displayName" size="50" />
+									</div>
+									<div class="ym-fbox-text">
+									  	<label for="password" th:text="#{password.label}">password</label>
+									  	<input type="password" name="password" id="password" size="50" />
+									</div>
+									<div class="ym-fbox-button">
+										<input type="submit" class="ym-button" value="submit" id="submit" name="submit" />
+										<input type="reset" class="ym-button" value="reset" id="reset" name="reset" />
+									</div>
+								</form>
 							</div>
 						</article>
 					</section>

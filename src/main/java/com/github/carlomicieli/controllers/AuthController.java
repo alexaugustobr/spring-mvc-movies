@@ -15,16 +15,52 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.services.UserService;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
+	
+	private UserService userService;
+	
+	@Autowired
+	public AuthController(UserService userService) {
+		this.userService = userService;
+	}
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "auth/login";
+	}
+
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signUp(Model model) {
+		model.addAttribute("user", new MailUser());
+		return "auth/signup";
+	}
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String createUser(@Valid MailUser user, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("user", user);
+			return "auth/signup";
+		}
+		
+		// set the default values for the user
+		user.init();
+		
+		userService.createUser(user);
+		return "home/index";		
 	}
 }
