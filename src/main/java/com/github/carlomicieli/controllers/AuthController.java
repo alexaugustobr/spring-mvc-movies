@@ -18,6 +18,7 @@ package com.github.carlomicieli.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,7 @@ public class AuthController {
 	
 	private UserService userService;
 	private @Autowired SecurityService securityService;
+	private @Autowired PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	public AuthController(UserService userService) {
@@ -61,6 +63,7 @@ public class AuthController {
 		// set the default values for the user
 		user.init();
 		
+		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
 		userService.createUser(user);
 		
 		// automatically sign in the new user
