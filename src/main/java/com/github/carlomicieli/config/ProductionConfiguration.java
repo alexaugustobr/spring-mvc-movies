@@ -15,11 +15,12 @@
  */
 package com.github.carlomicieli.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
@@ -32,13 +33,14 @@ import com.mongodb.Mongo;
  */
 @Configuration
 @Profile("production")
-@ImportResource("classpath:/META-INF/spring/properties-config.xml")
+@PropertySource("classpath:META-INF/spring/app.properties")
 public class ProductionConfiguration {
-	private @Value("${mongo.databaseName}") String databaseName;
-	private @Value("${mongo.hostName}") String hostName;
-	private @Value("${mongo.portNumber}") int portNumber;
+	private @Autowired Environment env;
 	
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
-		return new SimpleMongoDbFactory(new Mongo(hostName, portNumber), databaseName);
+		return new SimpleMongoDbFactory(
+				new Mongo(env.getProperty("mongo.hostName"), 
+						env.getProperty("mongo.portNumber", Integer.class)), 
+						env.getProperty("mongo.databaseName"));
 	}
 }
