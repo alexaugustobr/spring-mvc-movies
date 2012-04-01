@@ -4,7 +4,7 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'war'
-apply plugin: 'jetty'
+apply plugin: 'tomcat'
 apply plugin: 'eclipse-wtp'
 
 group = 'com.github.carlomicieli'
@@ -12,12 +12,27 @@ description = 'A sample application with Spring Framework'
 
 version = "1.0.0-SNAPSHOT"
 
-// jetty
-httpPort = 9090
-[jettyRunWar,jettyStop]*.stopKey = "ramones"
-[jettyRunWar,jettyStop]*.stopPort = 9090
-[jettyRun, jettyRunWar]*.configure {
-	contextPath = "/spring-mvc-movies"
+// tomcat
+[tomcatRun, tomcatRunWar]*.httpPort = 9090
+[tomcatRun, tomcatRunWar]*.contextPath = 'spring-mvc-movies'
+[tomcatRun, tomcatRunWar]*.stopKey = 'rosebud'
+
+tomcatStop {
+	stopPort = 9090
+	stopKey = 'rosebud'
+}
+
+buildscript {
+	repositories {
+		add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+			name = 'GitHub'
+			addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+		}
+	}
+
+	dependencies {
+		classpath 'bmuschko:gradle-tomcat-plugin:0.9.1'
+	}
 }
 
 // ====================== sets ======================= //
@@ -63,7 +78,7 @@ repositories {
 def springVersion = "3.1.1.RELEASE"
 def securityVersion = "3.1.0.RELEASE"
 def slf4jVersion = "1.6.1"
-def jettyVersion = "7.1.6.v20100715"
+def tomcatVersion = "7.0.26"
 
 dependencies {
 	// spring framework
@@ -129,13 +144,17 @@ dependencies {
 
 	// integration tests
 	groovy "org.codehaus.groovy:groovy-all:1.8.6"
-	integrationTestCompile "xerces:xercesImpl:2.10.0"
 	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
 		"org.codehaus.geb:geb-core:0.6.3",
 		"org.codehaus.geb:geb-spock:0.6.3",
-		"org.eclipse.jetty:jetty-server:$jettyVersion",
-		"org.eclipse.jetty:jetty-servlet:$jettyVersion",
 		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
+		
+	// tomcat 7
+	tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+		   "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+	tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+		exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+	}
 }
 
 // ====================== eclipse ===================== //
@@ -186,12 +205,12 @@ task integrationTest(description: 'Runs the integration tests.', group: 'Verific
 	classpath = sourceSets.integrationTest.runtimeClasspath
 
 	doFirst {
-		[jettyRun, jettyRunWar]*.daemon = true
-		tasks.jettyRun.execute()
+		[tomcatRun, tomcatRunWar]*.daemon = true
+		tasks.tomcatRun.execute()
 	}
 
 	doLast {
-		tasks.jettyStop.execute()
+		tasks.tomcatStop.execute()
 	}
 }
 check.dependsOn integrationTest
