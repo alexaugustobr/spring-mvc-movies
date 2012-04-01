@@ -1,5 +1,5 @@
 /*
-Copyright [2012] [Carlo P. Micieli]
+Copyright 2012 the original author or authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,11 +34,17 @@ import com.github.carlomicieli.models.MailUser;
 import com.github.carlomicieli.security.SecurityService;
 import com.github.carlomicieli.services.UserService;
 
+/**
+ * 
+ * @author Carlo P. Micieli
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AuthControllerTests {
 	@Mock private Model mockModel;
 	@Mock private UserService mockService;
 	@Mock private SecurityService mockSecService;
+	@Mock private PasswordEncoder mockEncoder;
 	@Mock private BindingResult mockResult;
 	
 	@InjectMocks private AuthController authController;
@@ -91,7 +98,10 @@ public class AuthControllerTests {
 	public void createCallsTheServiceToSave() {
 		when(mockResult.hasErrors()).thenReturn(false);
 		MailUser user = new MailUser();
+		user.setPassword("secret");
+		
 		authController.createUser(user, mockResult);
 		verify(mockService, times(1)).createUser(eq(user));
+		verify(mockEncoder, times(1)).encodePassword(eq("secret"), isNull());
 	}
 }

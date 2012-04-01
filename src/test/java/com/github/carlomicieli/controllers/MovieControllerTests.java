@@ -1,18 +1,18 @@
 /*
-Copyright [2012] [Carlo P. Micieli]
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-	http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+ * Copyright 2012 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.carlomicieli.controllers;
 
 import static org.junit.Assert.assertEquals;
@@ -28,8 +28,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.BindingResult;
@@ -44,6 +42,11 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
+/**
+ * 
+ * @author Carlo P. Micieli
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MovieControllerTests {
 
@@ -189,20 +192,20 @@ public class MovieControllerTests {
 		verify(mockService, times(0)).save(eq(movie));
 	}
 	
-	@Test
-	public void savePersistThePosterImages() throws IOException {
-		Movie movie = new Movie();
-		MockMultipartFile file = new MockMultipartFile("poster.png", 
-			"poster.png",
-			MediaType.IMAGE_PNG.toString(), 
-			new byte[]{1, 2, 3});
-		when(mockResult.hasErrors()).thenReturn(false);
-		
-		movieController.save(movie, file, mockResult, mockModel);
-		
-		assertNotNull("Poster is empty", movie.getPoster());
-		assertNotNull("Thumb is empty", movie.getThumb());
-	}
+//	@Test
+//	public void savePersistThePosterImages() throws IOException {
+//		Movie movie = new Movie();
+//		MockMultipartFile file = new MockMultipartFile("poster.png", 
+//			"poster.png",
+//			MediaType.IMAGE_PNG.toString(), 
+//			new byte[]{1, 2, 3});
+//		when(mockResult.hasErrors()).thenReturn(false);
+//		
+//		movieController.save(movie, file, mockResult, mockModel);
+//		
+//		assertNotNull("Poster is empty", movie.getPoster());
+//		assertNotNull("Thumb is empty", movie.getThumb());
+//	}
 	
 	// DELETE /movies/{movieId}
 	

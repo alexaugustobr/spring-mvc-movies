@@ -1,3 +1,5 @@
+//! /spring-mvc-movies/build.gradle
+
 // ====================== plugins ====================== //
 apply plugin: 'java'
 apply plugin: 'groovy'
@@ -6,38 +8,62 @@ apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
 
 group = 'com.github.carlomicieli'
-description = 'A sample application'
+description = 'A sample application with Spring Framework'
 
 version = "1.0.0-SNAPSHOT"
 
 // jetty
 httpPort = 9090
+[jettyRunWar,jettyStop]*.stopKey = "ramones"
+[jettyRunWar,jettyStop]*.stopPort = 9090
+[jettyRun, jettyRunWar]*.configure {
+	contextPath = "/spring-mvc-movies"
+}
 
 // ====================== sets ======================= //
+configurations {
+	componentTestCompile {
+		extendsFrom testCompile
+	}
+	componentTestRuntime {
+		extendsFrom componentTestCompile, testRuntime
+	}
+
+	integrationTestCompile {
+		extendsFrom testCompile
+	}
+	integrationTestRuntime {
+		extendsFrom integrationTestCompile, testRuntime
+	}
+}
 
 sourceSets {
     componentTest {
 		java.srcDir file('src/componentTest/java')
         resources.srcDir file('src/componentTest/resources')
+		compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.componentTestCompile
+		runtimeClasspath = output + compileClasspath + configurations.componentTestRuntime
     }
 
-    integrationTest {
+	integrationTest {
 		groovy.srcDir file('src/integrationTest/groovy')
-        java.srcDir file('src/integrationTest/java')
         resources.srcDir file('src/integrationTest/resources')
+		compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.integrationTestCompile
+		runtimeClasspath = output + compileClasspath + configurations.integrationTestRuntime
     }
 }
 
 // ====================== repositories ================= //
 repositories {
     mavenCentral()
-    maven {url "http://maven.springframework.org/milestone"}
+    maven {url "http://maven.springframework.org/release"}
 }
 
 // ====================== dependencies ================= //
 def springVersion = "3.1.1.RELEASE"
 def securityVersion = "3.1.0.RELEASE"
 def slf4jVersion = "1.6.1"
+def jettyVersion = "7.1.6.v20100715"
 
 dependencies {
 	// spring framework
@@ -57,6 +83,9 @@ dependencies {
 	}
 	compile "org.springframework.security:spring-security-taglibs:${securityVersion}"
 
+	// spring social
+	compile "org.springframework.social:spring-social-core:1.0.2.RELEASE"
+
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
@@ -71,22 +100,25 @@ dependencies {
 	compile "javax.servlet:jstl:1.2"
 
 	// Sitemesh
-	runtime "opensymphony:sitemesh:2.4.2"
+	compile "opensymphony:sitemesh:2.4.2"
 	
 	// Thymeleaf
-	runtime "org.thymeleaf:thymeleaf:2.0.4"
-	runtime "org.thymeleaf:thymeleaf-spring3:2.0.4"
+	compile "org.thymeleaf:thymeleaf:2.0.4"
+	compile "org.thymeleaf:thymeleaf-spring3:2.0.4"
 	
 	// JSR 303 with Hibernate Validator
-	runtime "javax.validation:validation-api:1.0.0.GA"
-	runtime "org.hibernate:hibernate-validator:4.0.2.GA"
+	compile "javax.validation:validation-api:1.0.0.GA"
+	compile "org.hibernate:hibernate-validator:4.0.2.GA"
+
+	// imgscalr
+	compile "org.imgscalr:imgscalr-lib:4.2"
 
 	// files upload
 	compile "commons-fileupload:commons-fileupload:1.2.2",
 		"commons-io:commons-io:2.1"
 	
 	// mongodb
-	compile "org.springframework.data:spring-data-mongodb-dist:1.0.1.RELEASE"
+	compile "org.springframework.data:spring-data-mongodb:1.0.1.RELEASE"
 	compile "org.mongodb:mongo-java-driver:2.7.3"
 
 	// unit testing
@@ -94,21 +126,32 @@ dependencies {
 		"org.mockito:mockito-all:1.9.0",
 		"org.springframework:spring-test:${springVersion}"
 
-	// component tests
-	componentTestCompile sourceSets.main.output
-    componentTestCompile configurations.testCompile
-    componentTestCompile sourceSets.test.output
-    componentTestRuntime configurations.testRuntime
-
 	// integration tests
 	groovy "org.codehaus.groovy:groovy-all:1.8.6"
 	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
-		"org.seleniumhq.selenium:selenium-api:2.20.0",
+		"org.codehaus.geb:geb-core:0.6.3",
+		"org.codehaus.geb:geb-spock:0.6.3",
+		"org.eclipse.jetty:jetty-server:$jettyVersion",
+		"org.eclipse.jetty:jetty-servlet:$jettyVersion",
 		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
-	integrationTestCompile sourceSets.main.output
-    integrationTestCompile configurations.testCompile
-    integrationTestCompile sourceSets.test.output
-    integrationTestRuntime configurations.testRuntime
+}
+
+// ====================== eclipse ===================== //
+eclipse {
+	// add the integration classpath
+	classpath {
+		plusConfigurations += configurations.componentTestRuntime
+		plusConfigurations += configurations.integrationTestRuntime
+
+		//default settings for dependencies sources/javadoc download:
+		downloadSources = true
+		downloadJavadoc = false
+	}
+	wtp {
+		component {
+			contextPath = 'spring-mvc-movies'
+		}
+	}
 }
 
 // ====================== tasks ======================== //
@@ -122,10 +165,8 @@ task createDirs(description: 'Creates the directory for the project.', group: 'P
 	[webAppDirName, webAppDirName + '/META-INF', webAppDirName + '/WEB-INF'].each { file(it).mkdirs() }
 }
 
-task initProj(description: 'Project init.', group: 'IDE', dependsOn: ['cleanEclipse', 'createDirs', 'eclipse']) << {
-}
-
-task wrapper(type: Wrapper) {
+// wrapper task to create the download script
+task wrapper(type: Wrapper, group: 'Gradle wrapper', description: 'Gradle will be automatically downloaded and used to run the build.') {
 	gradleVersion = '1.0-milestone-9'
 }
 
@@ -138,10 +179,18 @@ task componentTest(description: 'Runs the component tests.', group: 'Verificatio
 check.dependsOn componentTest
 
 // integration testing: the application is deployed to the web container
-task integrationTest(description: 'Runs the integration tests.', group: 'Verification', type: Test, dependsOn: jettyRun) {
+task integrationTest(description: 'Runs the integration tests.', group: 'Verification', type: Test) {
 	testClassesDir = sourceSets.integrationTest.output.classesDir
 	classpath = sourceSets.integrationTest.runtimeClasspath
-	systemProperties['jar.path'] = jar.archivePath
+
+	doFirst {
+		[jettyRun, jettyRunWar]*.daemon = true
+		tasks.jettyRun.execute()
+	}
+
+	doLast {
+		tasks.jettyStop.execute()
+	}
 }
 check.dependsOn integrationTest
 
