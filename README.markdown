@@ -13,7 +13,7 @@ Usage
 
 The project includes a Gradle build script. 
 
-The following command will create an eclipse project:
+The following command will create the Eclipse project:
 
     gradle eclipse
 
