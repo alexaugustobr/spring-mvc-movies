@@ -36,12 +36,12 @@ import com.mongodb.WriteConcern;
  * @author Carlo P. Micieli
  */
 @Configuration
-@Import({ProductionConfiguration.class, TestMongoConfiguration.class})
+@Import({ProductionConfiguration.class, ComponentTestConfig.class})
 @ComponentScan(basePackages = "com.github.carlomicieli")
 @ImportResource("classpath:META-INF/spring/security.xml")
 public class ApplicationConfig {
-	@Bean
-	public MessageSource messageSource() {
+	
+	public @Bean MessageSource messageSource() {
 		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
 		ms.setBasenames(new String[] { "locale/Messages", "locale/Errors" });
 		return ms;
@@ -57,6 +57,7 @@ public class ApplicationConfig {
 	}
 	
 	private @Autowired MongoDbFactory mongoDbFactory;
+	
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
 		mongoTemplate.setWriteConcern(WriteConcern.SAFE);

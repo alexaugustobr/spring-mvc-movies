@@ -1,0 +1,46 @@
+/*
+ * Copyright 2012 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.github.carlomicieli.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import com.mongodb.Mongo;
+
+/**
+ * Configuration class to inject the Mongodb 
+ * instance for component testing.
+ * 
+ * @author Carlo P. Micieli
+ */
+@Configuration
+@Profile("test")
+@PropertySource("classpath:META-INF/spring/test.properties")
+public class ComponentTestConfig {
+	private @Autowired Environment env;
+	
+	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
+		return new SimpleMongoDbFactory(
+				new Mongo(env.getProperty("mongo.hostName"), 
+						env.getProperty("mongo.portNumber", Integer.class)), 
+						env.getProperty("mongo.databaseName"));
+	}
+}

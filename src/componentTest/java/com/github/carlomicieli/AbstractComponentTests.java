@@ -21,8 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.github.carlomicieli.config.ApplicationConfig;
+import com.github.carlomicieli.config.ComponentTestConfig;
 import com.github.carlomicieli.config.ProductionConfiguration;
-import com.github.carlomicieli.config.TestMongoConfiguration;
 
 /**
  * 
@@ -33,7 +33,7 @@ import com.github.carlomicieli.config.TestMongoConfiguration;
 @ContextConfiguration(loader = MockWebApplicationContextLoader.class, classes = {
 	ApplicationConfig.class, 
 	ProductionConfiguration.class,
-	TestMongoConfiguration.class})
+	ComponentTestConfig.class})
 @ActiveProfiles("test")
 @MockWebApplication(name = "appServlet")
 public abstract class AbstractComponentTests {

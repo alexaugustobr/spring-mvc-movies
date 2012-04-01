@@ -33,14 +33,14 @@ import org.springframework.web.context.WebApplicationContext;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface MockWebApplication {
-        /**
-         * The location of the webapp directory relative to your project.
-         * For maven users, this is generally src/main/webapp (default).
-         */
-        String webapp() default "src/main/webapp";
-        
-        /**
-         * The servlet name as defined in the web.xml.
-         */
-        String name();
+    /**
+     * The location of the webapp directory relative to your project.
+     * For maven users, this is generally src/main/webapp (default).
+     */
+    String webapp() default "src/main/webapp";
+    
+    /**
+     * The servlet name as defined in the web.xml.
+     */
+    String name();
 }

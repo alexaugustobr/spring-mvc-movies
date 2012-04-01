@@ -73,6 +73,7 @@ dependencies {
 	
 	// spring mvc
 	compile "org.springframework:spring-webmvc:${springVersion}"
+	compile "org.springframework:spring-web:${springVersion}"
 	
 	// spring security
 	compile("org.springframework.security:spring-security-config:${securityVersion}") {
@@ -128,6 +129,7 @@ dependencies {
 
 	// integration tests
 	groovy "org.codehaus.groovy:groovy-all:1.8.6"
+	integrationTestCompile "xerces:xercesImpl:2.10.0"
 	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
 		"org.codehaus.geb:geb-core:0.6.3",
 		"org.codehaus.geb:geb-spock:0.6.3",
