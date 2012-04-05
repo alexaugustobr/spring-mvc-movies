@@ -15,6 +15,8 @@
  */
 package com.github.carlomicieli.services;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.utility.PaginatedResult;
@@ -30,4 +32,5 @@ public interface MovieService {
 	Movie findBySlug(String slug);
 	void save(Movie movie);
 	void delete(Movie movie);
+	List<Movie> getRecentMovies(int numOfMovies);
 }

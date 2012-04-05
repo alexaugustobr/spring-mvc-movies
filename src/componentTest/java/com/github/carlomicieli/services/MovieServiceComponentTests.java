@@ -62,6 +62,13 @@ public class MovieServiceComponentTests extends AbstractComponentTests {
 	}
 	
 	@Test
+	public void shouldReturnTheRecentMovies() {
+		List<Movie> movies = movieService.getRecentMovies(1);
+		assertNotNull(movies);
+		assertEquals(1, movies.size());
+	}
+	
+	@Test
 	public void getAllMoviesReturnsMovies() {
 		int pageNum = 1;
 		int pageSize = 1;

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import com.github.carlomicieli.models.Movie;
@@ -68,5 +69,11 @@ public class MongoMovieService implements MovieService {
 
 	public Movie findBySlug(String slug) {
 		return mongoTemplate.findOne(new Query(where("slug").is(slug)), Movie.class);
+	}
+
+	public List<Movie> getRecentMovies(int numOfMovies) {
+		Query q = new Query().limit(numOfMovies);
+		q.sort().on("savedAt", Order.DESCENDING);
+		return mongoTemplate.find(q, Movie.class);
 	}
 }

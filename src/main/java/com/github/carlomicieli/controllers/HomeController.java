@@ -15,9 +15,13 @@
  */
 package com.github.carlomicieli.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.github.carlomicieli.services.MovieService;
 
 /**
  * 
@@ -27,8 +31,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+	private MovieService movieService;
+	
+	@Autowired
+	public HomeController(MovieService movieService) {
+		this.movieService = movieService;
+	}
+	
 	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+		model.addAttribute("movies", movieService.getRecentMovies(10));		
 		return "home/index";
     }
 	

@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +56,21 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void getAllMoviesPaginated() {
+	public void shouldGetTheRecentMovies() {
+		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
+		when(mockMongo.find(isA(Query.class), eq(Movie.class))).thenReturn(new ArrayList<Movie>());
+		
+		List<Movie> l = movieService.getRecentMovies(5);
+		
+		verify(mockMongo).find(argument.capture(), eq(Movie.class));
+		assertNotNull("The list of movies is empty", l);
+		assertEquals(5, argument.getValue().getLimit());
+		assertTrue("The sort criteria is missing", 
+				argument.getValue().getSortObject().containsField("savedAt"));
+	}
+	
+	@Test
+	public void shouldGetAllMoviesPaginated() {
 		List<Movie> movies = Arrays.asList(new Movie(), new Movie());
 		
 		ArgumentCaptor<Query> argument = ArgumentCaptor.forClass(Query.class);
@@ -79,7 +94,7 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void savingMovies() {
+	public void shouldSaveMovies() {
 		Movie movie = new Movie();
 		movie.setTitle("BBBB");
 		movieService.save(movie);
@@ -87,7 +102,7 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void findingMoviesById() {
+	public void shouldFindMoviesById() {
 		when(mockMongo.findById(isA(ObjectId.class), eq(Movie.class))).thenReturn(new Movie());
 		final ObjectId id = new ObjectId();
 
@@ -98,7 +113,7 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void findingMovieBySlug() {
+	public void shouldFindMovieBySlug() {
 		when(mockMongo.findOne(isA(Query.class), eq(Movie.class))).thenReturn(new Movie());
 		
 		Movie movie = movieService.findBySlug("the-blues-broters");
@@ -106,7 +121,7 @@ public class MovieServiceTests {
 	}
 	
 	@Test
-	public void deletingAMovie() {
+	public void shouldDeleteMovies() {
 		Movie movie = new Movie();
 		movieService.delete(movie);
 		verify(mockMongo).remove(eq(movie));

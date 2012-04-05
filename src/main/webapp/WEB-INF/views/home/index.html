@@ -48,18 +48,8 @@
 				<div class="ym-cbox">
 					<h2>Movies</h2>
 					<h4>Last update</h4>
-					<div class="ym-contain-dt">
-						<img src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
-							class="float-left bordered" /> <img
-							src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
-							class="float-left bordered" /> <img
-							src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
-							class="float-left bordered" /> <img
-							src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
-							class="float-left bordered" /> <img
-							src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
-							class="float-left bordered" /> <img
-							src="http://dummyimage.com/128x128/cccccc/fff.png" alt="ads"
+					<div class="ym-contain-dt" th:each="movie : ${movies}">
+						<img width="128px" th:src="@{'/images/posters/' + ${movie.id}}" alt="ads"
 							class="float-left bordered" />
 					</div>
 				</div>
