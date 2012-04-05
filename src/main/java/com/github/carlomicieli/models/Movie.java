@@ -22,6 +22,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -52,6 +53,13 @@ public class Movie {
 	private String title;
 	
 	private String genre;
+	private String plot;
+
+	@Range(min = 1900, max = 2012)
+	private int year;
+	
+	@Range(min = 1, max = 240)
+	private int runningTime;
 	
 	private String rating;
 	private byte[] poster;
@@ -92,6 +100,14 @@ public class Movie {
 		return director;
 	}
 	
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
 	public void setDirector(String director) {
 		this.director = director;
 	}
@@ -136,6 +152,22 @@ public class Movie {
 		this.slug = slug;
 	}
 	
+	public String getPlot() {
+		return plot;
+	}
+
+	public void setPlot(String plot) {
+		this.plot = plot;
+	}
+	
+	public int getRunningTime() {
+		return runningTime;
+	}
+
+	public void setRunningTime(int runningTime) {
+		this.runningTime = runningTime;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("[%s] %s - %s", getId(), getDirector(), getTitle());

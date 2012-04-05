@@ -17,6 +17,8 @@ package com.github.carlomicieli.controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.Arrays;
 
 import javax.validation.Valid;
 
@@ -51,6 +53,11 @@ public class MovieController {
 	@Autowired
 	public MovieController(MovieService movieService) {
 		this.movieService = movieService;
+	}
+	
+	@ModelAttribute("ratings")
+	public List<String> getRatings() {
+		return Arrays.asList("G", "PG", "PG-13", "R", "NC-17");
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)

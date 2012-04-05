@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Movies List</title>
+<style>
+	.current {
+		color: black;
+	}
+</style>
 </head>
 <body>
 	<div class="ym-grid linearize-level-1">
@@ -51,15 +56,18 @@
 		<hr />
 
 		<div class="pagination">
-			<a href="#" th:if="${results.showPreviousLink()}"
-				th:href="@{/movies(page = ${results.getPage() - 1})}"
-				th:text="#{page.previous.label}">Previous</a> <a href="#"
+			<a href="#" 
+				th:if="${results.showPreviousLink()}"
+				th:href="@{/movies(page = ${results.getPage() - 1}, pageSize = ${param.pageSize ?: 25})}"
+				th:text="#{page.previous.label}">Previous</a> 
+			<a href="#"
 				th:each="link : ${results.getPageLinks()}"
-				th:href="@{/movies(page = ${link})}"
+				th:href="@{/movies(page = ${link}, pageSize = ${param.pageSize ?: 25})}"
 				th:class="${results.getPage() == link} ? 'current'"
-				th:text="'[' + ${link} + ']'">11</a> <a href="#"
+				th:text="'[' + ${link} + ']'">11</a> 
+			<a href="#"
 				th:if="${results.showNextLink()}"
-				th:href="@{/movies(page = ${results.getPage() + 1})}"
+				th:href="@{/movies(page = ${results.getPage() + 1}, pageSize = ${param.pageSize ?: 25})}"
 				th:text="#{page.next.label}">Next</a>
 		</div>
 	</div>

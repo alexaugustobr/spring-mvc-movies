@@ -41,10 +41,33 @@
 							th:class="${#fields.hasErrors('genre')}? 'error'" />
 					</div>
 					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('plot')}"
+							th:text="#{movie.plot.label}">Plot:</label> 
+						<textarea rows="3" cols="50" th:field="*{plot}"
+							th:class="${#fields.hasErrors('plot')}? 'error'"></textarea>
+					</div>
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('year')}"
+							th:text="#{movie.year.label}">year:</label>
+						<input type="text"
+							th:field="*{year}"
+							th:class="${#fields.hasErrors('year')}? 'error'" />
+					</div>	
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('runningTime')}"
+							th:text="#{movie.runningTime.label}">runningTime:</label>
+						<input type="text"
+							th:field="*{runningTime}"
+							th:class="${#fields.hasErrors('runningTime')}? 'error'" />
+					</div>									
+					<div class="ym-fbox-select">
 						<label th:for="${#ids.next('rating')}"
-							th:text="#{movie.rating.label}">Rating:</label> <input
-							type="text" th:field="*{rating}"
-							th:class="${#fields.hasErrors('rating')}? 'error'" />
+							th:text="#{movie.rating.label}">Rating:</label>
+						<select th:field="*{rating}">
+						<option th:each="r : ${ratings}"
+							th:value="${r}"
+							th:text="${r}">r</option>
+						</select>	
 					</div>
 					<div class="ym-fbox-text">
 						<input type="file" name="file" /> 
