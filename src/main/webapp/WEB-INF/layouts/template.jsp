@@ -75,12 +75,10 @@
 									© 2012 by Carlo Micieli, <a
 										href="http://carlomicieli.github.com">http://carlomicieli.github.com</a><br>
 									Code and Documentation licensed under <a
-										href="http://creativecommons.org/licenses/by/2.0/">CC BY
-										2.0</a>.
+										href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 license</a>.
 								</p>
 								<p>
-									<a href="#">about</a> | <a
-										href="#">developers</a>
+									<a href="<c:url value="/home/about" />">about</a> | <a href="#">developers</a>
 								</p>
 							</div>
 						</div>
