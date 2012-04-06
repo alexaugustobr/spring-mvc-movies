@@ -19,24 +19,30 @@
 							</div>
 						</article>
 						<article class="ym-g60 ym-gr">
-							<div class="ym-gbox">
-								<h3 th:text="#{signup.title.label}">New user? Sign up</h3>
-								<form class="ym-form">
+							<div class="ym-gbox" th:if="${sec.isAnonymous()}">
+								<h3 th:text="#{login.title}">Sign in</h3>
+								<p>	
+									New user? <a href="#" th:href="@{/auth/signup}">Sign up here</a> (FREE)
+								</p>
+								<form class="ym-form" action="#" th:action="@{/spring-mvc-movies/j_spring_security_check}" method="post">
 									<div class="ym-fbox-text">
-									  	<label for="emailAddress" th:text="#{signup.email.label}">Email address</label>
-									  	<input type="text" name="emailAddress" id="emailAddress" size="50" />
+										<label for="j_username" th:text="#{login.username}">Username:</label>
+				  						<input type="text" name="j_username" id="j_username" size="20" />
+			  						</div>
+			  						
+			  						<div class="ym-fbox-text">
+										<label for="j_password" th:text="#{login.password}">Password:</label>
+				  						<input type="password" name="j_password" id="j_password" size="20" />
+			  						</div>
+			  						
+			  						<div class="ym-fbox-check">
+			  							<input type="checkbox" name="_spring_security_remember_me" id="_spring_security_remember_me" />
+			  							<label for="_spring_security_remember_me" th:text="#{login.remember.me}">Remember me</label>
 									</div>
-									<div class="ym-fbox-text">
-									  	<label for="displayName" th:text="#{signup.displayName.label}">displayName</label>
-									  	<input type="text" name="displayName" id="displayName" size="50" />
-									</div>
-									<div class="ym-fbox-text">
-									  	<label for="password" th:text="#{signup.password.label}">password</label>
-									  	<input type="password" name="password" id="password" size="50" />
-									</div>
+									
 									<div class="ym-fbox-button">
-										<input type="submit" class="ym-button" value="submit" id="submit" name="submit" />
-										<input type="reset" class="ym-button" value="reset" id="reset" name="reset" />
+										<input type="submit" class="ym-button" id="submit" value="login" name="submit" th:value="#{login.button.label}" />
+										<input type="reset" class="ym-button" id="reset" value="reset" name="reset" th:value="#{signup.reset.label}" />
 									</div>
 								</form>
 							</div>
@@ -46,8 +52,8 @@
 			</div>
 			<aside class="ym-col3">
 				<div class="ym-cbox">
-					<h2>Movies</h2>
-					<h4>Last update</h4>
+					<h2 th:text="#{home.movies}">Movies</h2>
+					<h4 th:text="#{home.last.update}">Last update</h4>
 					<div class="ym-contain-dt" th:each="movie : ${movies}">
 						<img width="120px" th:src="@{'/images/posters/' + ${movie.id}}" alt="ads"
 							class="float-left bordered" />

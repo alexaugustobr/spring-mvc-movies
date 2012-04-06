@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring3.SpringTemplateEngine;
@@ -51,6 +52,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		//up static resources in the ${webappRoot}/resources directory
     	registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// add the spring security handler for thymeleaf
+		registry.addInterceptor(new ImplicitObjectsInterceptor());
+	}
 	
 	/*
 	 THYMELEAF-SPECIFIC ARTIFACTS
