@@ -55,10 +55,10 @@ public class Movie {
 	private String genre;
 	private String plot;
 
-	@Range(min = 1900, max = 2012)
+	@Range(min = 1900, max = 2012, message = "year.notValid")
 	private int year;
 	
-	@Range(min = 1, max = 240)
+	@Range(min = 1, max = 240, message = "runningTime.notValid")
 	private int runningTime;
 	
 	private String rating;

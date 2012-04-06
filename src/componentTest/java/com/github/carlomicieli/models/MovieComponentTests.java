@@ -56,28 +56,33 @@ public class MovieComponentTests {
 	}
 	
 	@Test
-	public void validatingCorrectMovie() {
+	public void shouldValidateCorrectMovie() {
 		Movie movie = new Movie();
 		movie.setDirector("AAAA");
 		movie.setTitle("BBBB");
+		movie.setYear(2012);
+		movie.setRunningTime(100);
 		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
 		assertEquals(0, violations.size());
 	}
 	
 	@Test
-	public void validatingEmptyMovie() {
+	public void shouldValidateEmptyMovie() {
 		Movie movie = new Movie();
 		movie.setDirector("");
 		movie.setTitle("");
+		movie.setYear(0);
+		movie.setRunningTime(0);
 		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
-		assertEquals(2, violations.size());
+		assertEquals(4, violations.size());
 	}
 	
 	@Test
-	public void validatingWrongMovie() {
+	public void shouldValidateWrongMovie() {
 		Movie movie = new Movie();
 		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
-		assertEquals(2, violations.size());
+		
+		assertEquals(4, violations.size());
 	}
 	
 	@Test
