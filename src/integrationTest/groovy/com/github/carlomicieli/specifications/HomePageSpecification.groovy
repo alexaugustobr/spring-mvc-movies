@@ -10,6 +10,6 @@ class HomePageSpecification extends GebSpec {
 			to HomePage
 
 		then:
-			title == "Login"
+			title == "Spring Movies"
 	}
 }
