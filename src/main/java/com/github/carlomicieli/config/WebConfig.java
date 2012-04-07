@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -82,6 +83,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setOrder(1);
 		return viewResolver;
+	}
+	
+	public @Bean RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 	
 	// bean for files upload. 

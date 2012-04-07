@@ -46,4 +46,6 @@ public class ShowTests {
 		assertNotNull("Partecipants list is null", show.getPartecipants());
 		assertEquals(2, show.getPartecipants().size());
 	}
+	
+	
 }

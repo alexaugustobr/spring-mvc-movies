@@ -50,6 +50,8 @@ public class Show {
 	
 	Set<String> partecipants;
 
+	double[] location;
+	
 	public ObjectId getId() {
 		return id;
 	}
@@ -62,6 +64,10 @@ public class Show {
 		return hostedBy;
 	}
 
+	public void setLocation(double x, double y) {
+		this.location = new double[] { x, y };
+	}
+	
 	public void setHostedBy(String hostedBy) {
 		this.hostedBy = hostedBy;
 	}
