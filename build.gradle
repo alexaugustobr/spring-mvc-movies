@@ -80,6 +80,7 @@ def securityVersion = "3.1.0.RELEASE"
 def slf4jVersion = "1.6.1"
 def tomcatVersion = "7.0.26"
 def jacksonVersion = "1.9.6"
+def gebVersion = "0.7.0"
 
 dependencies {
 	// spring framework
@@ -153,8 +154,8 @@ dependencies {
 	// integration tests
 	groovy "org.codehaus.groovy:groovy-all:1.8.6"
 	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
-		"org.codehaus.geb:geb-core:0.6.3",
-		"org.codehaus.geb:geb-spock:0.6.3",
+		"org.codehaus.geb:geb-core:${gebVersion}",
+		"org.codehaus.geb:geb-spock:${gebVersion}",
 		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
 		
 	// tomcat 7
