@@ -79,6 +79,7 @@ def springVersion = "3.1.1.RELEASE"
 def securityVersion = "3.1.0.RELEASE"
 def slf4jVersion = "1.6.1"
 def tomcatVersion = "7.0.26"
+def jacksonVersion = "1.9.6"
 
 dependencies {
 	// spring framework
@@ -141,7 +142,8 @@ dependencies {
 	compile "org.mongodb:mongo-java-driver:2.7.3"
 
 	// jackson JSON
-	compile "org.codehaus.jackson:jackson-core-asl:1.9.6"
+	compile "org.codehaus.jackson:jackson-core-asl:${jacksonVersion}"
+	compile "org.codehaus.jackson:jackson-mapper-asl:${jacksonVersion}"
 	
 	// unit testing
 	testCompile "junit:junit:4.10",
