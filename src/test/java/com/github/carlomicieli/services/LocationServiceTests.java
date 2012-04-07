@@ -98,7 +98,7 @@ public class LocationServiceTests {
 	}
 	
 	@Test(expected = RuntimeException.class) 
-	public void foo() throws RestClientException, UnsupportedEncodingException {
+	public void shouldThrowExceptionAfterErrors() throws RestClientException, UnsupportedEncodingException {
 		when(mockRest.getForObject(eq(LocationService.GOOGLE_MAPS_API_ENDPOINT), eq(Map.class), isA(String.class)))
 			.thenReturn(buildMockErrorResponse("ZERO_RESULTS"));
 		
