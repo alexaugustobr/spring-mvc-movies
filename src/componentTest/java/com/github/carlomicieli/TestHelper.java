@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.models.Show;
 
 @Component("testHelper")
 public class TestHelper {
@@ -65,5 +66,9 @@ public class TestHelper {
 		u.addRole(role);
 		mongoTemplate.insert(u);
 		return u;
+	}
+
+	public void cleanupShows() {
+		mongoTemplate.remove(new Query(), Show.class);
 	}
 }
