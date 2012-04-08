@@ -20,38 +20,23 @@ import static org.junit.Assert.*;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
-import org.hibernate.validator.engine.resolver.DefaultTraversableResolver;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.github.carlomicieli.ValidatorConfiguration;
+import com.github.carlomicieli.AbstractValidationTests;
 
 /**
  * 
  * @author Carlo P. Micieli
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {
-	ValidatorConfiguration.class})
-public class MailUserValidationTests {
-	private @Autowired LocalValidatorFactoryBean validatorFactory;
-	private Validator validator;
-	
+public class MailUserValidationTests extends AbstractValidationTests {
 	@Before
 	public void initValidator() {
-		validatorFactory.setProviderClass(MailUser.class);
-		validatorFactory.setTraversableResolver(new DefaultTraversableResolver());
-		validator = validatorFactory.getValidator();
+		super.init(MailUser.class);
 	}
-	
+
 	@Test
 	public void shouldValidateCorrectUser() {
 		MailUser user = new MailUser();

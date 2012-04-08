@@ -18,18 +18,11 @@ package com.github.carlomicieli.models;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
-import org.hibernate.validator.engine.resolver.DefaultTraversableResolver;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.github.carlomicieli.ValidatorConfiguration;
+import com.github.carlomicieli.AbstractValidationTests;
 
 import static org.junit.Assert.*;
 
@@ -38,18 +31,11 @@ import static org.junit.Assert.*;
  * @author Carlo P. Micieli
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {
-	ValidatorConfiguration.class})
-public class MovieValidationTests {
-	private @Autowired LocalValidatorFactoryBean validatorFactory;
-	private Validator validator;
+public class MovieValidationTests extends AbstractValidationTests {
 	
 	@Before
 	public void initValidator() {
-		validatorFactory.setProviderClass(Movie.class);
-		validatorFactory.setTraversableResolver(new DefaultTraversableResolver());
-		validator = validatorFactory.getValidator();
+		super.init(Movie.class);
 	}
 	
 	@Test
