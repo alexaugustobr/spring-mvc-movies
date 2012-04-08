@@ -15,9 +15,7 @@
  */
 package com.github.carlomicieli.models;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 /**
  * The POJO for the new show creation view.
@@ -41,6 +39,8 @@ public class ShowForm {
 	@NotEmpty(groups = AddressGroup.class, message = "show.city.required")
 	private String city;
 	
+	private String description;
+	
 	public String getSearchCriteria() {
 		return searchCriteria;
 	}
@@ -49,6 +49,14 @@ public class ShowForm {
 		this.searchCriteria = searchCriteria;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public boolean isMovieFound() {
 		return isMovieFound;
 	}
