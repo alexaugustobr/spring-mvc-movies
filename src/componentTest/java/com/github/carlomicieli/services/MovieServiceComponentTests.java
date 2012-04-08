@@ -114,4 +114,11 @@ public class MovieServiceComponentTests extends AbstractComponentTests {
 		assertEquals("Trading Places", m.getTitle());
 		assertEquals("trading-places", m.getSlug());
 	}
+	
+	@Test
+	public void shouldFindMovies() {
+		List<Movie> movies = movieService.findMovies("blues");
+		assertEquals(1, movies.size());
+		assertEquals("The blues brothers", movies.get(0).getTitle());
+	}
 }

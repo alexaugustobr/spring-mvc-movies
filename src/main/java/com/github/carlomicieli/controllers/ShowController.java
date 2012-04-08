@@ -15,17 +15,25 @@
  */
 package com.github.carlomicieli.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.models.SearchMovieForm;
 import com.github.carlomicieli.models.Show;
+import com.github.carlomicieli.models.ShowForm;
 import com.github.carlomicieli.security.SecurityService;
+import com.github.carlomicieli.services.LocationService;
+import com.github.carlomicieli.services.MovieService;
 import com.github.carlomicieli.services.ShowService;
 
 /**
@@ -37,30 +45,101 @@ import com.github.carlomicieli.services.ShowService;
 @RequestMapping("/shows")
 public class ShowController {
 	private ShowService showService;
-	private SecurityService securityService;
+	private MovieService movieService;
 	
 	@Autowired
-	public ShowController(ShowService showService, SecurityService securityService) {
+	private SecurityService securityService;
+	@Autowired
+	private LocationService locationService;
+	
+	@Autowired
+	public ShowController(ShowService showService, 
+			MovieService movieService) {
+		
 		this.showService = showService;
-		this.securityService = securityService;
+		this.movieService = movieService;
 	}
 	
+	// GET /shows/new
+	
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String createShow(Model model) {
-		model.addAttribute(new Show());
+	public String searchMovie(Model model) {
+		model.addAttribute(new SearchMovieForm());
 		return "show/new";
 	}
 
+	// POST /shows/new
+	
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public String save(@Valid Show show, BindingResult bindingResults, Model model) {
+	public String findMovies(@Valid SearchMovieForm form, 
+			BindingResult bindingResults,
+			Model model) {
+		
 		if (bindingResults.hasErrors()) {
-			model.addAttribute(show);
-			return "show/new";
+			return "show/new"; 
 		}
 		
+		final List<Movie> movies = 
+			movieService.findMovies(form.getSearchCriteria());
+		
+		if (movies.size()==1) {
+			Movie m = movies.get(0);
+			return String.format("redirect:/shows/%s/create", m.getSlug());
+		}
+		
+		form.setResults(movies);
+		model.addAttribute(form);
+		return "show/new";
+	}
+
+	// GET /shows/{movieSlug}/create
+	
+	@RequestMapping(value = "/shows/{movieSlug}/create", method = RequestMethod.GET)
+	public String createShow(@PathVariable String movieSlug, Model model) {
+		final ShowForm sf = new ShowForm();
+		sf.setMovie(movieService.findBySlug(movieSlug));
+		model.addAttribute(sf);
+		return "/show/create";
+	}
+	
+	// POST /shows/{movie-slug}/create
+	
+	@RequestMapping(value = "/shows/create", method = RequestMethod.POST)
+	public String save(@Valid ShowForm showForm, 
+			BindingResult bindingResults, 
+			Model model) {
+		
+		if (bindingResults.hasErrors()) {
+			model.addAttribute(showForm);
+			return "show/create";
+		}
+		
+		double[] location = null;
+		try {
+			location = locationService.findLocation(showForm.getGeocodingAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		final Show show = new Show();
 		show.setHostedBy(securityService.getCurrentUser().getUsername());
+		show.setMovie(showForm.getMovie());
+		show.setDescription(showForm.getDescription());
+		show.setDate(showForm.getDate());
+		show.setAddress(showForm.getCompleteAddress());
+		show.setLocation(location[0], location[1]);
 		
 		showService.create(show);
 		return "show/view";
 	}
+
+	// GET /shows/new
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String list(Model model) {
+		model.addAttribute("shows", showService.getAllShows());
+		return "show/list";
+	}
+
+
 }

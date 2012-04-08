@@ -29,6 +29,7 @@ import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.utility.PaginatedResult;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * 
@@ -74,6 +75,11 @@ public class MongoMovieService implements MovieService {
 	public List<Movie> getRecentMovies(int numOfMovies) {
 		Query q = new Query().limit(numOfMovies);
 		q.sort().on("savedAt", Order.DESCENDING);
+		return mongoTemplate.find(q, Movie.class);
+	}
+
+	public List<Movie> findMovies(String searchCriteria) {
+		Query q = query(where("title").regex(searchCriteria, "i"));
 		return mongoTemplate.find(q, Movie.class);
 	}
 }

@@ -220,7 +220,7 @@ public class Movie {
 	 * Set the slug from the movie title
 	 * @param slug the movie slug.
 	 */
-	protected void setSlug(String slug) {
+	public void setSlug(String slug) {
 		this.slug = slug;
 	}
 	

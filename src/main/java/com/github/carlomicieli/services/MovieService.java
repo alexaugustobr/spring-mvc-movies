@@ -33,4 +33,5 @@ public interface MovieService {
 	void save(Movie movie);
 	void delete(Movie movie);
 	List<Movie> getRecentMovies(int numOfMovies);
+	List<Movie> findMovies(String searchCriteria);
 }

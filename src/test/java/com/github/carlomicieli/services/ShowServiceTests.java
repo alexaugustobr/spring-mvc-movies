@@ -26,7 +26,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.github.carlomicieli.models.Show;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**

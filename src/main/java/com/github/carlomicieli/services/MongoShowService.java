@@ -15,13 +15,17 @@
  */
 package com.github.carlomicieli.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.github.carlomicieli.models.Show;
 
 /**
+ * A shows service for Mongodb.
  * 
  * @author Carlo P. Micieli
  *
@@ -37,5 +41,9 @@ public class MongoShowService implements ShowService {
 
 	public void create(Show s) {
 		mongoTemplate.insert(s);		
+	}
+
+	public List<Show> getAllShows() {
+		return mongoTemplate.find(new Query(), Show.class);
 	}
 }

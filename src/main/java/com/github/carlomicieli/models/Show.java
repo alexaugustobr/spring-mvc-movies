@@ -51,6 +51,7 @@ public class Show {
 	Set<String> partecipants;
 
 	String description;
+	String address;
 	
 	double[] location;
 	
@@ -70,8 +71,20 @@ public class Show {
 		this.description = description;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getHostedBy() {
 		return hostedBy;
+	}
+	
+	public double[] getLocation() {
+		return location;
 	}
 
 	public void setLocation(double x, double y) {

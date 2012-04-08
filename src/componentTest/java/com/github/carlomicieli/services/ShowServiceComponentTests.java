@@ -37,7 +37,6 @@ public class ShowServiceComponentTests extends AbstractComponentTests {
 	
 	@Before
 	public void setup() {
-		
 	}
 	
 	@After

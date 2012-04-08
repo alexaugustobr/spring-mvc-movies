@@ -15,6 +15,8 @@
  */
 package com.github.carlomicieli.services;
 
+import java.util.List;
+
 import com.github.carlomicieli.models.Show;
 
 /**
@@ -24,4 +26,5 @@ import com.github.carlomicieli.models.Show;
  */
 public interface ShowService {
 	void create(Show s);
+	List<Show> getAllShows();
 }

@@ -34,14 +34,8 @@ public class ShowFormTests {
 		sf.setAddress("1600 Amphitheatre Pkwy");
 		sf.setPostalCode("94043");
 		sf.setCity("Mountain View");
-		String address = sf.buildCompleteAddress();
+		String address = sf.getGeocodingAddress();
 		
 		assertEquals("1600 Amphitheatre Pkwy, 94043, Mountain View", address);
-	}
-	
-	@Test
-	public void shouldStartWithoutAMovieFound() {
-		ShowForm sf = new ShowForm();
-		assertEquals(false, sf.isMovieFound());
 	}
 }

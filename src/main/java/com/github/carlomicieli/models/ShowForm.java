@@ -15,6 +15,8 @@
  */
 package com.github.carlomicieli.models;
 
+import java.util.Date;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -24,10 +26,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 public class ShowForm {
-	@NotEmpty(message = "searchCriteria.required")
-	private String searchCriteria;
-	
-	private boolean isMovieFound;
 	private Movie movie;
 	
 	@NotEmpty(groups = AddressGroup.class, message = "show.venue.required")
@@ -39,15 +37,9 @@ public class ShowForm {
 	@NotEmpty(groups = AddressGroup.class, message = "show.city.required")
 	private String city;
 	
+	private Date date;
+	
 	private String description;
-	
-	public String getSearchCriteria() {
-		return searchCriteria;
-	}
-	
-	public void setSearchCriteria(String searchCriteria) {
-		this.searchCriteria = searchCriteria;
-	}
 	
 	public String getDescription() {
 		return description;
@@ -55,14 +47,6 @@ public class ShowForm {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public boolean isMovieFound() {
-		return isMovieFound;
-	}
-	
-	public void setMovieFound(boolean isMovieFound) {
-		this.isMovieFound = isMovieFound;
 	}
 	
 	public Movie getMovie() {
@@ -105,7 +89,25 @@ public class ShowForm {
 		this.city = city;
 	}
 	
-	public String buildCompleteAddress() {
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public String getCompleteAddress() {
+		StringBuilder sb = new StringBuilder()
+			.append(getVenue() + ", ")
+			.append(getAddress() + ", ")
+			.append(getPostalCode() + ", ")
+			.append(getCity());
+		
+		return sb.toString();
+	}
+	
+	public String getGeocodingAddress() {
 		StringBuilder sb = new StringBuilder()
 			.append(getAddress() + ", ")
 			.append(getPostalCode() + ", ")
