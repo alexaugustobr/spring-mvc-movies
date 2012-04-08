@@ -39,7 +39,7 @@
 						<li class="<decorator:getProperty property="home"/>">
 							<a href="<c:url value="/home" />"><strong><spring:message code="navigation.home"/></strong></a></li>
 						<li><a href="<c:url value="/movies" />"><spring:message code="navigation.movies"/></a></li>
-						<li><a href="<c:url value="/movies" />"><spring:message code="navigation.host.show"/></a></li>
+						<li><a href="<c:url value="/shows/new" />"><spring:message code="navigation.host.show"/></a></li>
 						<li><a href="<c:url value="/movies" />"><spring:message code="navigation.find.show"/></a></li>
 					</ul>
 
