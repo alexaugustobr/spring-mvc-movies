@@ -49,6 +49,12 @@ public class MailUserDetails implements UserDetails {
 		this.mailUser = mailUser;
 	}
 	
+	public MailUserDetails(String username, String password) {
+		mailUser = new MailUser();
+		mailUser.setEmailAddress(username);
+		mailUser.setPassword(password);
+	}
+	
 	public String getPassword() {
 		return mailUser.getPassword();
 	}
