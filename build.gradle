@@ -71,7 +71,8 @@ sourceSets {
 // ====================== repositories ================= //
 repositories {
     mavenCentral()
-    maven {url "http://maven.springframework.org/release"}
+    maven {url "http://maven.springframework.org/release/"}
+	maven {url "https://repository.jboss.org/nexus/content/repositories/releases/"}
 }
 
 // ====================== dependencies ================= //
@@ -129,7 +130,7 @@ dependencies {
 	
 	// JSR 303 with Hibernate Validator
 	compile "javax.validation:validation-api:1.0.0.GA"
-	compile "org.hibernate:hibernate-validator:4.0.2.GA"
+	compile "org.hibernate:hibernate-validator:4.2.0.Final"
 
 	// imgscalr
 	compile "org.imgscalr:imgscalr-lib:4.2"
