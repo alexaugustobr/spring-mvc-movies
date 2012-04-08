@@ -20,6 +20,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 /**
+ * Initialize the active profile for the application
  * 
  * @author Carlo P. Micieli
  *
@@ -27,6 +28,11 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 public class ContextProfileInitializer 
 	implements ApplicationContextInitializer<ConfigurableWebApplicationContext> {
 
+	/**
+	 * Set the active profile to <strong>production</strong> for the web
+	 * application context.
+	 * @param context the web application context.
+	 */
 	@Override
 	public void initialize(ConfigurableWebApplicationContext context) {
 		ConfigurableEnvironment environment = context.getEnvironment();

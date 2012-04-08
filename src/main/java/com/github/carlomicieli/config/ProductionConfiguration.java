@@ -37,6 +37,11 @@ import com.mongodb.Mongo;
 public class ProductionConfiguration {
 	private @Autowired Environment env;
 	
+	/**
+	 * Return the mongodb factory for the production environment.
+	 * @return the mongodb factory bean.
+	 * @throws Exception
+	 */
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(
 				new Mongo(env.getProperty("mongo.hostName"), 

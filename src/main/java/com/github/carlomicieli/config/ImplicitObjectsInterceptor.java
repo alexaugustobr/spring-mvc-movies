@@ -33,8 +33,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
+ * Interceptor to expose the Spring security to Thymeleaf views.
  * 
- * Original code at <http://forum.thymeleaf.org/Thymeleaf-and-Spring-Security-td3205099.html>
+ * Original code <a href="http://forum.thymeleaf.org/Thymeleaf-and-Spring-Security-td3205099.html">here</a>
  *
  */
 public class ImplicitObjectsInterceptor extends HandlerInterceptorAdapter {

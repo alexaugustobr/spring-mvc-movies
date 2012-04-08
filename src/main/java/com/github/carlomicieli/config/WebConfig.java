@@ -32,7 +32,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import com.github.carlomicieli.converters.MovieConverter;
 
 /**
- * 
+ * The configuration class for the Spring MVC application.
  * @author Carlo P. Micieli
  */
 @Configuration

@@ -32,7 +32,7 @@ import com.github.carlomicieli.services.MovieService;
 import com.mongodb.WriteConcern;
 
 /**
- * 
+ * The configuration class for the Spring application context.
  * @author Carlo P. Micieli
  */
 @Configuration
@@ -41,23 +41,39 @@ import com.mongodb.WriteConcern;
 @ImportResource("classpath:META-INF/spring/security.xml")
 public class ApplicationConfig {
 	
+	/**
+	 * Return the message source for multi-language management.
+	 * @return the message source bean.
+	 */
 	public @Bean MessageSource messageSource() {
 		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
 		ms.setBasenames(new String[] { "locale/Messages", "locale/Errors" });
 		return ms;
 	}
 	
-	// hooks an event before movies are persisted
+	/**
+	 * Return the saving listener used to hooks an event before movies are persisted.
+	 * @return the movie before save listener bean. 
+	 */
 	public @Bean MovieBeforeSaveListener movieBeforeSaveListener() {
 		return new MovieBeforeSaveListener();
 	}
 	
+	/**
+	 * Return the movie service.
+	 * @return the movie service bean.
+	 */
 	public @Bean MovieService movieService() {
 		return new MongoMovieService();
 	}
 	
 	private @Autowired MongoDbFactory mongoDbFactory;
 	
+	/**
+	 * Return the mongodb template.
+	 * @return the mongodb template bean.
+	 * @throws Exception
+	 */
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
 		mongoTemplate.setWriteConcern(WriteConcern.SAFE);
