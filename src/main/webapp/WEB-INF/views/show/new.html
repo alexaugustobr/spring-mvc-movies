@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Show: new</title>
+</head>
+<body>
+	<div class="ym-grid linearize-level-1">
+		<div class="ym-g25 ym-gl">
+			<div class="ym-gbox-left">
+				<h3>New movie</h3>
+				<p>
+					Host a show
+				</p>
+			</div>
+		</div>
+		<div class="ym-g75 ym-gl">
+			<div class="ym-gbox-right">
+				<form action="#" th:object="${show}" th:action="@{/shows/new}" 
+					method="post" class="ym-form">
+					
+					<ul th:if="${#fields.hasErrors('*')}" class="error">
+						<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input
+							is incorrect</li>
+					</ul>
+					
+					<div class="ym-fbox-button">
+						<input type="submit" class="ym-button" value="submit" id="submit"
+							name="submit" th:value="#{save.label}" /> 
+						<input type="reset" class="ym-button" value="reset" id="reset" name="reset" />
+					</div>					
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
