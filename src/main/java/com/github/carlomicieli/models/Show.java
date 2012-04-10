@@ -116,7 +116,7 @@ public class Show {
 	}
 
 	public void addPartecipant(String p) {
-		if (partecipants==null) partecipants = new HashSet<>();
+		if (partecipants==null) partecipants = new HashSet<String>();
 		
 		partecipants.add(p);
 	}

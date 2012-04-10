@@ -53,16 +53,14 @@ public class LocationService {
 	}
 	
 	private String buildMessage(String status) {
-		switch(status) {
-		case STATUS_ZERO_RESULTS:
+		if(status==STATUS_ZERO_RESULTS)
 			return "No result is found";
-		case STATUS_OVER_QUERY_LIMIT:
+		else if(status==STATUS_OVER_QUERY_LIMIT)
 			return "You are over your quota";
-		case STATUS_REQUEST_DENIED:
+		else if(status==STATUS_REQUEST_DENIED)
 			return "Your request was denied";	
-		case STATUS_INVALID_REQUEST:
+		else if(status==STATUS_INVALID_REQUEST)
 			return "The query is missing";
-		}
 		
 		return "";
 	}

@@ -52,21 +52,21 @@ public class LocationServiceTests {
 	}
 	
 	private Map<?,?> buildMockResponse(String address, Double lat, Double lng) {
-		Map<String, Double> location = new LinkedHashMap<>();
+		Map<String, Double> location = new LinkedHashMap<String, Double>();
 		location.put("lng", lng);
 		location.put("lat", lat);
 		
-		Map<String, Object> geometry = new LinkedHashMap<>();
+		Map<String, Object> geometry = new LinkedHashMap<String, Object>();
 		geometry.put("location", location);
 		
-		Map<String, Object> result = new LinkedHashMap<>();
+		Map<String, Object> result = new LinkedHashMap<String, Object>();
 		result.put("formatted_address", address);
 		result.put("geometry", geometry);
 		
-		List<Object> results = new ArrayList<>();
+		List<Object> results = new ArrayList<Object>();
 		results.add(result);
 		
-		Map<String, Object> response = new LinkedHashMap<>();
+		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("results", results);
 		response.put("status", "OK");
 		
@@ -74,8 +74,8 @@ public class LocationServiceTests {
 	}
 	
 	private Map<?,?> buildMockErrorResponse(String status) {
-		List<Object> results = new ArrayList<>();
-		Map<String, Object> response = new LinkedHashMap<>();
+		List<Object> results = new ArrayList<Object>();
+		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("results", results);
 		response.put("status", status);
 		
