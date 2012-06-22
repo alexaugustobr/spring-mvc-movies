@@ -1,4 +1,18 @@
-//! /spring-mvc-movies/build.gradle
+/*
+ * Copyright 2012 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 // ====================== plugins ====================== //
 apply plugin: 'java'
@@ -105,9 +119,6 @@ dependencies {
 	}
 	compile "org.springframework.security:spring-security-taglibs:${securityVersion}"
 
-	// spring social
-	compile "org.springframework.social:spring-social-core:1.0.2.RELEASE"
-
 	// logging
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
@@ -125,8 +136,8 @@ dependencies {
 	compile "opensymphony:sitemesh:2.4.2"
 	
 	// Thymeleaf
-	compile "org.thymeleaf:thymeleaf:2.0.4"
-	compile "org.thymeleaf:thymeleaf-spring3:2.0.4"
+	compile "org.thymeleaf:thymeleaf:2.0.8"
+	compile "org.thymeleaf:thymeleaf-spring3:2.0.8"
 	
 	// JSR 303 with Hibernate Validator
 	compile "javax.validation:validation-api:1.0.0.GA"
@@ -140,8 +151,8 @@ dependencies {
 		"commons-io:commons-io:2.1"
 	
 	// mongodb
-	compile "org.springframework.data:spring-data-mongodb:1.0.1.RELEASE"
-	compile "org.mongodb:mongo-java-driver:2.7.3"
+	compile "org.springframework.data:spring-data-mongodb:1.0.2.RELEASE"
+	compile "org.mongodb:mongo-java-driver:2.8.0"
 
 	// jackson JSON
 	compile "org.codehaus.jackson:jackson-core-asl:${jacksonVersion}"
@@ -198,7 +209,7 @@ task createDirs(description: 'Creates the directory for the project.', group: 'P
 
 // wrapper task to create the download script
 task wrapper(type: Wrapper, group: 'Gradle wrapper', description: 'Gradle will be automatically downloaded and used to run the build.') {
-	gradleVersion = '1.0-milestone-9'
+	gradleVersion = '1.0'
 }
 
 // component testing:	the same as unit testing except that all stubs
