@@ -70,8 +70,8 @@ public class ApplicationConfig {
 	private @Autowired MongoDbFactory mongoDbFactory;
 	
 	/**
-	 * Return the mongodb template.
-	 * @return the mongodb template bean.
+	 * Return the MongoDB template.
+	 * @return the MongoDB template bean.
 	 * @throws Exception
 	 */
 	public @Bean MongoTemplate mongoTemplate() throws Exception {

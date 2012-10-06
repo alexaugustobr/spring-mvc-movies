@@ -136,8 +136,8 @@ dependencies {
 	compile "opensymphony:sitemesh:2.4.2"
 	
 	// Thymeleaf
-	compile "org.thymeleaf:thymeleaf:2.0.8"
-	compile "org.thymeleaf:thymeleaf-spring3:2.0.8"
+	compile "org.thymeleaf:thymeleaf:2.0.13"
+	compile "org.thymeleaf:thymeleaf-spring3:2.0.13"
 	
 	// JSR 303 with Hibernate Validator
 	compile "javax.validation:validation-api:1.0.0.GA"

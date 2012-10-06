@@ -47,7 +47,6 @@ public class AuthController {
 		this.userService = userService;
 	}
 	
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "auth/login";
