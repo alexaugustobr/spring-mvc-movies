@@ -15,38 +15,35 @@
  */
 package com.github.carlomicieli.security;
 
+import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.github.carlomicieli.models.MailUser;
-import com.github.carlomicieli.services.UserService;
-
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Service("mailUserDetailsService")
 public class MailUserDetailsService implements UserDetailsService {
 
-	private UserService userService;
-	
-	@Autowired
-	public MailUserDetailsService(UserService userService) {
-		this.userService = userService;
-	}
-	
-	@Override
-	public UserDetails loadUserByUsername(String emailAddress)
-			throws UsernameNotFoundException {
-		
-		MailUser user = userService.findUserByEmail(emailAddress);
-		if(user==null) {
+    private UserService userService;
+
+    @Autowired
+    public MailUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String emailAddress)
+            throws UsernameNotFoundException {
+
+        MailUser user = userService.findUserByEmail(emailAddress);
+        if (user == null) {
             throw new UsernameNotFoundException("Could not find user with username '" + emailAddress + "'");
         }
         return new MailUserDetails(user);
-	}
+    }
 }

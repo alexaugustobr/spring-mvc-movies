@@ -15,17 +15,16 @@
  */
 package com.github.carlomicieli.services;
 
+import com.github.carlomicieli.models.MailUser;
 import org.bson.types.ObjectId;
 
-import com.github.carlomicieli.models.MailUser;
-
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public interface UserService {
-	MailUser findUserById(ObjectId id);
-	MailUser findUserByEmail(String emailAddress);
-	void createUser(MailUser user);
+    MailUser findUserById(ObjectId id);
+
+    MailUser findUserByEmail(String emailAddress);
+
+    void createUser(MailUser user);
 }

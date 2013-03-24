@@ -15,64 +15,65 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 
+import java.util.Date;
+
 /**
  * It represents the Mongodb document used to persist
  * the remember me tokens.
- *  
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 @Document(collection = "persistentLogins")
 public class MongoRememberMeToken {
-	public MongoRememberMeToken() {}
-	
-	public MongoRememberMeToken(PersistentRememberMeToken token) {
-		this.setDate(token.getDate());
-		this.setSeries(token.getSeries());
-		this.setTokenValue(token.getTokenValue());
-		this.setUsername(token.getUsername());
-	}
-	
-	@Id
-	private String series;
-	private Date date;
-	private String tokenValue;
-	private String username;
-	
-	public Date getDate() {
-		return date;
-	}
-	
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public String getSeries() {
-		return series;
-	}
-	
-	public void setSeries(String series) {
-		this.series = series;
-	}
-	
-	public String getTokenValue() {
-		return tokenValue;
-	}
-	
-	public void setTokenValue(String tokenValue) {
-		this.tokenValue = tokenValue;
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}	           
+    public MongoRememberMeToken() {
+    }
+
+    public MongoRememberMeToken(PersistentRememberMeToken token) {
+        this.setDate(token.getDate());
+        this.setSeries(token.getSeries());
+        this.setTokenValue(token.getTokenValue());
+        this.setUsername(token.getUsername());
+    }
+
+    @Id
+    private String series;
+    private Date date;
+    private String tokenValue;
+    private String username;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getTokenValue() {
+        return tokenValue;
+    }
+
+    public void setTokenValue(String tokenValue) {
+        this.tokenValue = tokenValue;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

@@ -15,29 +15,30 @@
  */
 package com.github.carlomicieli.config;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.opensymphony.module.sitemesh.Decorator;
 import com.opensymphony.module.sitemesh.Page;
 import com.opensymphony.module.sitemesh.mapper.AbstractDecoratorMapper;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * The layout decorator for Sitemesh 2.
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class NoLayoutDecoratorMapper extends AbstractDecoratorMapper {
-	/**
-	 * Return the view decorator for HTTP requests.
-	 * @param request the servlet request.
-	 * @param page the page.
-	 * @return the view decorator.
-	 */
-	@Override
-	public Decorator getDecorator(HttpServletRequest request, Page page) {
-		if ("nolayout".equals(request.getParameter("htmlFormat"))) {
-			return null;
-		}
-		return super.getDecorator(request, page);
-	}
+    /**
+     * Return the view decorator for HTTP requests.
+     *
+     * @param request the servlet request.
+     * @param page    the page.
+     * @return the view decorator.
+     */
+    @Override
+    public Decorator getDecorator(HttpServletRequest request, Page page) {
+        if ("nolayout".equals(request.getParameter("htmlFormat"))) {
+            return null;
+        }
+        return super.getDecorator(request, page);
+    }
 }

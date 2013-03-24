@@ -15,63 +15,69 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.List;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.List;
 
 /**
  * It represents a movie search criteria form.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class SearchMovieForm {
-	@NotEmpty(message = "searchCriteria.required")
-	private String searchCriteria;
-	private List<Movie> movies;
+    @NotEmpty(message = "searchCriteria.required")
+    private String searchCriteria;
+    private List<Movie> movies;
 
-	public SearchMovieForm() {}
-	public SearchMovieForm(String searchCriteria) {
-		this.searchCriteria = searchCriteria;
-	}
-	
-	/**
-	 * Return true if movies are found, false otherwise.
-	 * @return true if movies are found, false otherwise.
-	 */
-	public boolean isFound() {
-		return movies!=null && movies.size() > 0;
-	}
-	
-	/**
-	 * Return the movies search criteria.
-	 * @return the movies search criteria.
-	 */
-	public String getSearchCriteria() {
-		return searchCriteria;
-	}
+    public SearchMovieForm() {
+    }
 
-	/**
-	 * Set the movies search criteria.
-	 * @param searchCriteria the movies search criteria.
-	 */
-	public void setSearchCriteria(String searchCriteria) {
-		this.searchCriteria = searchCriteria;
-	}
+    public SearchMovieForm(String searchCriteria) {
+        this.searchCriteria = searchCriteria;
+    }
 
-	/**
-	 * Set the result list.
-	 * @param movies the list of movies found.
-	 */
-	public void setResults(List<Movie> movies) {
-		this.movies = movies;
-	}
-	
-	/**
-	 * Return the result list.
-	 * @return the list of movies found.
-	 */
-	public List<Movie> getResults() {
-		return movies;
-	}
+    /**
+     * Return true if movies are found, false otherwise.
+     *
+     * @return true if movies are found, false otherwise.
+     */
+    public boolean isFound() {
+        return movies != null && movies.size() > 0;
+    }
+
+    /**
+     * Return the movies search criteria.
+     *
+     * @return the movies search criteria.
+     */
+    public String getSearchCriteria() {
+        return searchCriteria;
+    }
+
+    /**
+     * Set the movies search criteria.
+     *
+     * @param searchCriteria the movies search criteria.
+     */
+    public void setSearchCriteria(String searchCriteria) {
+        this.searchCriteria = searchCriteria;
+    }
+
+    /**
+     * Set the result list.
+     *
+     * @param movies the list of movies found.
+     */
+    public void setResults(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    /**
+     * Return the result list.
+     *
+     * @return the list of movies found.
+     */
+    public List<Movie> getResults() {
+        return movies;
+    }
 }

@@ -15,29 +15,26 @@
  */
 package com.github.carlomicieli.converters;
 
+import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.services.MovieService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
-import com.github.carlomicieli.models.Movie;
-import com.github.carlomicieli.services.MovieService;
-
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class MovieConverter implements Converter<String, Movie> {
-	private MovieService movieService;
-	
-	@Autowired
-	public MovieConverter(MovieService rollingStockService) {
-		this.movieService = rollingStockService;
-	}
-	
-	@Override
-	public Movie convert(String source) {
-		ObjectId id = new ObjectId(source);
-		return this.movieService.findById(id);
-	}
+    private MovieService movieService;
+
+    @Autowired
+    public MovieConverter(MovieService rollingStockService) {
+        this.movieService = rollingStockService;
+    }
+
+    @Override
+    public Movie convert(String source) {
+        ObjectId id = new ObjectId(source);
+        return this.movieService.findById(id);
+    }
 }

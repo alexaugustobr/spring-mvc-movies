@@ -18,11 +18,10 @@ package com.github.carlomicieli.security;
 import com.github.carlomicieli.models.MailUser;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public interface SecurityService {
-	void authenticate(MailUser user);
-	MailUserDetails getCurrentUser();
+    void authenticate(MailUser user);
+
+    MailUserDetails getCurrentUser();
 }

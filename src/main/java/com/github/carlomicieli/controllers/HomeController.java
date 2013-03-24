@@ -15,43 +15,40 @@
  */
 package com.github.carlomicieli.controllers;
 
+import com.github.carlomicieli.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.github.carlomicieli.services.MovieService;
-
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Controller
 public class HomeController {
 
-	private MovieService movieService;
-	
-	@Autowired
-	public HomeController(MovieService movieService) {
-		this.movieService = movieService;
-	}
-	
-	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String index(Model model) {
-		model.addAttribute("movies", movieService.getRecentMovies(10));		
-		return "home/index";
+    private MovieService movieService;
+
+    @Autowired
+    public HomeController(MovieService movieService) {
+        this.movieService = movieService;
     }
-	
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String about() {
-		return "home/about";
-	}
-	
-	@RequestMapping(value = "/default", method = RequestMethod.GET)
-	public String defaultPage() {
-		return "home/index";
-	}
-	 
+
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    public String index(Model model) {
+        model.addAttribute("movies", movieService.getRecentMovies(10));
+        return "home/index";
+    }
+
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String about() {
+        return "home/about";
+    }
+
+    @RequestMapping(value = "/default", method = RequestMethod.GET)
+    public String defaultPage() {
+        return "home/index";
+    }
+
 }

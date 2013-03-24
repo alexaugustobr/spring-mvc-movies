@@ -15,63 +15,60 @@
  */
 package com.github.carlomicieli.security;
 
-import java.util.Date;
-
+import com.github.carlomicieli.models.MongoRememberMeToken;
+import com.github.carlomicieli.services.MongoRememberMeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Component;
 
-import com.github.carlomicieli.models.MongoRememberMeToken;
-import com.github.carlomicieli.services.MongoRememberMeService;
+import java.util.Date;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Component("persistentTokenRepository")
 public class MongoPersistentTokenRepository implements
-		PersistentTokenRepository {
-	
-	private MongoRememberMeService rememberMeService;
-	
-	@Autowired
-	public MongoPersistentTokenRepository(MongoRememberMeService rememberMeService) {
-		this.rememberMeService = rememberMeService;
-	}
-	
-	public void createNewToken(PersistentRememberMeToken token) {
-		final MongoRememberMeToken t = 
-				new MongoRememberMeToken(token);
-		rememberMeService.createNew(t);
-	}
+        PersistentTokenRepository {
 
-	@Override
-	public void updateToken(String series, String tokenValue, Date lastUsed) {
-		final MongoRememberMeToken token = 
-				new MongoRememberMeToken();
-		
-		token.setDate(lastUsed);
-		token.setTokenValue(tokenValue);
-		token.setSeries(series);
-		rememberMeService.saveToken(token);
-	}
+    private MongoRememberMeService rememberMeService;
 
-	@Override
-	public PersistentRememberMeToken getTokenForSeries(String seriesId) {
-		final MongoRememberMeToken token = 
-				rememberMeService.findBySeries(seriesId);
-		
-		return new PersistentRememberMeToken(token.getUsername(),
-				token.getSeries(),
-				token.getTokenValue(),
-				token.getDate());
-	}
+    @Autowired
+    public MongoPersistentTokenRepository(MongoRememberMeService rememberMeService) {
+        this.rememberMeService = rememberMeService;
+    }
 
-	@Override
-	public void removeUserTokens(String username) {
-		rememberMeService.removeToken(username);
-	}
+    public void createNewToken(PersistentRememberMeToken token) {
+        final MongoRememberMeToken t =
+                new MongoRememberMeToken(token);
+        rememberMeService.createNew(t);
+    }
+
+    @Override
+    public void updateToken(String series, String tokenValue, Date lastUsed) {
+        final MongoRememberMeToken token =
+                new MongoRememberMeToken();
+
+        token.setDate(lastUsed);
+        token.setTokenValue(tokenValue);
+        token.setSeries(series);
+        rememberMeService.saveToken(token);
+    }
+
+    @Override
+    public PersistentRememberMeToken getTokenForSeries(String seriesId) {
+        final MongoRememberMeToken token =
+                rememberMeService.findBySeries(seriesId);
+
+        return new PersistentRememberMeToken(token.getUsername(),
+                token.getSeries(),
+                token.getTokenValue(),
+                token.getDate());
+    }
+
+    @Override
+    public void removeUserTokens(String username) {
+        rememberMeService.removeToken(username);
+    }
 
 }

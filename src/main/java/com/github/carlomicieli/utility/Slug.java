@@ -22,20 +22,20 @@ import java.util.regex.Pattern;
 
 /**
  * It converts a string to a "slug".
- * 
+ * <p/>
  * Original implementation at <http://www.codecodex.com/wiki/Generate_a_url_slug#Java>
  */
 public class Slug {
-	private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");  
-	private static final Pattern WHITESPACE = Pattern.compile("[\\s]");  
-	  
-	public static String makeSlug(String input) {
-		if(input==null)
-			throw new IllegalArgumentException();
-		
-		String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");  
-		String normalized = Normalizer.normalize(nowhitespace, Form.NFD);  
-		String slug = NONLATIN.matcher(normalized).replaceAll("");  
-		return slug.toLowerCase(Locale.ENGLISH); 
-	}
+    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
+    public static String makeSlug(String input) {
+        if (input == null)
+            throw new IllegalArgumentException();
+
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
+    }
 }

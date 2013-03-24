@@ -15,22 +15,20 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-
+import com.mongodb.DBObject;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 
-import com.mongodb.DBObject;
+import java.util.Date;
 
 /**
  * The listener to change the document just before the movies are saved.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class MovieBeforeSaveListener extends AbstractMongoEventListener<Movie> {
-	@Override
-	public void onBeforeSave(Movie movie, DBObject dbo) {
-		dbo.put("slug", movie.buildSlug());
-		dbo.put("savedAt", new Date());
-	}
+    @Override
+    public void onBeforeSave(Movie movie, DBObject dbo) {
+        dbo.put("slug", movie.buildSlug());
+        dbo.put("savedAt", new Date());
+    }
 }

@@ -15,8 +15,9 @@
  */
 package com.github.carlomicieli.controllers;
 
-import javax.validation.Valid;
-
+import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.security.SecurityService;
+import com.github.carlomicieli.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,54 +26,53 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.github.carlomicieli.models.MailUser;
-import com.github.carlomicieli.security.SecurityService;
-import com.github.carlomicieli.services.UserService;
+import javax.validation.Valid;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-	
-	private UserService userService;
-	private @Autowired SecurityService securityService;
-	private @Autowired PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	public AuthController(UserService userService) {
-		this.userService = userService;
-	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
-		return "auth/login";
-	}
 
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signUp(Model model) {
-		model.addAttribute(new MailUser());
-		return "auth/signup";
-	}
+    private UserService userService;
 
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String createUser(@Valid MailUser user, BindingResult result) {
-		if (result.hasErrors()) {
-			return "auth/signup";
-		}
-		
-		// set the default values for the user
-		user.init();
-		
-		user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
-		userService.createUser(user);
-		
-		// automatically sign in the new user
-		securityService.authenticate(user);
-		
-		return "home/index";		
-	}
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "auth/login";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String signUp(Model model) {
+        model.addAttribute(new MailUser());
+        return "auth/signup";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String createUser(@Valid MailUser user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "auth/signup";
+        }
+
+        // set the default values for the user
+        user.init();
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
+        userService.createUser(user);
+
+        // automatically sign in the new user
+        securityService.authenticate(user);
+
+        return "home/index";
+    }
 }

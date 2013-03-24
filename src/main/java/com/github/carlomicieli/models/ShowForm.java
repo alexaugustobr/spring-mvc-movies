@@ -15,104 +15,103 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.Date;
 
 /**
  * The POJO for the new show creation view.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class ShowForm {
-	private Movie movie;
-	
-	@NotEmpty(groups = AddressGroup.class, message = "show.venue.required")
-	private String venue;
-	@NotEmpty(groups = AddressGroup.class, message = "show.address.required")
-	private String address;
-	@NotEmpty(groups = AddressGroup.class, message = "show.postalCode.required")
-	private String postalCode;
-	@NotEmpty(groups = AddressGroup.class, message = "show.city.required")
-	private String city;
-	
-	private Date date;
-	
-	private String description;
-	
-	public String getDescription() {
-		return description;
-	}
+    private Movie movie;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public Movie getMovie() {
-		return movie;
-	}
-	
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-	
-	public String getVenue() {
-		return venue;
-	}
-	
-	public void setVenue(String venue) {
-		this.venue = venue;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getPostalCode() {
-		return postalCode;
-	}
-	
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-	
-	public String getCity() {
-		return city;
-	}
-	
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
-	public Date getDate() {
-		return date;
-	}
-	
-	public String getCompleteAddress() {
-		StringBuilder sb = new StringBuilder()
-			.append(getVenue() + ", ")
-			.append(getAddress() + ", ")
-			.append(getPostalCode() + ", ")
-			.append(getCity());
-		
-		return sb.toString();
-	}
-	
-	public String getGeocodingAddress() {
-		StringBuilder sb = new StringBuilder()
-			.append(getAddress() + ", ")
-			.append(getPostalCode() + ", ")
-			.append(getCity());
-		
-		return sb.toString();
-	}
+    @NotEmpty(groups = AddressGroup.class, message = "show.venue.required")
+    private String venue;
+    @NotEmpty(groups = AddressGroup.class, message = "show.address.required")
+    private String address;
+    @NotEmpty(groups = AddressGroup.class, message = "show.postalCode.required")
+    private String postalCode;
+    @NotEmpty(groups = AddressGroup.class, message = "show.city.required")
+    private String city;
+
+    private Date date;
+
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getCompleteAddress() {
+        StringBuilder sb = new StringBuilder()
+                .append(getVenue() + ", ")
+                .append(getAddress() + ", ")
+                .append(getPostalCode() + ", ")
+                .append(getCity());
+
+        return sb.toString();
+    }
+
+    public String getGeocodingAddress() {
+        StringBuilder sb = new StringBuilder()
+                .append(getAddress() + ", ")
+                .append(getPostalCode() + ", ")
+                .append(getCity());
+
+        return sb.toString();
+    }
 }

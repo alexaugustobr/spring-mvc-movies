@@ -15,8 +15,8 @@
  */
 package com.github.carlomicieli.services;
 
-import java.util.List;
-
+import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.utility.PaginatedResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,61 +25,59 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import com.github.carlomicieli.models.Movie;
-import com.github.carlomicieli.utility.PaginatedResult;
+
+import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Service("movieService")
 public class MongoMovieService implements MovieService {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	
-	public PaginatedResult<Movie> getAllMovies(int page, int pageSize) {
-		Pageable p = new PageRequest(page - 1, pageSize);
-		final Query query = new Query().skip(p.getOffset()).limit(p.getPageSize());
-		
-		//counting the total number of documents in the collection
-		long count = mongoTemplate.count(new Query(), Movie.class);
-		
-		List<Movie> movies = mongoTemplate.find(query, Movie.class);
-		PaginatedResult<Movie> results = new PaginatedResult<Movie>(movies,
-				count, page, pageSize);
-		
-		return results;
-	}
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	public Movie findById(ObjectId id) {
-		return mongoTemplate.findById(id, Movie.class);
-	}
+    public PaginatedResult<Movie> getAllMovies(int page, int pageSize) {
+        Pageable p = new PageRequest(page - 1, pageSize);
+        final Query query = new Query().skip(p.getOffset()).limit(p.getPageSize());
 
-	public void save(Movie movie) {
-		mongoTemplate.save(movie);
-	}
+        //counting the total number of documents in the collection
+        long count = mongoTemplate.count(new Query(), Movie.class);
 
-	public void delete(Movie movie) {
-		mongoTemplate.remove(movie);
-	}
+        List<Movie> movies = mongoTemplate.find(query, Movie.class);
+        PaginatedResult<Movie> results = new PaginatedResult<Movie>(movies,
+                count, page, pageSize);
 
-	public Movie findBySlug(String slug) {
-		return mongoTemplate.findOne(new Query(where("slug").is(slug)), Movie.class);
-	}
+        return results;
+    }
 
-	public List<Movie> getRecentMovies(int numOfMovies) {
-		Query q = new Query().limit(numOfMovies);
-		q.sort().on("savedAt", Order.DESCENDING);
-		return mongoTemplate.find(q, Movie.class);
-	}
+    public Movie findById(ObjectId id) {
+        return mongoTemplate.findById(id, Movie.class);
+    }
 
-	public List<Movie> findMovies(String searchCriteria) {
-		Query q = query(where("title").regex(searchCriteria, "i"));
-		return mongoTemplate.find(q, Movie.class);
-	}
+    public void save(Movie movie) {
+        mongoTemplate.save(movie);
+    }
+
+    public void delete(Movie movie) {
+        mongoTemplate.remove(movie);
+    }
+
+    public Movie findBySlug(String slug) {
+        return mongoTemplate.findOne(new Query(where("slug").is(slug)), Movie.class);
+    }
+
+    public List<Movie> getRecentMovies(int numOfMovies) {
+        Query q = new Query().limit(numOfMovies);
+        q.sort().on("savedAt", Order.DESCENDING);
+        return mongoTemplate.find(q, Movie.class);
+    }
+
+    public List<Movie> findMovies(String searchCriteria) {
+        Query q = query(where("title").regex(searchCriteria, "i"));
+        return mongoTemplate.find(q, Movie.class);
+    }
 }

@@ -35,8 +35,8 @@ targetCompatibility = JavaVersion.VERSION_1_7
 [tomcatRun, tomcatRunWar]*.stopKey = 'rosebud'
 
 tomcatStop {
-	stopPort = 9090
-	stopKey = 'rosebud'
+    stopPort = 9090
+    stopKey = 'rosebud'
 }
 
 buildscript {
@@ -51,34 +51,34 @@ buildscript {
 
 // ====================== sets ======================= //
 configurations {
-	componentTestCompile {
-		extendsFrom testCompile
-	}
-	componentTestRuntime {
-		extendsFrom componentTestCompile, testRuntime
-	}
+    componentTestCompile {
+        extendsFrom testCompile
+    }
+    componentTestRuntime {
+        extendsFrom componentTestCompile, testRuntime
+    }
 
-	integrationTestCompile {
-		extendsFrom testCompile
-	}
-	integrationTestRuntime {
-		extendsFrom integrationTestCompile, testRuntime
-	}
+    integrationTestCompile {
+        extendsFrom testCompile
+    }
+    integrationTestRuntime {
+        extendsFrom integrationTestCompile, testRuntime
+    }
 }
 
 sourceSets {
     componentTest {
-		java.srcDir file('src/componentTest/java')
+        java.srcDir file('src/componentTest/java')
         resources.srcDir file('src/componentTest/resources')
-		compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.componentTestCompile
-		runtimeClasspath = output + compileClasspath + configurations.componentTestRuntime
+        compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.componentTestCompile
+        runtimeClasspath = output + compileClasspath + configurations.componentTestRuntime
     }
 
-	integrationTest {
-		groovy.srcDir file('src/integrationTest/groovy')
+    integrationTest {
+        groovy.srcDir file('src/integrationTest/groovy')
         resources.srcDir file('src/integrationTest/resources')
-		compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.integrationTestCompile
-		runtimeClasspath = output + compileClasspath + configurations.integrationTestRuntime
+        compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.integrationTestCompile
+        runtimeClasspath = output + compileClasspath + configurations.integrationTestRuntime
     }
 }
 
@@ -86,7 +86,7 @@ sourceSets {
 repositories {
     mavenCentral()
     maven {url "http://maven.springframework.org/release/"}
-	maven {url "https://repository.jboss.org/nexus/content/repositories/releases/"}
+    maven {url "https://repository.jboss.org/nexus/content/repositories/releases/"}
 }
 
 // ====================== dependencies ================= //
@@ -105,143 +105,143 @@ def junitVersion = "4.10"
 def mockitoVersion = "1.9.5"
 
 dependencies {
-	// spring framework
-	compile("org.springframework:spring-context:${springVersion}") {
-		exclude group: "commons-logging", module: "commons-logging"
-	}
-	
-	// spring mvc
-	compile "org.springframework:spring-webmvc:${springVersion}"
-	compile "org.springframework:spring-web:${springVersion}"
-	
-	// spring security
-	compile("org.springframework.security:spring-security-core:${securityVersion}") {
-		exclude group: "commons-logging", module: "commons-logging"
-	}
-	compile("org.springframework.security:spring-security-config:${securityVersion}") {
-		exclude group: "commons-logging", module: "commons-logging"
-	}
-	compile("org.springframework.security:spring-security-web:${securityVersion}") {
-		exclude group: "commons-logging", module: "commons-logging"
-	}
-	compile "org.springframework.security:spring-security-taglibs:${securityVersion}"
+    // spring framework
+    compile("org.springframework:spring-context:${springVersion}") {
+        exclude group: "commons-logging", module: "commons-logging"
+    }
 
-	// logging
-	compile "org.slf4j:slf4j-api:${slf4jVersion}"
-	runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
-		"org.slf4j:slf4j-log4j12:${slf4jVersion}",
-		"log4j:log4j:1.2.16"
+    // spring mvc
+    compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "org.springframework:spring-web:${springVersion}"
 
-	// GCLIB, required for @Configuration usage
-	compile "cglib:cglib-nodep:2.2.2"
-	
-	// Servlet Api
-	providedCompile "javax.servlet:servlet-api:2.5"
-	compile "javax.servlet:jstl:1.2"
+    // spring security
+    compile("org.springframework.security:spring-security-core:${securityVersion}") {
+        exclude group: "commons-logging", module: "commons-logging"
+    }
+    compile("org.springframework.security:spring-security-config:${securityVersion}") {
+        exclude group: "commons-logging", module: "commons-logging"
+    }
+    compile("org.springframework.security:spring-security-web:${securityVersion}") {
+        exclude group: "commons-logging", module: "commons-logging"
+    }
+    compile "org.springframework.security:spring-security-taglibs:${securityVersion}"
 
-	// Sitemesh
-	compile "opensymphony:sitemesh:2.4.2"
-	
-	// Thymeleaf
-	compile "org.thymeleaf:thymeleaf:${thymeleafVersion}"
-	compile "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}"
+    // logging
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
+            "org.slf4j:slf4j-log4j12:${slf4jVersion}",
+            "log4j:log4j:1.2.16"
+
+    // GCLIB, required for @Configuration usage
+    compile "cglib:cglib-nodep:2.2.2"
+
+    // Servlet Api
+    providedCompile "javax.servlet:servlet-api:2.5"
+    compile "javax.servlet:jstl:1.2"
+
+    // Sitemesh
+    compile "opensymphony:sitemesh:2.4.2"
+
+    // Thymeleaf
+    compile "org.thymeleaf:thymeleaf:${thymeleafVersion}"
+    compile "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}"
 
     // JSR 303 with Hibernate Validator
     compile "javax.validation:validation-api:1.0.0.GA"
     compile "org.hibernate:hibernate-validator:${hibernateValidationVersion}",
             "org.hibernate:hibernate-validator-annotation-processor:${hibernateValidationVersion}"
 
-	// imgscalr
-	compile "org.imgscalr:imgscalr-lib:4.2"
+    // imgscalr
+    compile "org.imgscalr:imgscalr-lib:4.2"
 
-	// files upload
-	compile "commons-fileupload:commons-fileupload:1.2.2",
-		"commons-io:commons-io:2.1"
+    // files upload
+    compile "commons-fileupload:commons-fileupload:1.2.2",
+            "commons-io:commons-io:2.1"
 
     // spring data mongodb
     compile "org.springframework.data:spring-data-commons:${springDataVersion}"
     compile "org.springframework.data:spring-data-mongodb:${springDataMongoVersion}"
     compile "org.mongodb:mongo-java-driver:${mongoDriverVersion}"
 
-	// jackson JSON
-	compile "org.codehaus.jackson:jackson-core-asl:${jacksonVersion}"
-	compile "org.codehaus.jackson:jackson-mapper-asl:${jacksonVersion}"
-	
-	// unit testing
-	testCompile "junit:junit:${junitVersion}",
-		"org.mockito:mockito-core:${mockitoVersion}",
-		"org.springframework:spring-test:${springVersion}"
+    // jackson JSON
+    compile "org.codehaus.jackson:jackson-core-asl:${jacksonVersion}"
+    compile "org.codehaus.jackson:jackson-mapper-asl:${jacksonVersion}"
 
-	// integration tests
-	groovy "org.codehaus.groovy:groovy:2.0.6"
-	integrationTestCompile "org.spockframework:spock-core:0.7-groovy-2.0",
-		"org.codehaus.geb:geb-core:${gebVersion}",
-		"org.codehaus.geb:geb-spock:${gebVersion}",
-		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
-		
-	// tomcat 7
-	tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-		   "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-	tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-		exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-	}
+    // unit testing
+    testCompile "junit:junit:${junitVersion}",
+            "org.mockito:mockito-core:${mockitoVersion}",
+            "org.springframework:spring-test:${springVersion}"
+
+    // integration tests
+    groovy "org.codehaus.groovy:groovy:2.0.6"
+    integrationTestCompile "org.spockframework:spock-core:0.7-groovy-2.0",
+            "org.codehaus.geb:geb-core:${gebVersion}",
+            "org.codehaus.geb:geb-spock:${gebVersion}",
+            "org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
+
+    // tomcat 7
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
 }
 
 // ====================== eclipse ===================== //
 eclipse {
-	// add the integration classpath
-	classpath {
-		plusConfigurations += configurations.componentTestRuntime
-		plusConfigurations += configurations.integrationTestRuntime
+    // add the integration classpath
+    classpath {
+        plusConfigurations += configurations.componentTestRuntime
+        plusConfigurations += configurations.integrationTestRuntime
 
-		//default settings for dependencies sources/javadoc download:
-		downloadSources = true
-		downloadJavadoc = false
-	}
-	wtp {
-		component {
-			contextPath = 'spring-mvc-movies'
-		}
-	}
+        //default settings for dependencies sources/javadoc download:
+        downloadSources = true
+        downloadJavadoc = false
+    }
+    wtp {
+        component {
+            contextPath = 'spring-mvc-movies'
+        }
+    }
 }
 
 // ====================== tasks ======================== //
 
 // directory creation
 task createDirs(description: 'Creates the directory for the project.', group: 'Project') << {
-	sourceSets*.java.srcDirs*.each { it.mkdirs() }
-	sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-	sourceSets.integrationTest*.groovy.srcDirs*.each { it.mkdirs() }
-	
-	[webAppDirName, webAppDirName + '/META-INF', webAppDirName + '/WEB-INF'].each { file(it).mkdirs() }
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    sourceSets.integrationTest*.groovy.srcDirs*.each { it.mkdirs() }
+
+    [webAppDirName, webAppDirName + '/META-INF', webAppDirName + '/WEB-INF'].each { file(it).mkdirs() }
 }
 
 // wrapper task to create the download script
 task wrapper(type: Wrapper, group: 'Gradle wrapper', description: 'Gradle will be automatically downloaded and used to run the build.') {
-	gradleVersion = '1.4'
+    gradleVersion = '1.4'
 }
 
 // component testing:	the same as unit testing except that all stubs
 //						and simulators are replaced with the real thing.
 task componentTest(description: 'Runs the component tests.', group: 'Verification', type: Test) {
-	testClassesDir = sourceSets.componentTest.output.classesDir
-	classpath = sourceSets.componentTest.runtimeClasspath
+    testClassesDir = sourceSets.componentTest.output.classesDir
+    classpath = sourceSets.componentTest.runtimeClasspath
 }
 check.dependsOn componentTest
 
 // integration testing: the application is deployed to the web container
 task integrationTest(description: 'Runs the integration tests.', group: 'Verification', type: Test) {
-	testClassesDir = sourceSets.integrationTest.output.classesDir
-	classpath = sourceSets.integrationTest.runtimeClasspath
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
 
-	doFirst {
-		[tomcatRun, tomcatRunWar]*.daemon = true
-		tasks.tomcatRun.execute()
-	}
+    doFirst {
+        [tomcatRun, tomcatRunWar]*.daemon = true
+        tasks.tomcatRun.execute()
+    }
 
-	doLast {
-		tasks.tomcatStop.execute()
-	}
+    doLast {
+        tasks.tomcatStop.execute()
+    }
 }
 //check.dependsOn integrationTest
 

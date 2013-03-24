@@ -15,23 +15,27 @@
  */
 package com.github.carlomicieli.services;
 
-import java.util.List;
-
-import org.bson.types.ObjectId;
 import com.github.carlomicieli.models.Movie;
 import com.github.carlomicieli.utility.PaginatedResult;
+import org.bson.types.ObjectId;
+
+import java.util.List;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public interface MovieService {
-	PaginatedResult<Movie> getAllMovies(int page, int pageSize);
-	Movie findById(ObjectId id);
-	Movie findBySlug(String slug);
-	void save(Movie movie);
-	void delete(Movie movie);
-	List<Movie> getRecentMovies(int numOfMovies);
-	List<Movie> findMovies(String searchCriteria);
+    PaginatedResult<Movie> getAllMovies(int page, int pageSize);
+
+    Movie findById(ObjectId id);
+
+    Movie findBySlug(String slug);
+
+    void save(Movie movie);
+
+    void delete(Movie movie);
+
+    List<Movie> getRecentMovies(int numOfMovies);
+
+    List<Movie> findMovies(String searchCriteria);
 }

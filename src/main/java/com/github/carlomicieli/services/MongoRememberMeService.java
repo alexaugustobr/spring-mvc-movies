@@ -15,42 +15,40 @@
  */
 package com.github.carlomicieli.services;
 
+import com.github.carlomicieli.models.MongoRememberMeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.github.carlomicieli.models.MongoRememberMeToken;
-import static  org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Service("rememberMeService")
 public class MongoRememberMeService {
-	
-	private MongoTemplate mongoTemplate;
-	
-	@Autowired
-	public MongoRememberMeService(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
 
-	public void createNew(MongoRememberMeToken token) {
-		mongoTemplate.insert(token);		
-	}
+    private MongoTemplate mongoTemplate;
 
-	public void saveToken(MongoRememberMeToken token) {
-		mongoTemplate.save(token);
-	}
+    @Autowired
+    public MongoRememberMeService(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
-	public MongoRememberMeToken findBySeries(String seriesId) {
-		return mongoTemplate.findById(seriesId, MongoRememberMeToken.class);
-	}
-	
-	public void removeToken(String username) {
-		mongoTemplate.remove(new Query(where("username").is(username)), MongoRememberMeToken.class);
-	}
+    public void createNew(MongoRememberMeToken token) {
+        mongoTemplate.insert(token);
+    }
+
+    public void saveToken(MongoRememberMeToken token) {
+        mongoTemplate.save(token);
+    }
+
+    public MongoRememberMeToken findBySeries(String seriesId) {
+        return mongoTemplate.findById(seriesId, MongoRememberMeToken.class);
+    }
+
+    public void removeToken(String username) {
+        mongoTemplate.remove(new Query(where("username").is(username)), MongoRememberMeToken.class);
+    }
 }

@@ -15,35 +15,33 @@
  */
 package com.github.carlomicieli.services;
 
-import java.util.List;
-
+import com.github.carlomicieli.models.Show;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.github.carlomicieli.models.Show;
+import java.util.List;
 
 /**
  * A shows service for Mongodb.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 @Service("showService")
 public class MongoShowService implements ShowService {
-	private MongoTemplate mongoTemplate;
-	
-	@Autowired
-	public MongoShowService(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
+    private MongoTemplate mongoTemplate;
 
-	public void create(Show s) {
-		mongoTemplate.insert(s);		
-	}
+    @Autowired
+    public MongoShowService(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
-	public List<Show> getAllShows() {
-		return mongoTemplate.find(new Query(), Show.class);
-	}
+    public void create(Show s) {
+        mongoTemplate.insert(s);
+    }
+
+    public List<Show> getAllShows() {
+        return mongoTemplate.find(new Query(), Show.class);
+    }
 }

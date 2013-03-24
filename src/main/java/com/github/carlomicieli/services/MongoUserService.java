@@ -15,40 +15,37 @@
  */
 package com.github.carlomicieli.services;
 
+import com.github.carlomicieli.models.MailUser;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.github.carlomicieli.models.MailUser;
-
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Service("userService")
 public class MongoUserService implements UserService {
 
-	private MongoTemplate mongoTemplate;
-	
-	@Autowired
-	public MongoUserService(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
-	
-	public MailUser findUserById(ObjectId id) {
-		return mongoTemplate.findById(id, MailUser.class);	
-	}
+    private MongoTemplate mongoTemplate;
 
-	public MailUser findUserByEmail(String emailAddress) {
-		return mongoTemplate.findOne(new Query(where("emailAddress").is(emailAddress)), MailUser.class);
-	}
+    @Autowired
+    public MongoUserService(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
-	public void createUser(MailUser user) {
-		mongoTemplate.insert(user);
-	}
+    public MailUser findUserById(ObjectId id) {
+        return mongoTemplate.findById(id, MailUser.class);
+    }
+
+    public MailUser findUserByEmail(String emailAddress) {
+        return mongoTemplate.findOne(new Query(where("emailAddress").is(emailAddress)), MailUser.class);
+    }
+
+    public void createUser(MailUser user) {
+        mongoTemplate.insert(user);
+    }
 }

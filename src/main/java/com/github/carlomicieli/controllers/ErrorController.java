@@ -20,22 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Controller
 @RequestMapping("/error")
 public class ErrorController {
-	
-	@RequestMapping(value = "/notfound", method = RequestMethod.GET)
-	public String notFound() {
-		return "errors/notfound";
-	}
 
-	@RequestMapping(value = "/denied", method = RequestMethod.GET)
-	public String accessDenied() {
-		return "errors/denied";
-	}
-	
+    @RequestMapping(value = "/notfound", method = RequestMethod.GET)
+    public String notFound() {
+        return "errors/notfound";
+    }
+
+    @RequestMapping(value = "/denied", method = RequestMethod.GET)
+    public String accessDenied() {
+        return "errors/denied";
+    }
+
 }

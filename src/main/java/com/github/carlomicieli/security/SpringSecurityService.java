@@ -15,33 +15,30 @@
  */
 package com.github.carlomicieli.security;
 
+import com.github.carlomicieli.models.MailUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.github.carlomicieli.models.MailUser;
-
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Service("securityService")
 public class SpringSecurityService implements SecurityService {
 
-	@Override
-	public void authenticate(MailUser user) {
-		MailUserDetails det = new MailUserDetails(user);
-		Authentication authentication = new UsernamePasswordAuthenticationToken(det,
-				det.getPassword(),
-				det.getAuthorities());
+    @Override
+    public void authenticate(MailUser user) {
+        MailUserDetails det = new MailUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(det,
+                det.getPassword(),
+                det.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-	}
+    }
 
-	@Override
-	public MailUserDetails getCurrentUser() {
+    @Override
+    public MailUserDetails getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication == null ? null : (MailUserDetails) authentication.getPrincipal();
-	}
+    }
 }

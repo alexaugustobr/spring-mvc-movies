@@ -15,10 +15,7 @@
  */
 package com.github.carlomicieli.controllers;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.github.carlomicieli.models.Movie;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,54 +29,54 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.github.carlomicieli.models.Movie;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @Controller
 @RequestMapping("/images")
 public class ImageController {
-	private MongoTemplate mongoTemplate;
-	
-	private enum ImageType {
-		POSTER, THUMB
-	};
-	
-	@Autowired
-	public ImageController(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
-	
-	@RequestMapping(value = "/posters/{movieId}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> renderPoster(@PathVariable String movieId) throws IOException {
-	    return render(movieId, ImageType.POSTER);
-	}
-	
-	@RequestMapping(value = "/thumb/{movieId}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> renderThumb(@PathVariable String movieId) throws IOException {
-	    return render(movieId, ImageType.THUMB);
-	}
-	
-	private ResponseEntity<byte[]> render(String movieId, ImageType t) throws IOException {
-		ObjectId id = new ObjectId(movieId);
-		
-		Movie m = mongoTemplate.findById(id, Movie.class);
-	    
-		byte[] aob = null;
-		if (t==ImageType.POSTER)
-			aob = m.getPoster();
-		else if (t==ImageType.THUMB)
-			aob = m.getThumb();
-		
-		if (aob==null) return null;
-		
-		InputStream in = new ByteArrayInputStream(aob);
+    private MongoTemplate mongoTemplate;
 
-	    final HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.IMAGE_PNG);
-	    return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
-	}
+    private enum ImageType {
+        POSTER, THUMB
+    };
+
+    @Autowired
+    public ImageController(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    @RequestMapping(value = "/posters/{movieId}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> renderPoster(@PathVariable String movieId) throws IOException {
+        return render(movieId, ImageType.POSTER);
+    }
+
+    @RequestMapping(value = "/thumb/{movieId}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> renderThumb(@PathVariable String movieId) throws IOException {
+        return render(movieId, ImageType.THUMB);
+    }
+
+    private ResponseEntity<byte[]> render(String movieId, ImageType t) throws IOException {
+        ObjectId id = new ObjectId(movieId);
+
+        Movie m = mongoTemplate.findById(id, Movie.class);
+
+        byte[] aob = null;
+        if (t == ImageType.POSTER)
+            aob = m.getPoster();
+        else if (t == ImageType.THUMB)
+            aob = m.getThumb();
+
+        if (aob == null) return null;
+
+        InputStream in = new ByteArrayInputStream(aob);
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+    }
 }

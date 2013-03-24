@@ -15,109 +15,107 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * It represents a movie show.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 @Document(collection = "shows")
 public class Show {
 
-	@Id
-	ObjectId id;
-	
-	@NotEmpty(message = "hostedBy.required")
-	String hostedBy;
-	
-	@DBRef
-	Movie movie;
-	
-	@NotNull(message = "date.required")
-	Date date;
-	
-	Set<String> partecipants;
+    @Id
+    ObjectId id;
 
-	String description;
-	String address;
-	
-	double[] location;
-	
-	public ObjectId getId() {
-		return id;
-	}
+    @NotEmpty(message = "hostedBy.required")
+    String hostedBy;
 
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
+    @DBRef
+    Movie movie;
 
-	public String getDescription() {
-		return description;
-	}
+    @NotNull(message = "date.required")
+    Date date;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    Set<String> partecipants;
 
-	public String getAddress() {
-		return address;
-	}
+    String description;
+    String address;
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    double[] location;
 
-	public String getHostedBy() {
-		return hostedBy;
-	}
-	
-	public double[] getLocation() {
-		return location;
-	}
+    public ObjectId getId() {
+        return id;
+    }
 
-	public void setLocation(double x, double y) {
-		this.location = new double[] { x, y };
-	}
-	
-	public void setHostedBy(String hostedBy) {
-		this.hostedBy = hostedBy;
-	}
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
-	public Movie getMovie() {
-		return movie;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public Set<String> getPartecipants() {
-		return partecipants;
-	}
+    public String getHostedBy() {
+        return hostedBy;
+    }
 
-	public void addPartecipant(String p) {
-		if (partecipants==null) partecipants = new HashSet<String>();
-		
-		partecipants.add(p);
-	}
+    public double[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(double x, double y) {
+        this.location = new double[]{x, y};
+    }
+
+    public void setHostedBy(String hostedBy) {
+        this.hostedBy = hostedBy;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Set<String> getPartecipants() {
+        return partecipants;
+    }
+
+    public void addPartecipant(String p) {
+        if (partecipants == null) partecipants = new HashSet<String>();
+
+        partecipants.add(p);
+    }
 }

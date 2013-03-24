@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.config;
 
+import com.mongodb.Mongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,29 +24,32 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import com.mongodb.Mongo;
 
 /**
- * Configuration class to inject the Mongodb 
+ * Configuration class to inject the Mongodb
  * instance for component testing.
- * 
- * @author Carlo P. Micieli
+ *
+ * @author Carlo Micieli
  */
 @Configuration
 @Profile("test")
 @PropertySource("classpath:META-INF/spring/test.properties")
 public class ComponentTestConfig {
-	private @Autowired Environment env;
-	
-	/**
-	 * Return the mongodb factory for the test environment.
-	 * @return the mongodb factory bean.
-	 * @throws Exception
-	 */
-	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
-		return new SimpleMongoDbFactory(
-				new Mongo(env.getProperty("mongo.hostName"), 
-						env.getProperty("mongo.portNumber", Integer.class)), 
-						env.getProperty("mongo.databaseName"));
-	}
+    private
+    @Autowired
+    Environment env;
+
+    /**
+     * Return the mongodb factory for the test environment.
+     *
+     * @return the mongodb factory bean.
+     * @throws Exception
+     */
+    @Bean
+    public MongoDbFactory mongoDbFactory() throws Exception {
+        return new SimpleMongoDbFactory(
+                new Mongo(env.getProperty("mongo.hostName"),
+                        env.getProperty("mongo.portNumber", Integer.class)),
+                env.getProperty("mongo.databaseName"));
+    }
 }

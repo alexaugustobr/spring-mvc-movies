@@ -15,10 +15,6 @@
  */
 package com.github.carlomicieli.models;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -27,96 +23,99 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * It represents an application account.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 @Document(collection = "users")
 public class MailUser implements Serializable {
-	private static final long serialVersionUID = 3346614940089556537L;
+    private static final long serialVersionUID = 3346614940089556537L;
 
-	@Id
-	private ObjectId id;
-	
-	@NotEmpty(message = "emailAddress.required")
-	@Email(message = "emailAddress.notValid")
-	@Length(min = 0, max = 50, message = "emailAddress.length")
-	@Indexed(unique = true)
-	private String emailAddress;
-	
-	@NotEmpty(message = "password.required")
-	@Length(min = 0, max = 25, message = "password.length")
-	private String password;
-	
-	@NotEmpty(message = "displayName.required")
-	@Length(min = 0, max = 25, message = "displayName.length")
-	private String displayName;
-	
-	private boolean isEnabled;
-	private List<String> roles;
-		
-	public ObjectId getId() {
-		return id;
-	}
+    @Id
+    private ObjectId id;
 
-	protected void setId(ObjectId id) {
-		this.id = id;
-	}
+    @NotEmpty(message = "emailAddress.required")
+    @Email(message = "emailAddress.notValid")
+    @Length(min = 0, max = 50, message = "emailAddress.length")
+    @Indexed(unique = true)
+    private String emailAddress;
 
-	public String getEmailAddress() {
-		return emailAddress;
-	}
+    @NotEmpty(message = "password.required")
+    @Length(min = 0, max = 25, message = "password.length")
+    private String password;
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    @NotEmpty(message = "displayName.required")
+    @Length(min = 0, max = 25, message = "displayName.length")
+    private String displayName;
 
-	public boolean isEnabled() {
-		return isEnabled;
-	}
+    private boolean isEnabled;
+    private List<String> roles;
 
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
+    public ObjectId getId() {
+        return id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    protected void setId(ObjectId id) {
+        this.id = id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-	public List<String> getRoles() {
-		return roles;
-	}
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 
-	public String getDisplayName() {
-		return displayName;
-	}
+    public void setEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	
-	public void addRole(String roleName) {
-		if(roles==null) roles = new ArrayList<String>();
-		roles.add(roleName);
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void init() {
-		isEnabled = true;
-		addRole("ROLE_USER");		
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("%s", getEmailAddress());
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void addRole(String roleName) {
+        if (roles == null) roles = new ArrayList<String>();
+        roles.add(roleName);
+    }
+
+    public void init() {
+        isEnabled = true;
+        addRole("ROLE_USER");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s", getEmailAddress());
+    }
 }

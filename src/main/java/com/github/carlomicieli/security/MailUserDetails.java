@@ -15,53 +15,52 @@
  */
 package com.github.carlomicieli.security;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import com.github.carlomicieli.models.MailUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.github.carlomicieli.models.MailUser;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * It represents a user details wrapper for the Authentication object.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class MailUserDetails implements UserDetails {
-	private static final long serialVersionUID = 1L;
-	
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<String> l = mailUser.getRoles();
-		String[] roles = l==null ?
-				new String[] {"ROLE_USER"} :
-				l.toArray(new String[l.size()]);
-		
-		return Collections.unmodifiableList(
-				AuthorityUtils.createAuthorityList(roles));
-	}
+    private static final long serialVersionUID = 1L;
 
-	private MailUser mailUser;
-	public MailUserDetails(MailUser mailUser) {
-		this.mailUser = mailUser;
-	}
-	
-	public MailUserDetails(String username, String password) {
-		mailUser = new MailUser();
-		mailUser.setEmailAddress(username);
-		mailUser.setPassword(password);
-	}
-	
-	public String getPassword() {
-		return mailUser.getPassword();
-	}
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<String> l = mailUser.getRoles();
+        String[] roles = l == null ?
+                new String[]{"ROLE_USER"} :
+                l.toArray(new String[l.size()]);
 
-	public String getUsername() {
-		return mailUser.getEmailAddress();
-	}
+        return Collections.unmodifiableList(
+                AuthorityUtils.createAuthorityList(roles));
+    }
+
+    private MailUser mailUser;
+
+    public MailUserDetails(MailUser mailUser) {
+        this.mailUser = mailUser;
+    }
+
+    public MailUserDetails(String username, String password) {
+        mailUser = new MailUser();
+        mailUser.setEmailAddress(username);
+        mailUser.setPassword(password);
+    }
+
+    public String getPassword() {
+        return mailUser.getPassword();
+    }
+
+    public String getUsername() {
+        return mailUser.getEmailAddress();
+    }
 
     public boolean isAccountNonExpired() {
         return true;

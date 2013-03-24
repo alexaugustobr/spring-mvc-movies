@@ -15,49 +15,47 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.Date;
 
 /**
  * It represents a user's comment.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 public class Comment {
-	
-	public Comment() {
-		
-	}
-	
-	@NotEmpty
-	private String author;
-	@NotEmpty
-	private String content;
-	private Date postedAt;
-	
-	public String getAuthor() {
-		return author;
-	}
-	
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	
-	public String getContent() {
-		return content;
-	}
-	
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	public Date getPostedAt() {
-		return postedAt;
-	}
-	
-	public void setPostedAt(Date postedAt) {
-		this.postedAt = postedAt;
-	}	
+
+    public Comment() {
+    }
+
+    @NotEmpty
+    private String author;
+    @NotEmpty
+    private String content;
+    private Date postedAt;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getPostedAt() {
+        return postedAt;
+    }
+
+    public void setPostedAt(Date postedAt) {
+        this.postedAt = postedAt;
+    }
 }

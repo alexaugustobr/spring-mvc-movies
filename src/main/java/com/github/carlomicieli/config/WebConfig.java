@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.config;
 
+import com.github.carlomicieli.converters.MovieConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,71 +30,75 @@ import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import com.github.carlomicieli.converters.MovieConverter;
-
 /**
  * The configuration class for the Spring MVC application.
- * @author Carlo P. Micieli
+ *
+ * @author Carlo Micieli
  */
 @Configuration
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
-	@Autowired
-	private ApplicationConfig applicationConfig;
-	
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		MovieConverter movieConverter = new MovieConverter(applicationConfig.movieService());
-		registry.addConverter(movieConverter);
-	}
-	
-	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		//Handles HTTP GET requests for resources by efficiently serving 
-		//up static resources in the ${webappRoot}/resources directory
-    	registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    @Autowired
+    private ApplicationConfig applicationConfig;
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        MovieConverter movieConverter = new MovieConverter(applicationConfig.movieService());
+        registry.addConverter(movieConverter);
     }
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		// add the spring security handler for thymeleaf
-		registry.addInterceptor(new ImplicitObjectsInterceptor());
-	}
-	
-	/*
-	 THYMELEAF-SPECIFIC ARTIFACTS
-	 TemplateResolver <- TemplateEngine <- ViewResolver
-	*/
-	public @Bean ServletContextTemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode("HTML5");
-		return resolver;
-	}
-	
-	public @Bean SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
-		return engine;
-	}
-	
-	public @Bean ThymeleafViewResolver viewResolver() {
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-		viewResolver.setTemplateEngine(templateEngine());
-		viewResolver.setOrder(1);
-		return viewResolver;
-	}
-	
-	public @Bean RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-	
-	// bean for files upload. 
-	// commons-fileupload is required in the classpath
-	public @Bean CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(1024 * 512); // 512Kb
-		return multipartResolver;
-	}
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //Handles HTTP GET requests for resources by efficiently serving
+        //up static resources in the ${webappRoot}/resources directory
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // add the spring security handler for thymeleaf
+        registry.addInterceptor(new ImplicitObjectsInterceptor());
+    }
+
+    /*
+     THYMELEAF-SPECIFIC ARTIFACTS
+     TemplateResolver <- TemplateEngine <- ViewResolver
+    */
+    @Bean
+    public ServletContextTemplateResolver templateResolver() {
+        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        return resolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver());
+        return engine;
+    }
+
+    @Bean
+    public ThymeleafViewResolver viewResolver() {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setOrder(1);
+        return viewResolver;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    // bean for files upload.
+    // commons-fileupload is required in the classpath
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1024 * 512); // 512Kb
+        return multipartResolver;
+    }
 }

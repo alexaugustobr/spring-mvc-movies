@@ -15,16 +15,15 @@
  */
 package com.github.carlomicieli.services;
 
-import java.util.List;
-
 import com.github.carlomicieli.models.Show;
 
+import java.util.List;
+
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public interface ShowService {
-	void create(Show s);
-	List<Show> getAllShows();
+    void create(Show s);
+
+    List<Show> getAllShows();
 }
