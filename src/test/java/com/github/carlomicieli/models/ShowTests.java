@@ -1,6 +1,3 @@
-package com.github.carlomicieli.models;
-
-import static org.junit.Assert.assertEquals;
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -16,36 +13,35 @@ import static org.junit.Assert.assertEquals;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import static org.junit.Assert.assertNotNull;
+package com.github.carlomicieli.models;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
-public class ShowTests {	
-	@Test
-	public void shouldAddNewPartecipants() {
-		Show show = new Show();
-		show.addPartecipant("joey");
-		show.addPartecipant("tommy");
-		
-		assertNotNull("Partecipants list is null", show.getPartecipants());
-		assertEquals(2, show.getPartecipants().size());
-	}
-	
-	@Test
-	public void shouldAddNewPartecipantsOnlyOnce() {
-		Show show = new Show();
-		show.addPartecipant("joey");
-		show.addPartecipant("tommy");
-		show.addPartecipant("joey");
-		
-		assertNotNull("Partecipants list is null", show.getPartecipants());
-		assertEquals(2, show.getPartecipants().size());
-	}
-	
-	
+public class ShowTests {
+    @Test
+    public void shouldAddNewPartecipants() {
+        Show show = new Show();
+        show.addPartecipant("joey");
+        show.addPartecipant("tommy");
+
+        assertNotNull("Partecipants list is null", show.getPartecipants());
+        assertEquals(2, show.getPartecipants().size());
+    }
+
+    @Test
+    public void shouldAddNewPartecipantsOnlyOnce() {
+        Show show = new Show();
+        show.addPartecipant("joey");
+        show.addPartecipant("tommy");
+        show.addPartecipant("joey");
+
+        assertNotNull("Partecipants list is null", show.getPartecipants());
+        assertEquals(2, show.getPartecipants().size());
+    }
 }

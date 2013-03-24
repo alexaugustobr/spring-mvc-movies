@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.services;
 
+import com.github.carlomicieli.models.Show;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,31 +25,29 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import com.github.carlomicieli.models.Show;
-
 import static org.mockito.Mockito.*;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ShowServiceTests {
-	@Mock private MongoTemplate mockMongo;
-	
-	@InjectMocks private MongoShowService showService;
-	
-	@Before
-	public void setUp() {
-		//This method has to be called to initialize annotated fields.
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	public void shouldCreateNewShows() {
-		Show s = new Show();
-		showService.create(s);
-		verify(mockMongo, times(1)).insert(eq(s));
-	}
+    @Mock
+    private MongoTemplate mockMongo;
+
+    @InjectMocks
+    private MongoShowService showService;
+
+    @Before
+    public void setUp() {
+        //This method has to be called to initialize annotated fields.
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void shouldCreateNewShows() {
+        Show s = new Show();
+        showService.create(s);
+        verify(mockMongo, times(1)).insert(eq(s));
+    }
 }

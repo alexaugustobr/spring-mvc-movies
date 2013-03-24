@@ -15,37 +15,35 @@
  */
 package com.github.carlomicieli.utility;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class SlugTests {
-	@Test
-	public void convertingEmptyStringToSlug() {
-		String slug = Slug.makeSlug("");
-		assertEquals("", slug);
-	}
-	
-	@Test
-	public void replacingWhitespaceToSlug() {
-		String slug = Slug.makeSlug("Time is an illusion");
-		assertEquals("time-is-an-illusion", slug);
-	}
-	
-	@Test
-	public void replacingPunctuationToSlug() {
-		String slug = Slug.makeSlug("Time; is an: illusion.");
-		assertEquals("time-is-an-illusion", slug);
-	}
-	
-	@Test
-	public void replacingNonLatinToSlug() {
-		String slug = Slug.makeSlug("Timè is àn illusiòn.");
-		assertEquals("time-is-an-illusion", slug);
-	}
+    @Test
+    public void convertingEmptyStringToSlug() {
+        String slug = Slug.makeSlug("");
+        assertEquals("", slug);
+    }
+
+    @Test
+    public void replacingWhitespaceToSlug() {
+        String slug = Slug.makeSlug("Time is an illusion");
+        assertEquals("time-is-an-illusion", slug);
+    }
+
+    @Test
+    public void replacingPunctuationToSlug() {
+        String slug = Slug.makeSlug("Time; is an: illusion.");
+        assertEquals("time-is-an-illusion", slug);
+    }
+
+    @Test
+    public void replacingNonLatinToSlug() {
+        String slug = Slug.makeSlug("Timè is àn illusiòn.");
+        assertEquals("time-is-an-illusion", slug);
+    }
 }

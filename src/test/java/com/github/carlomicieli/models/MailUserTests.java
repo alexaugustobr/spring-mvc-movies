@@ -15,34 +15,32 @@
  */
 package com.github.carlomicieli.models;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class MailUserTests {
-	@Test
-	public void shouldAddNewRoleToUsers() {
-		MailUser user = new MailUser();
-		user.setEmailAddress("joey@ramones.com");
-		user.setPassword("secret");
-		user.addRole("ROLE_USER");	
-		user.addRole("ROLE_ADMIN");	
+    @Test
+    public void shouldAddNewRoleToUsers() {
+        MailUser user = new MailUser();
+        user.setEmailAddress("joey@ramones.com");
+        user.setPassword("secret");
+        user.addRole("ROLE_USER");
+        user.addRole("ROLE_ADMIN");
 
-		assertEquals(2, user.getRoles().size());
-		assertEquals("[ROLE_USER, ROLE_ADMIN]", user.getRoles().toString());
-	}
-	
-	@Test
-	public void shouldInitializeNewUsers() {
-		MailUser user = new MailUser();
-		user.init();
-		
-		assertEquals(true, user.isEnabled());
-		assertEquals("[ROLE_USER]", user.getRoles().toString());
-	}
+        assertEquals(2, user.getRoles().size());
+        assertEquals("[ROLE_USER, ROLE_ADMIN]", user.getRoles().toString());
+    }
+
+    @Test
+    public void shouldInitializeNewUsers() {
+        MailUser user = new MailUser();
+        user.init();
+
+        assertEquals(true, user.isEnabled());
+        assertEquals("[ROLE_USER]", user.getRoles().toString());
+    }
 }

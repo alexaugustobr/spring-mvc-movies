@@ -15,27 +15,23 @@
  */
 package com.github.carlomicieli.models;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import com.github.carlomicieli.models.ShowForm;
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
  * @author Carlo P. Micieli
- *
  */
 public class ShowFormTests {
 
-	@Test
-	public void shouldBuildAddressForGeocoding() {
-		ShowForm sf = new ShowForm();
-		sf.setAddress("1600 Amphitheatre Pkwy");
-		sf.setPostalCode("94043");
-		sf.setCity("Mountain View");
-		String address = sf.getGeocodingAddress();
-		
-		assertEquals("1600 Amphitheatre Pkwy, 94043, Mountain View", address);
-	}
+    @Test
+    public void shouldBuildAddressForGeocoding() {
+        ShowForm sf = new ShowForm();
+        sf.setAddress("1600 Amphitheatre Pkwy");
+        sf.setPostalCode("94043");
+        sf.setCity("Mountain View");
+        String address = sf.getGeocodingAddress();
+
+        assertEquals("1600 Amphitheatre Pkwy, 94043, Mountain View", address);
+    }
 }

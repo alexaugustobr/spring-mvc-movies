@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.controllers;
 
+import com.github.carlomicieli.services.MovieService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,46 +26,47 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
-import com.github.carlomicieli.services.MovieService;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @RunWith(MockitoJUnitRunner.class)
 public class HomeControllerTests {
-	@Mock private Model mockModel;
-	@Mock private MovieService mockService;
-	@InjectMocks private HomeController homeController;
-	
-	@Before
-	public void setUp() {
-		//This method has to be called to initialize annotated fields.
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	public void indexShouldProduceTheCorrectViewName() {
-		String viewName = homeController.index(mockModel);
-		assertEquals("home/index", viewName);
-	}
-	
-	@Test
-	public void shouldFillTheListOfRecentMovies() {
-		ExtendedModelMap model = new ExtendedModelMap();
-		homeController.index(model);
-		assertNotNull("List of movies is empty", model.get("movies"));
-		
-		verify(mockService, times(1)).getRecentMovies(10);
-	}
-	
-	@Test
-	public void aboutShouldProduceTheCorrectViewName() {
-		String viewName = homeController.about();
-		assertEquals("home/about", viewName);
-	}
+    @Mock
+    private Model mockModel;
+    @Mock
+    private MovieService mockService;
+    @InjectMocks
+    private HomeController homeController;
+
+    @Before
+    public void setUp() {
+        //This method has to be called to initialize annotated fields.
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void indexShouldProduceTheCorrectViewName() {
+        String viewName = homeController.index(mockModel);
+        assertEquals("home/index", viewName);
+    }
+
+    @Test
+    public void shouldFillTheListOfRecentMovies() {
+        ExtendedModelMap model = new ExtendedModelMap();
+        homeController.index(model);
+        assertNotNull("List of movies is empty", model.get("movies"));
+
+        verify(mockService, times(1)).getRecentMovies(10);
+    }
+
+    @Test
+    public void aboutShouldProduceTheCorrectViewName() {
+        String viewName = homeController.about();
+        assertEquals("home/about", viewName);
+    }
 }

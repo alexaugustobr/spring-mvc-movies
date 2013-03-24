@@ -15,28 +15,26 @@
  */
 package com.github.carlomicieli.models;
 
-import org.junit.Test;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class MovieBeforeSaveListenerTests {
-	@Test
-	public void beforeSaveEventFillsValue() {
-		MovieBeforeSaveListener listener = new MovieBeforeSaveListener();
-		Movie movie = new Movie();
-		movie.setTitle("Animal House");
-		DBObject dbo = new BasicDBObject();
-		
-		listener.onBeforeSave(movie, dbo);
-		assertEquals("animal-house", dbo.get("slug"));
-		assertNotNull(dbo.get("savedAt")); // don't check the actual ts
-	}
+    @Test
+    public void beforeSaveEventFillsValue() {
+        MovieBeforeSaveListener listener = new MovieBeforeSaveListener();
+        Movie movie = new Movie();
+        movie.setTitle("Animal House");
+        DBObject dbo = new BasicDBObject();
+
+        listener.onBeforeSave(movie, dbo);
+        assertEquals("animal-house", dbo.get("slug"));
+        assertNotNull(dbo.get("savedAt")); // don't check the actual ts
+    }
 }

@@ -15,6 +15,7 @@
  */
 package com.github.carlomicieli.services;
 
+import com.github.carlomicieli.models.MailUser;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,54 +27,52 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.github.carlomicieli.models.MailUser;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTests {
-	@Mock private MongoTemplate mockMongo;
-	
-	@InjectMocks private MongoUserService userService;
-	
-	@Before
-	public void setUp() {
-		//This method has to be called to initialize annotated fields.
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	public void findUserById() {
-		ObjectId id = new ObjectId("47cc67093475061e3d95369d");
-		
-		when(mockMongo.findById(eq(id), eq(MailUser.class))).thenReturn(new MailUser());
-		
-		MailUser user = userService.findUserById(id);
-		assertNotNull("User not found", user);
-		
-		verify(mockMongo, times(1)).findById(eq(id), eq(MailUser.class));
-	}
-	
-	@Test
-	public void findUserByEmailAddress() {
-		when(mockMongo.findOne(isA(Query.class), eq(MailUser.class))).thenReturn(new MailUser());
-		
-		MailUser user = userService.findUserByEmail("joey@ramones.com");
-		assertNotNull("User not found", user);
-		
-		verify(mockMongo, times(1)).findOne(isA(Query.class), eq(MailUser.class));
-	}
-	
-	@Test
-	public void createUser() {
-		MailUser user = new MailUser();
-		userService.createUser(user);
-		verify(mockMongo, times(1)).insert(eq(user));
-	}
+    @Mock
+    private MongoTemplate mockMongo;
+
+    @InjectMocks
+    private MongoUserService userService;
+
+    @Before
+    public void setUp() {
+        //This method has to be called to initialize annotated fields.
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void findUserById() {
+        ObjectId id = new ObjectId("47cc67093475061e3d95369d");
+
+        when(mockMongo.findById(eq(id), eq(MailUser.class))).thenReturn(new MailUser());
+
+        MailUser user = userService.findUserById(id);
+        assertNotNull("User not found", user);
+
+        verify(mockMongo, times(1)).findById(eq(id), eq(MailUser.class));
+    }
+
+    @Test
+    public void findUserByEmailAddress() {
+        when(mockMongo.findOne(isA(Query.class), eq(MailUser.class))).thenReturn(new MailUser());
+
+        MailUser user = userService.findUserByEmail("joey@ramones.com");
+        assertNotNull("User not found", user);
+
+        verify(mockMongo, times(1)).findOne(isA(Query.class), eq(MailUser.class));
+    }
+
+    @Test
+    public void createUser() {
+        MailUser user = new MailUser();
+        userService.createUser(user);
+        verify(mockMongo, times(1)).insert(eq(user));
+    }
 }

@@ -15,6 +15,8 @@
  */
 package com.github.carlomicieli.converters;
 
+import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.services.MovieService;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,40 +26,38 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.github.carlomicieli.models.Movie;
-import com.github.carlomicieli.services.MovieService;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.isA;
+import static org.mockito.Mockito.when;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MovieConverterTests {
-	
-	@Mock private MovieService mockService;
-	
-	@InjectMocks private MovieConverter movieConverter;
-	
-	@Before
-	public void setUp() {
-		//This method has to be called to initialize annotated fields.
-		MockitoAnnotations.initMocks(this);
-	}
-	
-	@Test
-	public void convertStringToMovie() {
-		when(mockService.findById(isA(ObjectId.class))).thenReturn(new Movie());
-		
-		Movie m = movieConverter.convert("47cc67093475061e3d95369d");
-		assertNotNull("Movie not found", m);		
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidValueForMovieIdThrowAnException() {
-		movieConverter.convert(""); //Not a valid ObjectId!
-	}
+
+    @Mock
+    private MovieService mockService;
+
+    @InjectMocks
+    private MovieConverter movieConverter;
+
+    @Before
+    public void setUp() {
+        //This method has to be called to initialize annotated fields.
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void convertStringToMovie() {
+        when(mockService.findById(isA(ObjectId.class))).thenReturn(new Movie());
+
+        Movie m = movieConverter.convert("47cc67093475061e3d95369d");
+        assertNotNull("Movie not found", m);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidValueForMovieIdThrowAnException() {
+        movieConverter.convert(""); //Not a valid ObjectId!
+    }
 }

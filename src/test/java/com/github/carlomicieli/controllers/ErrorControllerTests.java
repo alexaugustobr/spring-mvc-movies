@@ -16,26 +16,25 @@
 package com.github.carlomicieli.controllers;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class ErrorControllerTests {
 
-	@Test
-	public void notFoundViewIsReturned() {
-		ErrorController controller = new ErrorController();
-		String viewName = controller.notFound();
-		assertEquals("errors/notfound", viewName);
-	}
-	
-	@Test
-	public void accessDeniedViewIsReturned() {
-		ErrorController controller = new ErrorController();
-		String viewName = controller.accessDenied();
-		assertEquals("errors/denied", viewName);
-	}
+    @Test
+    public void notFoundViewIsReturned() {
+        ErrorController controller = new ErrorController();
+        String viewName = controller.notFound();
+        assertEquals("errors/notfound", viewName);
+    }
+
+    @Test
+    public void accessDeniedViewIsReturned() {
+        ErrorController controller = new ErrorController();
+        String viewName = controller.accessDenied();
+        assertEquals("errors/denied", viewName);
+    }
 }

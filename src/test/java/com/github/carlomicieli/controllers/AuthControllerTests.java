@@ -15,9 +15,9 @@ limitations under the License.
 */
 package com.github.carlomicieli.controllers;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
+import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.security.SecurityService;
+import com.github.carlomicieli.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,78 +30,82 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.github.carlomicieli.models.MailUser;
-import com.github.carlomicieli.security.SecurityService;
-import com.github.carlomicieli.services.UserService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AuthControllerTests {
-	@Mock private Model mockModel;
-	@Mock private UserService mockService;
-	@Mock private SecurityService mockSecService;
-	@Mock private PasswordEncoder mockEncoder;
-	@Mock private BindingResult mockResult;
-	
-	@InjectMocks private AuthController authController;
-	
-	@Before
-	public void setUp() {
-		//This method has to be called to initialize annotated fields.
-		MockitoAnnotations.initMocks(this);
-	}
-		
-	@Test
-	public void indexRendersTheCorrectView() {
-		String viewName = authController.login();
-		assertEquals("auth/login", viewName);
-	}
-	
-	@Test
-	public void signupRendersTheCorrectView() {
-		String viewName = authController.signUp(mockModel);
-		assertEquals("auth/signup", viewName);
-	}
-	
-	@Test
-	public void signupFillTheModel() {
-		ExtendedModelMap model = new ExtendedModelMap();
-		authController.signUp(model);
-		assertNotNull("The model is not filled", model.get("mailUser"));
-	}
-	
-	@Test
-	public void createRendersTheCorrectViewWhenTheUserIsCreated() {
-		when(mockResult.hasErrors()).thenReturn(false);
-		MailUser user = new MailUser();
-		
-		String viewName = authController.createUser(user, mockResult);
-		assertEquals("home/index", viewName);
-		assertEquals(true, user.isEnabled());
-		assertEquals("[ROLE_USER]", user.getRoles().toString());
-		
-		verify(mockSecService, times(1)).authenticate(eq(user));
-	}
-	
-	@Test
-	public void createRendersTheCorrectViewWhenTheUserHasErrors() {
-		when(mockResult.hasErrors()).thenReturn(true);		
-		String viewName = authController.createUser(new MailUser(), mockResult);
-		assertEquals("auth/signup", viewName);
-	}
-	
-	@Test
-	public void createCallsTheServiceToSave() {
-		when(mockResult.hasErrors()).thenReturn(false);
-		MailUser user = new MailUser();
-		user.setPassword("secret");
-		
-		authController.createUser(user, mockResult);
-		verify(mockService, times(1)).createUser(eq(user));
-		verify(mockEncoder, times(1)).encodePassword(eq("secret"), isNull());
-	}
+    @Mock
+    private Model mockModel;
+    @Mock
+    private UserService mockService;
+    @Mock
+    private SecurityService mockSecService;
+    @Mock
+    private PasswordEncoder mockEncoder;
+    @Mock
+    private BindingResult mockResult;
+
+    @InjectMocks
+    private AuthController authController;
+
+    @Before
+    public void setUp() {
+        //This method has to be called to initialize annotated fields.
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void indexRendersTheCorrectView() {
+        String viewName = authController.login();
+        assertEquals("auth/login", viewName);
+    }
+
+    @Test
+    public void signupRendersTheCorrectView() {
+        String viewName = authController.signUp(mockModel);
+        assertEquals("auth/signup", viewName);
+    }
+
+    @Test
+    public void signupFillTheModel() {
+        ExtendedModelMap model = new ExtendedModelMap();
+        authController.signUp(model);
+        assertNotNull("The model is not filled", model.get("mailUser"));
+    }
+
+    @Test
+    public void createRendersTheCorrectViewWhenTheUserIsCreated() {
+        when(mockResult.hasErrors()).thenReturn(false);
+        MailUser user = new MailUser();
+
+        String viewName = authController.createUser(user, mockResult);
+        assertEquals("home/index", viewName);
+        assertEquals(true, user.isEnabled());
+        assertEquals("[ROLE_USER]", user.getRoles().toString());
+
+        verify(mockSecService, times(1)).authenticate(eq(user));
+    }
+
+    @Test
+    public void createRendersTheCorrectViewWhenTheUserHasErrors() {
+        when(mockResult.hasErrors()).thenReturn(true);
+        String viewName = authController.createUser(new MailUser(), mockResult);
+        assertEquals("auth/signup", viewName);
+    }
+
+    @Test
+    public void createCallsTheServiceToSave() {
+        when(mockResult.hasErrors()).thenReturn(false);
+        MailUser user = new MailUser();
+        user.setPassword("secret");
+
+        authController.createUser(user, mockResult);
+        verify(mockService, times(1)).createUser(eq(user));
+        verify(mockEncoder, times(1)).encodePassword(eq("secret"), isNull());
+    }
 }

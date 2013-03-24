@@ -103,6 +103,7 @@ def jacksonVersion = "1.9.6"
 def gebVersion = "0.7.0"
 def junitVersion = "4.10"
 def mockitoVersion = "1.9.5"
+def embedMongoVersion = "1.26"
 
 dependencies {
     // spring framework
@@ -171,6 +172,9 @@ dependencies {
     testCompile "junit:junit:${junitVersion}",
             "org.mockito:mockito-core:${mockitoVersion}",
             "org.springframework:spring-test:${springVersion}"
+
+    // component tests
+    componentTestCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:${embedMongoVersion}"
 
     // integration tests
     groovy "org.codehaus.groovy:groovy:2.0.6"
