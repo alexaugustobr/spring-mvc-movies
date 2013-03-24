@@ -24,7 +24,10 @@ apply plugin: 'eclipse-wtp'
 group = 'com.github.carlomicieli'
 description = 'A sample application with Spring Framework'
 
-version = "1.0.0-SNAPSHOT"
+version = "1.1.0-SNAPSHOT"
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 // tomcat
 [tomcatRun, tomcatRunWar]*.httpPort = 9090
@@ -37,16 +40,13 @@ tomcatStop {
 }
 
 buildscript {
-	repositories {
-		add(new org.apache.ivy.plugins.resolver.URLResolver()) {
-			name = 'GitHub'
-			addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
-		}
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	dependencies {
-		classpath 'bmuschko:gradle-tomcat-plugin:0.9.1'
-	}
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.7'
+    }
 }
 
 // ====================== sets ======================= //
@@ -90,12 +90,19 @@ repositories {
 }
 
 // ====================== dependencies ================= //
-def springVersion = "3.1.1.RELEASE"
+def springVersion = "3.2.2.RELEASE"
 def securityVersion = "3.1.0.RELEASE"
+def springDataVersion = "1.5.0.RELEASE"
+def thymeleafVersion = "2.0.16"
+def springDataMongoVersion = "1.2.0.RELEASE"
+def mongoDriverVersion = "2.10.1"
+def hibernateValidationVersion = "4.2.0.Final"
 def slf4jVersion = "1.6.1"
 def tomcatVersion = "7.0.26"
 def jacksonVersion = "1.9.6"
 def gebVersion = "0.7.0"
+def junitVersion = "4.10"
+def mockitoVersion = "1.9.5"
 
 dependencies {
 	// spring framework
@@ -136,12 +143,13 @@ dependencies {
 	compile "opensymphony:sitemesh:2.4.2"
 	
 	// Thymeleaf
-	compile "org.thymeleaf:thymeleaf:2.0.13"
-	compile "org.thymeleaf:thymeleaf-spring3:2.0.13"
-	
-	// JSR 303 with Hibernate Validator
-	compile "javax.validation:validation-api:1.0.0.GA"
-	compile "org.hibernate:hibernate-validator:4.2.0.Final"
+	compile "org.thymeleaf:thymeleaf:${thymeleafVersion}"
+	compile "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}"
+
+    // JSR 303 with Hibernate Validator
+    compile "javax.validation:validation-api:1.0.0.GA"
+    compile "org.hibernate:hibernate-validator:${hibernateValidationVersion}",
+            "org.hibernate:hibernate-validator-annotation-processor:${hibernateValidationVersion}"
 
 	// imgscalr
 	compile "org.imgscalr:imgscalr-lib:4.2"
@@ -149,23 +157,24 @@ dependencies {
 	// files upload
 	compile "commons-fileupload:commons-fileupload:1.2.2",
 		"commons-io:commons-io:2.1"
-	
-	// mongodb
-	compile "org.springframework.data:spring-data-mongodb:1.0.2.RELEASE"
-	compile "org.mongodb:mongo-java-driver:2.8.0"
+
+    // spring data mongodb
+    compile "org.springframework.data:spring-data-commons:${springDataVersion}"
+    compile "org.springframework.data:spring-data-mongodb:${springDataMongoVersion}"
+    compile "org.mongodb:mongo-java-driver:${mongoDriverVersion}"
 
 	// jackson JSON
 	compile "org.codehaus.jackson:jackson-core-asl:${jacksonVersion}"
 	compile "org.codehaus.jackson:jackson-mapper-asl:${jacksonVersion}"
 	
 	// unit testing
-	testCompile "junit:junit:4.10",
-		"org.mockito:mockito-all:1.9.0",
+	testCompile "junit:junit:${junitVersion}",
+		"org.mockito:mockito-core:${mockitoVersion}",
 		"org.springframework:spring-test:${springVersion}"
 
 	// integration tests
-	groovy "org.codehaus.groovy:groovy-all:1.8.6"
-	integrationTestCompile "org.spockframework:spock-core:0.6-groovy-1.8",
+	groovy "org.codehaus.groovy:groovy:2.0.6"
+	integrationTestCompile "org.spockframework:spock-core:0.7-groovy-2.0",
 		"org.codehaus.geb:geb-core:${gebVersion}",
 		"org.codehaus.geb:geb-spock:${gebVersion}",
 		"org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
@@ -209,7 +218,7 @@ task createDirs(description: 'Creates the directory for the project.', group: 'P
 
 // wrapper task to create the download script
 task wrapper(type: Wrapper, group: 'Gradle wrapper', description: 'Gradle will be automatically downloaded and used to run the build.') {
-	gradleVersion = '1.0'
+	gradleVersion = '1.4'
 }
 
 // component testing:	the same as unit testing except that all stubs
