@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -27,6 +28,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Carlo Micieli
  */
 public class HomeControllerMappingTests extends AbstractSpringControllerTests {
+
+    @Test
+    public void shouldRenderHomepage() throws Exception {
+        login();
+
+        mockMvc().perform(get("/"))
+                .andDo(print())
+                .andExpect(model().attributeExists("movies"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home/index"));
+    }
 
     @Test
     public void shouldRenderAboutPage() throws Exception {
