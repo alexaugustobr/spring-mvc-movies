@@ -15,38 +15,34 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
+import com.github.carlomicieli.AbstractValidationTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.carlomicieli.AbstractValidationTests;
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class ShowFormValidationTests extends AbstractValidationTests {
-	
-	@Before
-	public void initValidator() {
-		super.init(MailUser.class);
-	}
-	
-	@Test
-	public void shouldValidateAddressAfterMovieIsFound() {
-		ShowForm sf = new ShowForm();		
-		sf.setVenue(""); // (1)
-		sf.setAddress(""); // (2)
-		sf.setCity(""); // (3)
-		sf.setPostalCode(""); // (4)
-		
-		Set<ConstraintViolation<ShowForm>> violations = validator.validate(sf, AddressGroup.class);
-		assertEquals(4, violations.size());
-	}
+
+    @Before
+    public void initValidator() {
+        super.init(MailUser.class);
+    }
+
+    @Test
+    public void shouldValidateAddressAfterMovieIsFound() {
+        ShowForm sf = new ShowForm();
+        sf.setVenue(""); // (1)
+        sf.setAddress(""); // (2)
+        sf.setCity(""); // (3)
+        sf.setPostalCode(""); // (4)
+
+        Set<ConstraintViolation<ShowForm>> violations = validator.validate(sf, AddressGroup.class);
+        assertEquals(4, violations.size());
+    }
 }

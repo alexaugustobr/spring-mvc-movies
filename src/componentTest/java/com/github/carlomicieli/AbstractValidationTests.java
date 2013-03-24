@@ -15,8 +15,6 @@
  */
 package com.github.carlomicieli;
 
-import javax.validation.Validator;
-
 import org.hibernate.validator.engine.resolver.DefaultTraversableResolver;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +22,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.validation.Validator;
+
 /**
  * Abstract test runner for validation tests.
- * 
- * @author Carlo P. Micieli
  *
+ * @author Carlo Micieli
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
-	ValidatorConfiguration.class})
+        ValidatorConfiguration.class})
 public abstract class AbstractValidationTests {
-	protected @Autowired LocalValidatorFactoryBean validatorFactory;
-	protected Validator validator;
-	
-	@SuppressWarnings("rawtypes")
-	protected void init(Class providerClass) {
-		validatorFactory.setProviderClass(providerClass);
-		validatorFactory.setTraversableResolver(new DefaultTraversableResolver());
-		validator = validatorFactory.getValidator();
-	}
+    protected
+    @Autowired
+    LocalValidatorFactoryBean validatorFactory;
+    protected Validator validator;
+
+    @SuppressWarnings("rawtypes")
+    protected void init(Class providerClass) {
+        validatorFactory.setProviderClass(providerClass);
+        validatorFactory.setTraversableResolver(new DefaultTraversableResolver());
+        validator = validatorFactory.getValidator();
+    }
 }

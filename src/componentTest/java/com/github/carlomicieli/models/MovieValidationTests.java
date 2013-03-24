@@ -15,56 +15,52 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
+import com.github.carlomicieli.AbstractValidationTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.carlomicieli.AbstractValidationTests;
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class MovieValidationTests extends AbstractValidationTests {
-	
-	@Before
-	public void initValidator() {
-		super.init(Movie.class);
-	}
-	
-	@Test
-	public void shouldValidateCorrectMovie() {
-		Movie movie = new Movie();
-		movie.setDirector("AAAA");
-		movie.setTitle("BBBB");
-		movie.setYear(2012);
-		movie.setRunningTime(100);
-		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
-		assertEquals(0, violations.size());
-	}
-	
-	@Test
-	public void shouldValidateEmptyMovie() {
-		Movie movie = new Movie();
-		movie.setDirector("");
-		movie.setTitle("");
-		movie.setYear(0);
-		movie.setRunningTime(0);
-		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
-		assertEquals(4, violations.size());
-	}
-	
-	@Test
-	public void shouldValidateWrongMovie() {
-		Movie movie = new Movie();
-		Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
-		
-		assertEquals(4, violations.size());
-	}
+
+    @Before
+    public void initValidator() {
+        super.init(Movie.class);
+    }
+
+    @Test
+    public void shouldValidateCorrectMovie() {
+        Movie movie = new Movie();
+        movie.setDirector("AAAA");
+        movie.setTitle("BBBB");
+        movie.setYear(2012);
+        movie.setRunningTime(100);
+        Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
+        assertEquals(0, violations.size());
+    }
+
+    @Test
+    public void shouldValidateEmptyMovie() {
+        Movie movie = new Movie();
+        movie.setDirector("");
+        movie.setTitle("");
+        movie.setYear(0);
+        movie.setRunningTime(0);
+        Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
+        assertEquals(4, violations.size());
+    }
+
+    @Test
+    public void shouldValidateWrongMovie() {
+        Movie movie = new Movie();
+        Set<ConstraintViolation<Movie>> violations = validator.validate(movie);
+
+        assertEquals(4, violations.size());
+    }
 }

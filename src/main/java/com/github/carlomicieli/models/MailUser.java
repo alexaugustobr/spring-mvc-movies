@@ -56,6 +56,14 @@ public class MailUser implements Serializable {
     private boolean isEnabled;
     private List<String> roles;
 
+    public MailUser() {
+    }
+
+    public MailUser(String emailAddress, String password) {
+        this.emailAddress = emailAddress;
+        this.password = password;
+    }
+
     public ObjectId getId() {
         return id;
     }

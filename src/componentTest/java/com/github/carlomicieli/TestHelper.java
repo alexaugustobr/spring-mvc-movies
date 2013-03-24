@@ -15,60 +15,62 @@
  */
 package com.github.carlomicieli;
 
-import java.util.Collection;
-
+import com.github.carlomicieli.models.MailUser;
+import com.github.carlomicieli.models.Movie;
+import com.github.carlomicieli.models.Show;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import com.github.carlomicieli.models.Movie;
-import com.github.carlomicieli.models.MailUser;
-import com.github.carlomicieli.models.Show;
+import java.util.Collection;
 
+/**
+ * @author Carlo Micieli
+ */
 @Component("testHelper")
 public class TestHelper {
-	private MongoTemplate mongoTemplate;
-	
-	@Autowired
-	public TestHelper(MongoTemplate mongoTemplate) {
-		this.mongoTemplate = mongoTemplate;
-	}
-	
-	public void fillMovies(Collection<Movie> movies) {
-		mongoTemplate.insert(movies, Movie.class);
-	}
-	
-	public void cleanupMovies() {
-		mongoTemplate.remove(new Query(), Movie.class);
-	}
-	
-	public Movie insertMovie(String director, String title) {
-		Movie m = new Movie();
-		m.setTitle(title);
-		m.setDirector(director);
-		mongoTemplate.insert(m);
-		return m;
-	}
-	
-	public void initUsers(Collection<MailUser> users) {
-		mongoTemplate.insert(users, MailUser.class);
-	}
-	
-	public void cleanupUsers() {
-		mongoTemplate.remove(new Query(), MailUser.class);
-	}
-	
-	public MailUser insertUser(String email, String password, String role) {
-		MailUser u = new MailUser();
-		u.setEmailAddress(email);
-		u.setPassword(password);
-		u.addRole(role);
-		mongoTemplate.insert(u);
-		return u;
-	}
+    private MongoTemplate mongoTemplate;
 
-	public void cleanupShows() {
-		mongoTemplate.remove(new Query(), Show.class);
-	}
+    @Autowired
+    public TestHelper(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public void fillMovies(Collection<Movie> movies) {
+        mongoTemplate.insert(movies, Movie.class);
+    }
+
+    public void cleanupMovies() {
+        mongoTemplate.remove(new Query(), Movie.class);
+    }
+
+    public Movie insertMovie(String director, String title) {
+        Movie m = new Movie();
+        m.setTitle(title);
+        m.setDirector(director);
+        mongoTemplate.insert(m);
+        return m;
+    }
+
+    public void initUsers(Collection<MailUser> users) {
+        mongoTemplate.insert(users, MailUser.class);
+    }
+
+    public void cleanupUsers() {
+        mongoTemplate.remove(new Query(), MailUser.class);
+    }
+
+    public MailUser insertUser(String email, String password, String role) {
+        MailUser u = new MailUser();
+        u.setEmailAddress(email);
+        u.setPassword(password);
+        u.addRole(role);
+        mongoTemplate.insert(u);
+        return u;
+    }
+
+    public void cleanupShows() {
+        mongoTemplate.remove(new Query(), Show.class);
+    }
 }

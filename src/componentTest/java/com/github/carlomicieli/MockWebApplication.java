@@ -15,18 +15,14 @@
  */
 package com.github.carlomicieli;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.springframework.web.context.WebApplicationContext;
 
+import java.lang.annotation.*;
+
 /**
- * Configures a mock {@link WebApplicationContext}.  Each test class (or parent class) using 
+ * Configures a mock {@link WebApplicationContext}.  Each test class (or parent class) using
  * {@link MockWebApplicationContextLoader} must be annotated with this.
- * 
+ *
  * @author Ted Young
  */
 @Target(ElementType.TYPE)
@@ -38,7 +34,7 @@ public @interface MockWebApplication {
      * For maven users, this is generally src/main/webapp (default).
      */
     String webapp() default "src/main/webapp";
-    
+
     /**
      * The servlet name as defined in the web.xml.
      */

@@ -15,54 +15,50 @@
  */
 package com.github.carlomicieli.models;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
+import com.github.carlomicieli.AbstractValidationTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.carlomicieli.AbstractValidationTests;
+import javax.validation.ConstraintViolation;
+import java.util.Date;
+import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class ShowValidationTests extends AbstractValidationTests {
-	
-	@Before
-	public void initValidator() {
-		super.init(Show.class);
-	}
-	
-	@Test
-	public void shouldValidateCorrectShow() {
-		Show show = new Show();
-		show.setHostedBy("deedee");
-		show.setDate(new Date());
-		Set<ConstraintViolation<Show>> violations = validator.validate(show);
-		assertEquals(0, violations.size());
-	}
-	
-	@Test
-	public void hostIsRequired() {
-		Show show = new Show();
-		show.setDate(new Date());
-		Set<ConstraintViolation<Show>> violations = validator.validate(show);
-		assertEquals(1, violations.size());
-		assertEquals("hostedBy.required", violations.iterator().next().getMessage());
-	}
-	
-	@Test
-	public void showDateIsRequired() {
-		Show show = new Show();
-		show.setHostedBy("deedee");
-		Set<ConstraintViolation<Show>> violations = validator.validate(show);
-		assertEquals(1, violations.size());
-		assertEquals("date.required", violations.iterator().next().getMessage());
-	}
+
+    @Before
+    public void initValidator() {
+        super.init(Show.class);
+    }
+
+    @Test
+    public void shouldValidateCorrectShow() {
+        Show show = new Show();
+        show.setHostedBy("deedee");
+        show.setDate(new Date());
+        Set<ConstraintViolation<Show>> violations = validator.validate(show);
+        assertEquals(0, violations.size());
+    }
+
+    @Test
+    public void hostIsRequired() {
+        Show show = new Show();
+        show.setDate(new Date());
+        Set<ConstraintViolation<Show>> violations = validator.validate(show);
+        assertEquals(1, violations.size());
+        assertEquals("hostedBy.required", violations.iterator().next().getMessage());
+    }
+
+    @Test
+    public void showDateIsRequired() {
+        Show show = new Show();
+        show.setHostedBy("deedee");
+        Set<ConstraintViolation<Show>> violations = validator.validate(show);
+        assertEquals(1, violations.size());
+        assertEquals("date.required", violations.iterator().next().getMessage());
+    }
 }

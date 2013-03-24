@@ -15,47 +15,43 @@
  */
 package com.github.carlomicieli.models;
 
-import static org.junit.Assert.*;
-
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
+import com.github.carlomicieli.AbstractValidationTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.carlomicieli.AbstractValidationTests;
+import javax.validation.ConstraintViolation;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class MailUserValidationTests extends AbstractValidationTests {
-	@Before
-	public void initValidator() {
-		super.init(MailUser.class);
-	}
+    @Before
+    public void initValidator() {
+        super.init(MailUser.class);
+    }
 
-	@Test
-	public void shouldValidateCorrectUser() {
-		MailUser user = new MailUser();
-		user.setEmailAddress("joey@ramones.com");
-		user.setPassword("secret");
-		user.setDisplayName("joey");
-		user.addRole("ROLE_USER");	
-		Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
-		assertEquals(0, violations.size());
-	}
-	
-	@Test
-	public void shouldReturnValidationErrorsForNotCorrectUser() {
-		MailUser user = new MailUser();
-		user.setEmailAddress("joey AT ramones"); // not valid(1)
-		user.setPassword(""); // not valid(2)
-		user.setDisplayName(""); // not valid(3)
-				
-		Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
-		assertEquals(3, violations.size());
-	}
+    @Test
+    public void shouldValidateCorrectUser() {
+        MailUser user = new MailUser();
+        user.setEmailAddress("joey@ramones.com");
+        user.setPassword("secret");
+        user.setDisplayName("joey");
+        user.addRole("ROLE_USER");
+        Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
+        assertEquals(0, violations.size());
+    }
+
+    @Test
+    public void shouldReturnValidationErrorsForNotCorrectUser() {
+        MailUser user = new MailUser();
+        user.setEmailAddress("joey AT ramones"); // not valid(1)
+        user.setPassword(""); // not valid(2)
+        user.setDisplayName(""); // not valid(3)
+
+        Set<ConstraintViolation<MailUser>> violations = validator.validate(user);
+        assertEquals(3, violations.size());
+    }
 }

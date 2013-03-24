@@ -15,41 +15,37 @@
  */
 package com.github.carlomicieli.models;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
+import com.github.carlomicieli.AbstractValidationTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.carlomicieli.AbstractValidationTests;
+import javax.validation.ConstraintViolation;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class SearchMovieValidationTests extends AbstractValidationTests {
-	@Before
-	public void initValidator() {
-		super.init(SearchMovieForm.class);
-	}
-	
-	@Test
-	public void shouldValidateSearchMovieForm() {
-		SearchMovieForm smf = new SearchMovieForm("search criteria");
-		Set<ConstraintViolation<SearchMovieForm>> violations = validator.validate(smf);
-		assertEquals(0, violations.size());
-	}
-	
-	@Test
-	public void shouldNotValidateIfSearchCriteriaIsMissing() {
-		SearchMovieForm smf = new SearchMovieForm();
-		
-		Set<ConstraintViolation<SearchMovieForm>> violations = validator.validate(smf);
-		assertEquals(1, violations.size());
-		assertEquals("searchCriteria.required", violations.iterator().next().getMessage());
-	}
+    @Before
+    public void initValidator() {
+        super.init(SearchMovieForm.class);
+    }
+
+    @Test
+    public void shouldValidateSearchMovieForm() {
+        SearchMovieForm smf = new SearchMovieForm("search criteria");
+        Set<ConstraintViolation<SearchMovieForm>> violations = validator.validate(smf);
+        assertEquals(0, violations.size());
+    }
+
+    @Test
+    public void shouldNotValidateIfSearchCriteriaIsMissing() {
+        SearchMovieForm smf = new SearchMovieForm();
+
+        Set<ConstraintViolation<SearchMovieForm>> violations = validator.validate(smf);
+        assertEquals(1, violations.size());
+        assertEquals("searchCriteria.required", violations.iterator().next().getMessage());
+    }
 }

@@ -15,42 +15,41 @@
  */
 package com.github.carlomicieli.services;
 
-import java.util.Date;
-
+import com.github.carlomicieli.AbstractComponentTests;
+import com.github.carlomicieli.models.Show;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.carlomicieli.AbstractComponentTests;
-import com.github.carlomicieli.models.Show;
+import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class ShowServiceComponentTests extends AbstractComponentTests {
-	private @Autowired ShowService showService;
-	
-	@Before
-	public void setup() {
-	}
-	
-	@After
-	public void cleanup() {
-		testHelper.cleanupShows();
-	}
-	
-	@Test
-	public void shouldPersistNewShows() {
-		Show s = new Show();
-		s.setDate(new Date());
-		s.setHostedBy("deedee");
-		
-		showService.create(s);
-		assertNotNull(s.getId());
-	}
+    private
+    @Autowired
+    ShowService showService;
+
+    @Before
+    public void setup() {
+    }
+
+    @After
+    public void cleanup() {
+        testHelper.cleanupShows();
+    }
+
+    @Test
+    public void shouldPersistNewShows() {
+        Show s = new Show();
+        s.setDate(new Date());
+        s.setHostedBy("deedee");
+
+        showService.create(s);
+        assertNotNull(s.getId());
+    }
 }

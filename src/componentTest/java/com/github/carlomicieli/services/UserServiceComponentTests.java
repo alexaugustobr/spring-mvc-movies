@@ -15,78 +15,79 @@
  */
 package com.github.carlomicieli.services;
 
-import static org.junit.Assert.*;
-
+import com.github.carlomicieli.AbstractComponentTests;
+import com.github.carlomicieli.models.MailUser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.github.carlomicieli.AbstractComponentTests;
-import com.github.carlomicieli.models.MailUser;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * 
- * @author Carlo P. Micieli
- *
+ * @author Carlo Micieli
  */
 public class UserServiceComponentTests extends AbstractComponentTests {
-	private @Autowired UserService userService;
-	
-	@Before
-	public void setup() {
-		//testHelper.initUsers();
-	}
-	
-	@After
-	public void tearDown() {
-		testHelper.cleanupUsers();
-	}
-	
-	@Test
-	public void findUserById() {
-		MailUser user = testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
-		assertNotNull(user);
-		
-		MailUser dbUser = userService.findUserById(user.getId());
-		assertNotNull(user);
-		assertEquals("joey@ramones.com", dbUser.getEmailAddress());
-		assertEquals("secret", dbUser.getPassword());
-		assertEquals("[ROLE_USER]", dbUser.getRoles().toString());
-	}
-	
-	@Test
-	public void findUserByEmailAddress() {
-		MailUser user = testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
-		assertNotNull(user);
-		
-		MailUser dbUser = userService.findUserByEmail("joey@ramones.com");
-		assertNotNull(user);
-		assertEquals("joey@ramones.com", dbUser.getEmailAddress());
-		assertEquals("secret", dbUser.getPassword());
-		assertEquals("[ROLE_USER]", dbUser.getRoles().toString());
-	}
-	
-	@Test
-	public void createNewUser() {
-		MailUser user = new MailUser();
-		user.setEmailAddress("joey@ramones.com");
-		user.setPassword("secret");
-		user.addRole("ROLE_USER");
-		userService.createUser(user);
-		
-		assertNotNull(user.getId());
-	}
-	
-	@Test(expected = DuplicateKeyException.class)
-	public void creatingTwoUsersWithTheSameEmailIsNotPossible() {
-		testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
-		
-		MailUser user = new MailUser();
-		user.setEmailAddress("joey@ramones.com");
-		user.setPassword("password");
-		user.addRole("ROLE_ADMIN");
-		userService.createUser(user);
-	}
+    @Autowired
+    private
+
+    UserService userService;
+
+    @Before
+    public void setup() {
+        //testHelper.initUsers();
+    }
+
+    @After
+    public void tearDown() {
+        testHelper.cleanupUsers();
+    }
+
+    @Test
+    public void findUserById() {
+        MailUser user = testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
+        assertNotNull(user);
+
+        MailUser dbUser = userService.findUserById(user.getId());
+        assertNotNull(user);
+        assertEquals("joey@ramones.com", dbUser.getEmailAddress());
+        assertEquals("secret", dbUser.getPassword());
+        assertEquals("[ROLE_USER]", dbUser.getRoles().toString());
+    }
+
+    @Test
+    public void findUserByEmailAddress() {
+        MailUser user = testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
+        assertNotNull(user);
+
+        MailUser dbUser = userService.findUserByEmail("joey@ramones.com");
+        assertNotNull(user);
+        assertEquals("joey@ramones.com", dbUser.getEmailAddress());
+        assertEquals("secret", dbUser.getPassword());
+        assertEquals("[ROLE_USER]", dbUser.getRoles().toString());
+    }
+
+    @Test
+    public void createNewUser() {
+        MailUser user = new MailUser();
+        user.setEmailAddress("joey@ramones.com");
+        user.setPassword("secret");
+        user.addRole("ROLE_USER");
+        userService.createUser(user);
+
+        assertNotNull(user.getId());
+    }
+
+    @Test(expected = DuplicateKeyException.class)
+    public void creatingTwoUsersWithTheSameEmailIsNotPossible() {
+        testHelper.insertUser("joey@ramones.com", "secret", "ROLE_USER");
+
+        MailUser user = new MailUser();
+        user.setEmailAddress("joey@ramones.com");
+        user.setPassword("password");
+        user.addRole("ROLE_ADMIN");
+        userService.createUser(user);
+    }
 }
