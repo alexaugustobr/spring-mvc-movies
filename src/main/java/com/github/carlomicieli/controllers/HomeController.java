@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Carlo Micieli
  */
 @Controller
+@RequestMapping("/")
 public class HomeController {
 
     private MovieService movieService;

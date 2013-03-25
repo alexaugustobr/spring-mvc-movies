@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Movie: view</title>
+</head>
+<body>
+	<div class="ym-grid">
+		<div class="ym-g25 ym-gl">
+    		<div class="ym-gbox">
+    			<a href="#" th:href="@{/movies}" th:text="#{back.to.list}" class="ym-button ym-back">Back</a>
+			</div>
+		</div>
+		
+		<div class="ym-g75 ym-gl">
+			<h3 th:text="#{view.title}">View movie</h3>
+    		<div class="ym-gbox">
+    			<table th:object="${movie}">
+    				<tbody>
+    					<tr>
+    						<td th:text="#{movie.director.label}">Director</td>
+    						<td th:text="*{director}">Director</td>
+    					</tr>
+    					<tr>
+    						<td th:text="#{movie.title.label}">Title</td>
+    						<td th:text="*{title}">Title</td>
+    					</tr>
+    					<tr>
+    						<td th:text="#{movie.genre.label}">Genre</td>
+    						<td th:text="*{genre}">Genre</td>
+    					</tr> 
+    					<tr>
+    						<td th:text="#{movie.plot.label}">Plot</td>
+    						<td th:text="*{plot}">Plot</td>
+    					</tr> 
+    					<tr>
+    						<td th:text="#{movie.runningTime.label}">Running Time</td>
+    						<td th:text="*{runningTime}">Running Time</td>
+    					</tr>      	    					     					
+    					<tr>
+    						<td th:text="#{movie.rating.label}">Rating</td>
+    						<td th:text="*{rating}">Rating</td>
+    					</tr>  
+    				</tbody>
+    			</table>
+    		</div>
+    	</div>
+		<div class="ym-g25 ym-gl">
+			<div class="ym-gbox">
+			</div>
+		</div>
+		<div class="ym-g75 ym-gl">
+			<div class="ym-gbox">
+			<form action="#" th:object="${newComment}" 
+				th:action="@{'/movies/' + ${movie.slug} + '/addcomment'}" 
+				method="post" class="ym-form">
+		          	
+		         <ul th:if="${#fields.hasErrors('*')}" class="error">
+		        	<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input is incorrect</li>
+		   		</ul>
+		   
+				<div class="ym-fbox-text">
+					<label th:for="${#ids.next('author')}" th:text="#{movie.comment.author}">Director:</label>
+		    		<input type="text" th:field="*{author}" th:class="${#fields.hasErrors('author')}? 'error'"/>
+				</div>
+				<div class="ym-fbox-text">
+					<label th:for="${#ids.next('content')}" th:text="#{movie.comment.content}">Title:</label>
+		    		<textarea rows="2" th:field="*{content}" th:class="${#fields.hasErrors('content')}? 'error'"></textarea>
+				</div>
+						
+				<div class="ym-fbox-button">
+		       		<button type="submit" th:text="#{post.label}">Post comment</button>
+		     	</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	
+	<hr />
+	
+	<table>
+		<tr th:each="comm : ${movie.getComments()}">
+			<td th:text="${comm?.author}">author</td>
+			<td th:text="${comm?.content}">content</td>
+			<td th:text="${comm?.postedAt}">posted At</td>
+		</tr>
+	</table>
+</body>
+</html>

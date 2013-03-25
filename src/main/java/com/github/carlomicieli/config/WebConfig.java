@@ -19,6 +19,7 @@ import com.github.carlomicieli.converters.MovieConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -26,9 +27,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring3.SpringTemplateEngine;
-import org.thymeleaf.spring3.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 /**
  * The configuration class for the Spring MVC application.
@@ -37,6 +37,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
  */
 @Configuration
 @EnableWebMvc
+@Import(ApplicationConfig.class)
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private ApplicationConfig applicationConfig;
@@ -60,32 +61,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new ImplicitObjectsInterceptor());
     }
 
-    /*
-     THYMELEAF-SPECIFIC ARTIFACTS
-     TemplateResolver <- TemplateEngine <- ViewResolver
-    */
     @Bean
-    public ServletContextTemplateResolver templateResolver() {
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
+        resolver.setSuffix(".jsp");
         return resolver;
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.setTemplateResolver(templateResolver());
-        return engine;
-    }
-
-    @Bean
-    public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setOrder(1);
-        return viewResolver;
     }
 
     @Bean

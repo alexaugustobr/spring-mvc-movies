@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Movie: create</title>
+</head>
+<body>
+	<div class="ym-grid linearize-level-1">
+		<div class="ym-g25 ym-gl">
+			<div class="ym-gbox-left">
+				<a href="#" th:href="@{/movies}" th:text="#{back.to.list}" class="ym-button ym-back">Back</a>
+			</div>
+		</div>
+		<div class="ym-g75 ym-gl">
+			<div class="ym-gbox-right">
+				<h3 th:text="#{create.title}">New movie</h3>
+
+				<form action="#" th:object="${movie}" th:action="@{/movies}"
+					enctype="multipart/form-data"
+					method="post" class="ym-form">
+					<ul th:if="${#fields.hasErrors('*')}" class="error">
+						<li th:each="err : ${#fields.errors('*')}" th:text="#{${err}}">Input
+							is incorrect</li>
+					</ul>
+
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('director')}"
+							th:text="#{movie.director.label}">Director:</label> <input
+							type="text" th:field="*{director}"
+							th:class="${#fields.hasErrors('director')}? 'error'" />
+					</div>
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('title')}"
+							th:text="#{movie.title.label}">Title:</label> <input type="text"
+							th:field="*{title}"
+							th:class="${#fields.hasErrors('title')}? 'error'" />
+					</div>
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('genre')}"
+							th:text="#{movie.genre.label}">Genre:</label> <input type="text"
+							th:field="*{genre}"
+							th:class="${#fields.hasErrors('genre')}? 'error'" />
+					</div>
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('plot')}"
+							th:text="#{movie.plot.label}">Plot:</label> 
+						<textarea rows="3" cols="50" th:field="*{plot}"
+							th:class="${#fields.hasErrors('plot')}? 'error'"></textarea>
+					</div>
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('year')}"
+							th:text="#{movie.year.label}">year:</label>
+						<input type="text"
+							th:field="*{year}"
+							th:class="${#fields.hasErrors('year')}? 'error'" />
+					</div>	
+					<div class="ym-fbox-text">
+						<label th:for="${#ids.next('runningTime')}"
+							th:text="#{movie.runningTime.label}">runningTime:</label>
+						<input type="text"
+							th:field="*{runningTime}"
+							th:class="${#fields.hasErrors('runningTime')}? 'error'" />
+					</div>									
+					<div class="ym-fbox-select">
+						<label th:for="${#ids.next('rating')}"
+							th:text="#{movie.rating.label}">Rating:</label>
+						<select th:field="*{rating}">
+						<option th:each="r : ${ratings}"
+							th:value="${r}"
+							th:text="${r}">r</option>
+						</select>	
+					</div>
+					<div class="ym-fbox-text">
+						<input type="file" name="file" /> 
+					</div>
+					<div class="ym-fbox-button">
+						<input type="submit" class="ym-button" value="submit" id="submit"
+							name="submit" th:value="#{save.label}" /> 
+						<input type="reset" class="ym-button" value="reset" id="reset" name="reset" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

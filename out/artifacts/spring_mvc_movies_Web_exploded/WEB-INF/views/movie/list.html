@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Movies List</title>
+<style>
+	.current {
+		color: black;
+	}
+</style>
+</head>
+<body>
+	<div class="ym-grid linearize-level-1">
+		<h3 th:text="#{movie.list.title}">Movie list</h3>
+		<div class="tab-content">
+			<p>
+				<a href="#" th:href="@{/movies/new}" th:text="#{add.movie}" class="ym-button ym-add">Add</a>
+			</p>
+		
+			<table>
+				<thead>
+					<tr>
+						<th scope="col" th:text="#{movie.director.label}">Director</th>
+						<th scope="col" th:text="#{movie.title.label}">Title</th>
+						<th scope="col" th:text="#{movie.genre.label}">Genre</th>
+						<th scope="col" th:text="#{movie.rating.label}">Rating</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="movie : ${results.getData()}">
+						<td th:text="${movie.director}">director</td>
+						<td><a href="#" th:href="@{'/movies/' + ${movie.slug}}"
+							th:text="${movie.title}"></a></td>
+						<td th:text="${movie.genre}">genre</td>
+						<td th:text="${movie.rating}">rating</td>
+						<td>
+							<form action="#"
+								th:action="@{'/movies/' + ${movie.slug} + '/edit'}"
+								th:object="${movie}" method="get">
+								<button type="submit" th:text="#{edit.label}" class="ym-button ym-edit">Edit</button>
+							</form>
+						</td>
+						<td>
+							<form action="#" th:action="@{'/movies/' + ${movie.slug}}"
+								th:object="${movie}" method="post">
+								<button type="submit" th:text="#{delete.label}" class="ym-button ym-delete">Delete</button>
+								<input type="hidden" name="_method" value="delete" />
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<hr />
+
+		<div class="pagination">
+			<a href="#" 
+				th:if="${results.showPreviousLink()}"
+				th:href="@{/movies(page = ${results.getPage() - 1}, pageSize = ${param.pageSize ?: 25})}"
+				th:text="#{page.previous.label}">Previous</a> 
+			<a href="#"
+				th:each="link : ${results.getPageLinks()}"
+				th:href="@{/movies(page = ${link}, pageSize = ${param.pageSize ?: 25})}"
+				th:class="${results.getPage() == link} ? 'current'"
+				th:text="'[' + ${link} + ']'">11</a> 
+			<a href="#"
+				th:if="${results.showNextLink()}"
+				th:href="@{/movies(page = ${results.getPage() + 1}, pageSize = ${param.pageSize ?: 25})}"
+				th:text="#{page.next.label}">Next</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -70,7 +70,7 @@
     <hr>
 
     <footer>
-        <p>&copy; Carlo Micieli 2013</p>
+        <p>&copy; Company 2013</p>
     </footer>
 
 </div> <!-- /container -->

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Spring Movies: not found</title>
+</head>
+<body>
+	<div class="ym-grid linearize-level-1">
+		<h4 th:text="#{page.notfound.title}">Page not found</h4>
+		<a href="#" th:href="@{/home}" th:text="#{back.to.home}">Back to home</a>
+	</div>
+</body>
+</html>
