@@ -34,9 +34,8 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 @Profile("production")
 @PropertySource("classpath:META-INF/spring/app.properties")
 public class ProductionConfiguration {
-    private
     @Autowired
-    Environment env;
+    private Environment env;
 
     /**
      * Return the mongodb factory for the production environment.

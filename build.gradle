@@ -93,12 +93,11 @@ repositories {
 def springVersion = "3.2.2.RELEASE"
 def securityVersion = "3.1.0.RELEASE"
 def springDataVersion = "1.5.0.RELEASE"
-def thymeleafVersion = "2.0.16"
 def springDataMongoVersion = "1.2.0.RELEASE"
 def mongoDriverVersion = "2.11.0"
 def hibernateValidationVersion = "4.2.0.Final"
 def slf4jVersion = "1.6.1"
-def tomcatVersion = "7.0.26"
+def tomcatVersion = "7.0.32"
 def jacksonVersion = "1.9.12"
 def gebVersion = "0.7.0"
 def junitVersion = "4.10"
@@ -142,10 +141,6 @@ dependencies {
 
     // Sitemesh
     compile "opensymphony:sitemesh:2.4.2"
-
-    // Thymeleaf
-    compile "org.thymeleaf:thymeleaf:${thymeleafVersion}"
-    compile "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}"
 
     // JSR 303 with Hibernate Validator
     compile "javax.validation:validation-api:1.0.0.GA"
