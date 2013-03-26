@@ -15,13 +15,13 @@
 		 specified for component-scanning -->
 	<context-param>
     	<param-name>contextConfigLocation</param-name>
-    	<param-value>com.github.carlomicieli.config</param-value>
+    	<param-value>com.github.carlomicieli.nerdmovies.config</param-value>
 	</context-param>
 
 	<!-- Activate the spring profile to use -->
 	<context-param>
 		<param-name>contextInitializerClasses</param-name>
-		<param-value>com.github.carlomicieli.config.ContextProfileInitializer</param-value>
+		<param-value>com.github.carlomicieli.nerdmovies.config.ContextProfileInitializer</param-value>
 	</context-param>
 
 	<!-- Spring Security -->
@@ -87,7 +87,7 @@
 			 and fully-qualified @Configuration classes -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.github.carlomicieli.config.WebConfig</param-value>
+			<param-value>com.github.carlomicieli.nerdmovies.config.WebConfig</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
