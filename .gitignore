@@ -4,6 +4,7 @@
 .project
 .springBeans
 .idea
+out
 bin
 classes
 build
