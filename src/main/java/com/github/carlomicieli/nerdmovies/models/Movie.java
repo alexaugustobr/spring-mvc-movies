@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,8 @@ public class Movie {
     @Range(min = 1, max = 240, message = "runningTime.notValid")
     private int runningTime;
 
+    private int moviedbId;
+
     private String rating;
     private byte[] poster;
     private byte[] thumb;
@@ -67,6 +69,47 @@ public class Movie {
 
     private List<String> tags;
     private List<Comment> comments;
+
+    public Movie() {}
+    private Movie(Builder bld) {
+        this.title = bld.title;
+        this.director = bld.director;
+        this.moviedbId = bld.moviedbId;
+        this.runningTime = bld.runningTime;
+        this.genre = bld.genre;
+    }
+
+    public static class Builder {
+        private final String director;
+        private final String title;
+        private int runningTime = 0;
+        private int moviedbId = 0;
+        private String genre = "";
+
+        public Builder(String director, String title) {
+            this.director = director;
+            this.title = title;
+        }
+
+        public Builder runningTime(int runTime) {
+            this.runningTime = runTime;
+            return this;
+        }
+
+        public Builder moviedbId(int moviedbId) {
+            this.moviedbId = moviedbId;
+            return this;
+        }
+
+        public Builder genre(String g) {
+            this.genre = g;
+            return this;
+        }
+
+        public Movie build() {
+            return new Movie(this);
+        }
+    }
 
     /**
      * Return the list of tags associated with this movie.
@@ -85,6 +128,14 @@ public class Movie {
     public void addTag(String tag) {
         if (tags == null) tags = new ArrayList<String>();
         tags.add(tag);
+    }
+
+    public int getMoviedbId() {
+        return moviedbId;
+    }
+
+    public void setMoviedbId(int moviedbId) {
+        this.moviedbId = moviedbId;
     }
 
     /**
@@ -278,7 +329,10 @@ public class Movie {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s", getId(), getDirector(), getTitle());
+        return new StringBuilder()
+                .append(getDirector())
+                .append(" ")
+                .append(getTitle()).toString();
     }
 
     public String buildSlug() {

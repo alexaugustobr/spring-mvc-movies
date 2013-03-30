@@ -28,30 +28,37 @@ import static org.junit.Assert.assertNotNull;
  * @author Carlo Micieli
  */
 public class MovieTests {
-    @Test
-    public void convertingToString() {
-        ObjectId id = new ObjectId("47cc67093475061e3d95369d");
-        Movie movie = new Movie();
-        movie.setId(id);
-        movie.setDirector("AAAA");
-        movie.setTitle("BBBB");
 
-        String expected = String.format("[%s] %s - %s", "47cc67093475061e3d95369d", "AAAA", "BBBB");
-        assertEquals(expected, movie.toString());
+    @Test
+    public void shouldBuildNewMovies() {
+        Movie m = new Movie.Builder("Quentin Tarantino", "Django unchained")
+                .moviedbId(140)
+                .runningTime(176)
+                .genre("western")
+                .build();
+
+        assertNotNull("Movie is null", m);
+        assertEquals(m.getDirector(), "Quentin Tarantino");
+        assertEquals(m.getTitle(), "Django unchained");
+        assertEquals(m.getMoviedbId(), 140);
+        assertEquals(m.getRunningTime(), 176);
+        assertEquals(m.getGenre(), "western");
     }
 
     @Test
-    public void calculatingTheSlug() {
-        Movie movie = new Movie();
-        movie.setDirector("John Landis");
-        movie.setTitle("The Blues brothers");
-
-        movie.setSlug(movie.buildSlug());
-        assertEquals("the-blues-brothers", movie.getSlug());
+    public void shouldProduceStringRepresentationsForMovies() {
+        Movie movie = new Movie.Builder("John Landis", "The Blues brothers").build();
+        assertEquals("John Landis The Blues brothers", movie.toString());
     }
 
     @Test
-    public void addingTagToMovies() {
+    public void shouldCalculateSlugsForMovies() {
+        Movie movie = new Movie.Builder("John Landis", "The Blues brothers").build();
+        assertEquals("the-blues-brothers", movie.buildSlug());
+    }
+
+    @Test
+    public void shouldAddTagsToMovies() {
         Movie m = new Movie();
         m.addTag("AAAA");
         m.addTag("BBBB");
@@ -63,16 +70,14 @@ public class MovieTests {
     }
 
     @Test
-    public void addingCommentsToMovies() {
-        Comment c1 = new Comment();
-        c1.setAuthor("A");
-        c1.setContent("BBBB");
-        c1.setPostedAt(new Date());
+    public void shouldAddCommentsToMovies() {
+        Comment c1 = new Comment.Builder("A", "CCCC")
+                .postedAt(new Date())
+                .build();
 
-        Comment c2 = new Comment();
-        c2.setAuthor("A");
-        c2.setContent("BBBB");
-        c2.setPostedAt(new Date());
+        Comment c2 = new Comment.Builder("A", "BBBB")
+                .postedAt(new Date())
+                .build();
 
         Movie m = new Movie();
         m.addComment(c1);
