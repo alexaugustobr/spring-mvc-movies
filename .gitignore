@@ -10,3 +10,4 @@ classes
 build
 target
 *.iml
+apikey.properties

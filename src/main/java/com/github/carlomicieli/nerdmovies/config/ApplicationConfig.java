@@ -16,6 +16,7 @@
 package com.github.carlomicieli.nerdmovies.config;
 
 import com.github.carlomicieli.nerdmovies.models.MovieBeforeSaveListener;
+import com.github.carlomicieli.nerdmovies.moviedb.MoviedbClient;
 import com.github.carlomicieli.nerdmovies.services.MongoMovieService;
 import com.github.carlomicieli.nerdmovies.services.MovieService;
 import com.mongodb.WriteConcern;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -35,7 +37,16 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Import({ProductionConfiguration.class, ComponentTestConfig.class})
 @ComponentScan(basePackages = "com.github.carlomicieli.nerdmovies")
 @ImportResource("classpath:META-INF/spring/security.xml")
+@PropertySource("classpath:META-INF/spring/apikey.properties")
 public class ApplicationConfig {
+
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public MoviedbClient moviedbClient() {
+        return new MoviedbClient(env.getProperty("moviesdb.apikey"));
+    }
 
     /**
      * Return the message source for multi-language management.
