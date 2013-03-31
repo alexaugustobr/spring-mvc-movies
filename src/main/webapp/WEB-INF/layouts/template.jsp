@@ -1,7 +1,7 @@
 <%@ page language="Java" %>
 <%@ page session="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
            prefix="sec"%>
@@ -55,11 +55,20 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="navbar-form pull-right">
-                    <input class="span2" type="text" placeholder="Email">
-                    <input class="span2" type="password" placeholder="Password">
+
+                <sec:authorize access="!isAuthenticated()">
+                <s:url var="loginUrl" value="/auth/authenticate"/>
+                <form class="navbar-form pull-right" action="${loginUrl}" method="POST">
+                    <input class="span2" type="text" id="username" placeholder="Email">
+                    <input class="span2" type="password" id="password" placeholder="Password">
                     <button type="submit" class="btn">Sign in</button>
                 </form>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <s:url var="logoutUrl" value="/logout"/>
+                    <a href="${logoutUrl}">Logout</a>
+                </sec:authorize>
             </div><!--/.nav-collapse -->
         </div>
     </div>

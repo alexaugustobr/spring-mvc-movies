@@ -27,7 +27,10 @@
 		<intercept-url pattern="/**" access="permitAll" />
 		<form-login login-page="/auth/login"
 			authentication-failure-url="/auth/login?login_error"
-			default-target-url="/default" />
+			default-target-url="/default"
+            login-processing-url="/auth/authenticate"
+            username-parameter="username"
+            password-parameter="password"/>
 		<logout logout-url="/logout" />
 		<remember-me token-repository-ref="persistentTokenRepository" />
 	</http>
