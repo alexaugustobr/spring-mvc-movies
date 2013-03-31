@@ -16,6 +16,7 @@
 package com.github.carlomicieli.nerdmovies.models;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.util.Date;
 
@@ -25,6 +26,12 @@ import java.util.Date;
  * @author Carlo Micieli
  */
 public class Comment {
+
+    @NotEmpty
+    private String author;
+    @NotEmpty
+    private String content;
+    private Date postedAt;
 
     public Comment() {
     }
@@ -55,12 +62,6 @@ public class Comment {
         }
     }
 
-    @NotEmpty
-    private String author;
-    @NotEmpty
-    private String content;
-    private Date postedAt;
-
     public String getAuthor() {
         return author;
     }
@@ -83,5 +84,27 @@ public class Comment {
 
     public void setPostedAt(Date postedAt) {
         this.postedAt = postedAt;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getAuthor())
+                .append(" - ")
+                .append(getContent())
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Comment)) return false;
+
+        Comment other = (Comment) obj;
+        return new EqualsBuilder()
+                .append(author, other.author)
+                .append(content, other.content)
+                .append(postedAt, other.postedAt)
+                .isEquals();
     }
 }

@@ -16,6 +16,7 @@
 package com.github.carlomicieli.nerdmovies.models;
 
 import com.github.carlomicieli.nerdmovies.utility.Slug;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -130,10 +131,18 @@ public class Movie {
         tags.add(tag);
     }
 
+    /**
+     * Returns the movie id from the movie db
+     * @return the movie id
+     */
     public int getMoviedbId() {
         return moviedbId;
     }
 
+    /**
+     * Sets the movie id from the movie db
+     * @param moviedbId the movie id
+     */
     public void setMoviedbId(int moviedbId) {
         this.moviedbId = moviedbId;
     }
@@ -327,14 +336,6 @@ public class Movie {
         this.runningTime = runningTime;
     }
 
-    @Override
-    public String toString() {
-        return new StringBuilder()
-                .append(getDirector())
-                .append(" ")
-                .append(getTitle()).toString();
-    }
-
     public String buildSlug() {
         return Slug.makeSlug(getTitle());
     }
@@ -353,5 +354,29 @@ public class Movie {
 
     public void setThumb(byte[] thumb) {
         this.thumb = thumb;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(getDirector())
+                .append(" ")
+                .append(getTitle()).toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Movie)) return false;
+
+        Movie other = (Movie) obj;
+        return new EqualsBuilder()
+                .append(director, other.director)
+                .append(title, other.title)
+                .append(runningTime, other.runningTime)
+                .append(moviedbId, other.moviedbId)
+                .append(rating, other.rating)
+                .append(runningTime, other.runningTime)
+                .isEquals();
     }
 }
