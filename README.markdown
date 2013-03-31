@@ -6,19 +6,18 @@ A sample application powered by:
 * Spring MVC 3.2
 * MongoDb 2.2
 * Spring Security 3.1.0
-* Thymeleaf 2.0.13
 
 Usage
 -----
 
 The project includes a Gradle build script. 
 
-The following command will create the Eclipse project:
+The following command will create the IDEA project:
 
-    gradle eclipse
+    ./gradlew idea
 
 to run the application inside tomcat:
 
-    gradle runTomcatWar
-    gradle stopTomcat
+    ./gradlew runTomcatWar
+    ./gradlew stopTomcat
 
