@@ -33,9 +33,8 @@ import javax.validation.Validator;
 @ContextConfiguration(classes = {
         ValidatorConfiguration.class})
 public abstract class AbstractValidationTests {
-    protected
     @Autowired
-    LocalValidatorFactoryBean validatorFactory;
+    protected LocalValidatorFactoryBean validatorFactory;
     protected Validator validator;
 
     @SuppressWarnings("rawtypes")

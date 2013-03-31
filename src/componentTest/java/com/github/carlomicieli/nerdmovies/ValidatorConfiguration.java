@@ -21,9 +21,8 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
 public class ValidatorConfiguration {
-    public
     @Bean
-    LocalValidatorFactoryBean validatorFactory() {
+    public LocalValidatorFactoryBean validatorFactory() {
         return new LocalValidatorFactoryBean();
     }
 }

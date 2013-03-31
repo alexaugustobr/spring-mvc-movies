@@ -33,9 +33,8 @@ import static org.junit.Assert.*;
  * @author Carlo Micieli
  */
 public class MovieServiceComponentTests extends AbstractComponentTests {
-    private
     @Autowired
-    MovieService movieService;
+    private MovieService movieService;
 
     @Before
     public void setup() {

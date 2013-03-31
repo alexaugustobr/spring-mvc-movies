@@ -30,9 +30,8 @@ import static org.junit.Assert.assertNotNull;
  * @author Carlo Micieli
  */
 public class ShowServiceComponentTests extends AbstractComponentTests {
-    private
     @Autowired
-    ShowService showService;
+    private ShowService showService;
 
     @Before
     public void setup() {

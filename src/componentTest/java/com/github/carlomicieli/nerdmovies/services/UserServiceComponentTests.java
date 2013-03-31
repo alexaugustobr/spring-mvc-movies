@@ -31,9 +31,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public class UserServiceComponentTests extends AbstractComponentTests {
     @Autowired
-    private
-
-    UserService userService;
+    private UserService userService;
 
     @Before
     public void setup() {
