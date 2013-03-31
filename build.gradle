@@ -151,9 +151,6 @@ dependencies {
             "org.mockito:mockito-core:${mockitoVersion}",
             "org.springframework:spring-test:${springVersion}"
 
-    // component tests
-    componentTestCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:${embedMongoVersion}"
-
     // integration tests
     groovy "org.codehaus.groovy:groovy:2.0.6"
     integrationTestCompile "org.spockframework:spock-core:0.7-groovy-2.0",
