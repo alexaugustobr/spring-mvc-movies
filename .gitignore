@@ -10,4 +10,6 @@ classes
 build
 target
 *.iml
+*.ipr
+*.iws
 apikey.properties

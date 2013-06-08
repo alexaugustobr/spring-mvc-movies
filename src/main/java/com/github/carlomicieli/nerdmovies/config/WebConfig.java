@@ -27,14 +27,18 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.tiles2.dialect.TilesDialect;
+import org.thymeleaf.extras.tiles2.spring.web.configurer.ThymeleafTilesConfigurer;
+import org.thymeleaf.extras.tiles2.spring.web.view.ThymeleafTilesView;
+import org.thymeleaf.spring3.SpringTemplateEngine;
+import org.thymeleaf.spring3.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
-import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -62,26 +66,46 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // add the spring security handler for thymeleaf
-        registry.addInterceptor(new ImplicitObjectsInterceptor());
+    @Bean
+    public TemplateResolver templateResolver() {
+        TemplateResolver templateResolver = new ServletContextTemplateResolver();
+        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setTemplateMode("HTML5");
+        return templateResolver;
     }
 
     @Bean
-    public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setViewClass(JstlView.class);
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jsp");
-        return resolver;
+    public SpringTemplateEngine templateEngine() {
+        Set<IDialect> dialects = new HashSet<IDialect>(
+                Arrays.asList(new TilesDialect()));
+
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setAdditionalDialects(dialects);
+        return templateEngine;
+    }
+
+    @Bean
+    public ThymeleafViewResolver tilesViewResolver() {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setViewClass(ThymeleafTilesView.class);
+        viewResolver.setTemplateEngine(templateEngine());
+        return viewResolver;
+    }
+
+    @Bean
+    public ThymeleafTilesConfigurer tilesConfigurer() {
+        ThymeleafTilesConfigurer tilesConfig = new ThymeleafTilesConfigurer();
+
+        tilesConfig.setDefinitions(new String[]{"/WEB-INF/views/**/views.xml"});
+        return tilesConfig;
     }
 
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
 
-        List<MediaType> mediaTypes = new ArrayList<>();
+        List<MediaType> mediaTypes = new ArrayList<MediaType>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
 
         MappingJacksonHttpMessageConverter jacksonConverter =

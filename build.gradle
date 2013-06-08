@@ -1,35 +1,25 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'war'
-apply plugin: 'tomcat'
+apply plugin: 'jetty'
 apply plugin: 'idea'
 
 group = 'com.github.carlomicieli.nerdmovies'
 description = 'A sample application with Spring Framework'
 
-version = "1.1.0-SNAPSHOT"
+version = "1.2.0-SNAPSHOT"
 
 ext.sourceCompatibility = JavaVersion.VERSION_1_7
 ext.targetCompatibility = JavaVersion.VERSION_1_7
 
-// tomcat
-[tomcatRun, tomcatRunWar]*.httpPort = 9090
-[tomcatRun, tomcatRunWar]*.contextPath = 'nerdmovies'
-[tomcatRun, tomcatRunWar]*.stopKey = 'rosebud'
+// jetty
+[jettyRun, jettyRunWar]*.httpPort = 9090
+[jettyRun, jettyRunWar]*.contextPath = 'nerdmovies'
+[jettyRun, jettyRunWar]*.stopKey = 'rosebud'
 
-tomcatStop {
+jettyStop {
     stopPort = 9090
     stopKey = 'rosebud'
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.7'
-    }
 }
 
 configurations {
@@ -70,19 +60,21 @@ repositories {
     maven {url "https://repository.jboss.org/nexus/content/repositories/releases/"}
 }
 
-def springVersion = "3.2.2.RELEASE"
-def securityVersion = "3.1.3.RELEASE"
+def springVersion = "3.2.3.RELEASE"
+def securityVersion = "3.1.4.RELEASE"
 def springDataVersion = "1.5.0.RELEASE"
 def springDataMongoVersion = "1.2.0.RELEASE"
 def mongoDriverVersion = "2.10.1"
-def hibernateValidationVersion = "4.2.0.Final"
+def hibernateValidationVersion = "4.3.1.Final"
 def slf4jVersion = "1.6.1"
-def tomcatVersion = "7.0.32"
+def jettyVersion = "7.0.40"
 def jacksonVersion = "1.9.12"
 def gebVersion = "0.7.0"
-def junitVersion = "4.10"
+def junitVersion = "4.11"
 def mockitoVersion = "1.9.5"
 def embedMongoVersion = "1.26"
+def thymeleafVersion = "2.0.16"
+def tilesVersion = "2.2.2"
 
 dependencies {
     // apache commons
@@ -122,8 +114,18 @@ dependencies {
     providedCompile "javax.servlet:servlet-api:2.5"
     compile "javax.servlet:jstl:1.2"
 
-    // Sitemesh
-    compile "opensymphony:sitemesh:2.4.2"
+    // Thymeleaf
+    compile "org.thymeleaf:thymeleaf:${thymeleafVersion}",
+        "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}",
+        "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.0.0",
+        "org.thymeleaf.extras:thymeleaf-extras-tiles2:2.0.0"
+
+    // Apache Tiles
+    compile "org.apache.tiles:tiles-core:${tilesVersion}",
+        "org.apache.tiles:tiles-api:${tilesVersion}",
+        "org.apache.tiles:tiles-template:${tilesVersion}",
+        "org.apache.tiles:tiles-servlet:${tilesVersion}",
+        "org.apache.tiles:tiles-jsp:${tilesVersion}"
 
     // JSR 303 with Hibernate Validator
     compile "javax.validation:validation-api:1.0.0.GA"
@@ -152,23 +154,16 @@ dependencies {
             "org.springframework:spring-test:${springVersion}"
 
     // integration tests
-    groovy "org.codehaus.groovy:groovy:2.0.6"
+    integrationTestCompile "org.codehaus.groovy:groovy:2.0.8"
     integrationTestCompile "org.spockframework:spock-core:0.7-groovy-2.0",
             "org.codehaus.geb:geb-core:${gebVersion}",
             "org.codehaus.geb:geb-spock:${gebVersion}",
             "org.seleniumhq.selenium:selenium-htmlunit-driver:2.20.0"
-
-    // tomcat 7
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
-    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
-        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
-    }
 }
 
 // wrapper task to create the download script
 task wrapper(type: Wrapper, group: 'Gradle wrapper', description: 'Gradle will be automatically downloaded and used to run the build.') {
-    gradleVersion = '1.5'
+    gradleVersion = '1.6'
 }
 
 // component testing:	the same as unit testing except that all stubs
@@ -185,12 +180,12 @@ task integrationTest(description: 'Runs the integration tests.', group: 'Verific
     classpath = sourceSets.integrationTest.runtimeClasspath
 
     doFirst {
-        [tomcatRun, tomcatRunWar]*.daemon = true
-        tasks.tomcatRun.execute()
+        [jettyRun, jettyRunWar]*.daemon = true
+        tasks.jettyRun.execute()
     }
 
     doLast {
-        tasks.tomcatStop.execute()
+        tasks.jettyStop.execute()
     }
 }
 //check.dependsOn integrationTest
