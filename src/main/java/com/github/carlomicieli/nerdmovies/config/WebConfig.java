@@ -30,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.extras.tiles2.dialect.TilesDialect;
 import org.thymeleaf.extras.tiles2.spring.web.configurer.ThymeleafTilesConfigurer;
 import org.thymeleaf.extras.tiles2.spring.web.view.ThymeleafTilesView;
@@ -77,7 +78,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public SpringTemplateEngine templateEngine() {
         Set<IDialect> dialects = new HashSet<IDialect>(
-                Arrays.asList(new TilesDialect()));
+                Arrays.asList(new TilesDialect(), new SpringSecurityDialect()));
 
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());

@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
       xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org"
       lang="en">
-<html>
+
 <head>
-    <title>NerdMovies</title>
+    <title>MyDemo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NerdMovies: a spring mvc sample">
-    <meta name="author" content="Carlo Micieli">
-    <link rel="stylesheet"
-        th:href="@{/resources/css/bootstrap.css}"
-        type="text/css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="NerdMovies: a spring mvc sample" />
+    <meta name="author" content="Carlo Micieli" />
+    <link rel="stylesheet" type="text/css"
+          href="#"
+          th:href="@{/resources/css/bootstrap.css}" />
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
     </style>
-    <link rel="stylesheet"
-          th:href="@{/resources/css/bootstrap-responsive.css}"
-          type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css"
+          href="#"
+          th:href="@{/resources/css/bootstrap-responsive.css}" />
 </head>
+
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
@@ -37,8 +39,8 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">Movies</a></li>
+                    <li><a href="#contact">Events</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -53,107 +55,32 @@
                     </li>
                 </ul>
 
-                <sec:authorize access="!isAuthenticated()">
-                <sec:url var="loginUrl" value="/auth/authenticate"/>
-                <form class="navbar-form pull-right" action="${loginUrl}" method="POST">
-                    <input class="span2" type="text" id="username" placeholder="Email">
-                    <input class="span2" type="password" id="password" placeholder="Password">
-                    <button type="submit" class="btn">Sign in</button>
-                </form>
-                </sec:authorize>
+                <span sec:authorize="hasRole('ROLE_ANONYMOUS')">
+                    <form class="navbar-form pull-right" th:action="@{/auth/authenticate}" method="POST">
+                        <input class="span2" type="text" id="username" placeholder="Email" />
+                        <input class="span2" type="password" id="password" placeholder="Password" />
+                        <button type="submit" class="btn">Sign in</button>
+                    </form>
+                </span>
 
-                <sec:authorize access="isAuthenticated()">
-                    <sec:url var="logoutUrl" value="/logout"/>
-                    <a href="${logoutUrl}">Logout</a>
-                </sec:authorize>
+                <span sec:authorize="hasRole('ROLE_USER')" th:if="${#authentication}">
+                    <a href="@{/logout}">Logout</a>
+                </span>
             </div><!--/.nav-collapse -->
         </div>
     </div>
 </div>
 
-<div class="container" tiles:include="body">
+<div id="page" class="container">
+    <div tiles:include="body">
 
-    <hr>
+        BODY PAGE GOES HERE!
 
-    <footer>
-        <p>&copy; Carlo Micieli 2013</p>
-    </footer>
-
-</div> <!-- /container -->
-<script src="http://code.jquery.com/jquery.js"></script>
-<script type="text/javascript"
-        src="@{/resources/js/bootstrap.js}"></script>
-</body>
-</html>
-<!--
-
-
-<a href="http://github.com/CarloMicieli/spring-mvc-movies"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
-<div class="ym-wrapper">
-    <div class="ym-wbox">
-        <header>
-            <h1>Spring Movies</h1>
-        </header>
-        <nav id="nav">
-            <div class="ym-hlist">
-                <ul>
-                    <li class="<decorator:getProperty property="home"/>">
-                        <a href="<c:url value="/home" />"><strong><spring:message code="navigation.home"/></strong></a></li>
-                    <li><a href="<c:url value="/movies" />"><spring:message code="navigation.movies"/></a></li>
-                    <li><a href="<c:url value="/shows/new" />"><spring:message code="navigation.host.show"/></a></li>
-                    <li><a href="<c:url value="/movies" />"><spring:message code="navigation.find.show"/></a></li>
-                </ul>
-
-                <form class="ym-searchform">
-                    <sec:authorize access="authenticated" var="authenticated" />
-                    <c:choose>
-                        <c:when test="${authenticated}">
-                            <span class="highlight">Welcome <sec:authentication property="principal.username" /></span>
-                            [<a href="<spring:url value="/logout" htmlEscape="true" />">Logout</a>]
-                        </c:when>
-                        <c:otherwise>
-                            <c:url var="loginUrl" value="/auth/login" />
-                            [<a href="${loginUrl}">Login</a>]
-                        </c:otherwise>
-                    </c:choose>
-                </form>
-            </div>
-        </nav>
-
-        <div id="main">
-            <decorator:body />
-        </div>
     </div>
 
-    <footer role="contentinfo">
-        <div class="ym-wrapper">
-            <div class="ym-wbox">
-                <div class="ym-grid linearize-level-2">
-                    <div class="ym-g66 ym-gl">
-                        <div class="ym-gbox-left">
-                            <p>
-                                � 2012 by Carlo Micieli, <a
-                                    href="http://carlomicieli.github.com">http://carlomicieli.github.com</a><br>
-                                Code and Documentation licensed under <a
-                                    href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 license</a>.
-                            </p>
-                            <p>
-                                <a href="<c:url value="/home/about" />">about</a> | <a href="#">developers</a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="ym-g33 ym-gr">
-                        <div class="ym-gbox-right">
-                            <p>
-                                Layout based on <a href="http://www.yaml.de">YAML</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <hr />
+
+    Developed by <strong>Carlo Micieli</strong>
 </div>
 </body>
 </html>
--->

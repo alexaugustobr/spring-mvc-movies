@@ -67,12 +67,10 @@ def springDataMongoVersion = "1.2.0.RELEASE"
 def mongoDriverVersion = "2.10.1"
 def hibernateValidationVersion = "4.3.1.Final"
 def slf4jVersion = "1.6.1"
-def jettyVersion = "7.0.40"
 def jacksonVersion = "1.9.12"
 def gebVersion = "0.7.0"
 def junitVersion = "4.11"
 def mockitoVersion = "1.9.5"
-def embedMongoVersion = "1.26"
 def thymeleafVersion = "2.0.16"
 def tilesVersion = "2.2.2"
 
@@ -118,7 +116,8 @@ dependencies {
     compile "org.thymeleaf:thymeleaf:${thymeleafVersion}",
         "org.thymeleaf:thymeleaf-spring3:${thymeleafVersion}",
         "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.0.0",
-        "org.thymeleaf.extras:thymeleaf-extras-tiles2:2.0.0"
+        "org.thymeleaf.extras:thymeleaf-extras-tiles2:2.0.0",
+        "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.0.0"
 
     // Apache Tiles
     compile "org.apache.tiles:tiles-core:${tilesVersion}",
