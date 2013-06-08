@@ -44,7 +44,7 @@ public class CommentTests {
     }
 
     @Test
-    public void shouldCheckWheterTwoCommentsAreEquals() {
+    public void shouldCheckWhetherTwoCommentsAreEquals() {
         Date now = new Date();
         Comment x = new Comment.Builder("John Doe", "My comment")
                 .postedAt(now)
@@ -56,7 +56,7 @@ public class CommentTests {
     }
 
     @Test
-    public void shouldCheckWheterTwoCommentsAreDifferent() {
+    public void shouldCheckWhetherTwoCommentsAreDifferent() {
         Date now = new Date();
         Comment x = new Comment.Builder("John Doe", "My comment")
                 .postedAt(now)
