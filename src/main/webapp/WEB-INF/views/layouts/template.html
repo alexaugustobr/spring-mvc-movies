@@ -1,31 +1,28 @@
-<%@ page language="Java" %>
-<%@ page session="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-           prefix="sec"%>
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-           prefix="decorator"%>
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org"
+      lang="en">
 <html>
 <head>
-    <title><decorator:title default="NerdMovies" /></title>
+    <title>NerdMovies</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NerdMovies: a spring mvc sample">
     <meta name="author" content="Carlo Micieli">
-    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.css" />"
-          type="text/css" media="screen" />
+    <link rel="stylesheet"
+        th:href="@{/resources/css/bootstrap.css}"
+        type="text/css" media="screen" />
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
     </style>
-    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-responsive.css" />"
+    <link rel="stylesheet"
+          th:href="@{/resources/css/bootstrap-responsive.css}"
           type="text/css" media="screen" />
-    <decorator:head />
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -57,7 +54,7 @@
                 </ul>
 
                 <sec:authorize access="!isAuthenticated()">
-                <s:url var="loginUrl" value="/auth/authenticate"/>
+                <sec:url var="loginUrl" value="/auth/authenticate"/>
                 <form class="navbar-form pull-right" action="${loginUrl}" method="POST">
                     <input class="span2" type="text" id="username" placeholder="Email">
                     <input class="span2" type="password" id="password" placeholder="Password">
@@ -66,7 +63,7 @@
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
-                    <s:url var="logoutUrl" value="/logout"/>
+                    <sec:url var="logoutUrl" value="/logout"/>
                     <a href="${logoutUrl}">Logout</a>
                 </sec:authorize>
             </div><!--/.nav-collapse -->
@@ -74,8 +71,8 @@
     </div>
 </div>
 
-<div class="container">
-    <decorator:body />
+<div class="container" tiles:include="body">
+
     <hr>
 
     <footer>
@@ -85,10 +82,10 @@
 </div> <!-- /container -->
 <script src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript"
-        src="<c:url value="/resources/js/bootstrap.js" />"></script>
+        src="@{/resources/js/bootstrap.js}"></script>
 </body>
 </html>
-<%--
+<!--
 
 
 <a href="http://github.com/CarloMicieli/spring-mvc-movies"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
@@ -158,4 +155,5 @@
     </footer>
 </div>
 </body>
-</html>--%>
+</html>
+-->
